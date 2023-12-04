@@ -6,7 +6,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
@@ -37,6 +39,10 @@ public class PaintPane extends BorderPane {
 
 	// Selector de color de relleno
 	ColorPicker fillColorPicker = new ColorPicker(defaultFillColor);
+
+	// Boton de Capa Izquierda
+	Label layerLabel = new Label("Capa");
+	ChoiceBox<String> layerChoiceBox = new ChoiceBox<>();
 
 	// Dibujar una figura
 	Point startPoint;
