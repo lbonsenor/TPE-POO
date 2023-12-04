@@ -2,12 +2,13 @@ package frontend;
 
 import backend.CanvasState;
 import backend.model.*;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -40,9 +41,11 @@ public class PaintPane extends BorderPane {
 	// Selector de color de relleno
 	ColorPicker fillColorPicker = new ColorPicker(defaultFillColor);
 
-	// Boton de Capa Izquierda
+	// Boton de Capa Izquierdo
 	Label layerLabel = new Label("Capa");
-	ChoiceBox<String> layerChoiceBox = new ChoiceBox<>();
+	String layers[] = {"Layer 1", "Layer 2", "Layer 3"};
+	ComboBox<String> layerCB = new ComboBox<String>(FXCollections.observableArrayList(layers));
+	
 
 	// Dibujar una figura
 	Point startPoint;
@@ -69,6 +72,10 @@ public class PaintPane extends BorderPane {
 		VBox buttonsBox = new VBox(10);
 		buttonsBox.getChildren().addAll(toolsArr);
 		buttonsBox.getChildren().add(fillColorPicker);
+
+		buttonsBox.getChildren().addAll(layerLabel);
+		buttonsBox.getChildren().addAll(layerCB);
+
 		buttonsBox.setPadding(new Insets(5));
 		buttonsBox.setStyle("-fx-background-color: #999");
 		buttonsBox.setPrefWidth(100);
