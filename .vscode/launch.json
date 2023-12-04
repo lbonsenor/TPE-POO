@@ -6,24 +6,17 @@
     "configurations": [
         {
             "type": "java",
+            "name": "AppLauncher",
+            "request": "launch",
+            "mainClass": "frontend.AppLauncher",
+            "projectName": "TPE-POO_250f14dd",
+            "vmArgs": "--module-path lib/javafx-sdk-20.0.2/lib --add-modules=javafx.swt,javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "App",
-            "request": "launch",
-            "mainClass": "App",
-            "projectName": "TPE_a720bf7e"
-        },
-        {
-            "type": "java",
-            "name": "MyBrowser",
-            "request": "launch",
-            "mainClass": "MyBrowser",
-            "projectName": "TPE_a720bf7e",
-            "vmArgs": "--module-path lib/javafx-sdk-20.0.2/lib --add-modules=javafx.swt,javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web"
         }
     ]
 }
