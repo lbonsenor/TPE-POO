@@ -17,6 +17,7 @@ public class Rectangle implements Figure {
         return bottomRight;
     }
 
+    @Override
     public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
         return new Rectangle(startPoint, endPoint);
     }
@@ -24,6 +25,14 @@ public class Rectangle implements Figure {
     @Override
     public String toString() {
         return String.format("Rectángulo [ %s , %s ]", topLeft, bottomRight);
+    }
+
+    @Override
+    public void changePos(double diffX, double diffY){
+        this.getTopLeft().x += diffX;
+		this.getBottomRight().x += diffX;
+		this.getTopLeft().y += diffY;
+		this.getBottomRight().y += diffY;
     }
 
 }

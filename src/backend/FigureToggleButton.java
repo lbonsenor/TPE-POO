@@ -1,14 +1,14 @@
 package backend;
 
 import backend.model.Figure;
-import backend.model.FigureEnum;
+import backend.model.FigureButtonEnum;
 import backend.model.Point;
 import javafx.scene.control.ToggleButton;
 
 public class FigureToggleButton extends ToggleButton{
-    private FigureEnum figureType;
+    private FigureButtonEnum figureType;
 
-    public FigureToggleButton(FigureEnum figureType){
+    public FigureToggleButton(FigureButtonEnum figureType){
         super(figureType.toString());
         this.figureType = figureType;
     }

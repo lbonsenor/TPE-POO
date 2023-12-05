@@ -1,6 +1,6 @@
 package backend.model;
 
-public enum FigureEnum {
+public enum FigureButtonEnum {
     RECTANGLE("Rectangulo"){
         @Override
         public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
@@ -33,7 +33,7 @@ public enum FigureEnum {
 
     private String name;
 
-    FigureEnum(String name){
+    FigureButtonEnum(String name){
         this.name = name;
     }
 
