@@ -1,5 +1,7 @@
 package backend.model;
 
+import javafx.scene.canvas.GraphicsContext;
+
 public class Rectangle implements Figure {
 
     private final Point topLeft, bottomRight;
@@ -18,8 +20,39 @@ public class Rectangle implements Figure {
     }
 
     @Override
+    public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
+        return new Rectangle(startPoint, endPoint);
+    }
+
+    @Override
     public String toString() {
         return String.format("Rectángulo [ %s , %s ]", topLeft, bottomRight);
+    }
+
+    @Override
+    public void changePos(double diffX, double diffY){
+        this.getTopLeft().x += diffX;
+		this.getBottomRight().x += diffX;
+		this.getTopLeft().y += diffY;
+		this.getBottomRight().y += diffY;
+    }
+
+    @Override
+    public void redraw(GraphicsContext gc){
+        gc.fillRect(this.getTopLeft().getX(), this.getTopLeft().getY(),
+					Math.abs(this.getTopLeft().getX() - this.getBottomRight().getX()), 
+                    Math.abs(this.getTopLeft().getY() - this.getBottomRight().getY()));
+		gc.strokeRect(this.getTopLeft().getX(), this.getTopLeft().getY(),
+					  Math.abs(this.getTopLeft().getX() - this.getBottomRight().getX()), 
+                      Math.abs(this.getTopLeft().getY() - this.getBottomRight().getY()));
+    }
+
+    @Override
+    public boolean found(Point eventPoint){
+        return eventPoint.getX() > this.topLeft.getX() 
+               && eventPoint.getX() < this.bottomRight.getX() 
+               && eventPoint.getY() > this.topLeft.getY() 
+               && eventPoint.getY() < this.bottomRight.getY();
     }
 
 }
