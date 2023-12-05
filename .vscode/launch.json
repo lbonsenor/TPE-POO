@@ -9,7 +9,7 @@
             "name": "AppLauncher",
             "request": "launch",
             "mainClass": "frontend.AppLauncher",
-            "projectName": "TPE-POO_250f14dd",
+            "projectName": "TPE_a720bf7e",
             "vmArgs": "--module-path lib/javafx-sdk-20.0.2/lib --add-modules=javafx.swt,javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web"
         },
         {
@@ -18,6 +18,5 @@
             "request": "launch",
             "mainClass": "${file}"
         }
-       
     ]
 }
