@@ -15,6 +15,11 @@ public class Circle implements Figure {
         return String.format("Círculo [Centro: %s, Radio: %.2f]", centerPoint, radius);
     }
 
+    public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
+        double circleRadius = Math.abs(endPoint.getX() - startPoint.getX());
+		return new Circle(startPoint, circleRadius);
+    }
+
     public Point getCenterPoint() {
         return centerPoint;
     }

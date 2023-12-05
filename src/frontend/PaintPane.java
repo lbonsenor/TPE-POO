@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.CanvasState;
+import backend.FigureToggleButton;
 import backend.model.*;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -32,10 +33,10 @@ public class PaintPane extends BorderPane {
 
 	// Botones Barra Izquierda
 	ToggleButton selectionButton = new ToggleButton("Seleccionar");
-	ToggleButton rectangleButton = new ToggleButton("Rectángulo");
-	ToggleButton circleButton = new ToggleButton("Círculo");
-	ToggleButton squareButton = new ToggleButton("Cuadrado");
-	ToggleButton ellipseButton = new ToggleButton("Elipse");
+	FigureToggleButton rectangleButton = new FigureToggleButton(FigureEnum.RECTANGLE);
+	FigureToggleButton circleButton = new FigureToggleButton(FigureEnum.CIRCLE);
+	FigureToggleButton squareButton = new FigureToggleButton(FigureEnum.SQUARE);
+	FigureToggleButton ellipseButton = new FigureToggleButton(FigureEnum.ELLIPSE);
 	ToggleButton deleteButton = new ToggleButton("Borrar");
 
 	// Selector de color de relleno
@@ -63,6 +64,7 @@ public class PaintPane extends BorderPane {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
 		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, squareButton, ellipseButton, deleteButton};
+		FigureToggleButton[] figuresArr = {rectangleButton, circleButton, squareButton, ellipseButton};
 		ToggleGroup tools = new ToggleGroup();
 		for (ToggleButton tool : toolsArr) {
 			tool.setMinWidth(90);
@@ -87,34 +89,22 @@ public class PaintPane extends BorderPane {
 
 		canvas.setOnMouseReleased(event -> {
 			Point endPoint = new Point(event.getX(), event.getY());
-			if(startPoint == null) {
+			if(startPoint == null || (endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY())) {
 				return ;
 			}
-			if(endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY()) {
-				return ;
-			}
+			
 			Figure newFigure = null;
-			if(rectangleButton.isSelected()) {
-				newFigure = new Rectangle(startPoint, endPoint);
+			for(FigureToggleButton button : figuresArr){
+				if (button.isSelected()) {
+					newFigure = button.getFigureBasedOnPoints(startPoint, endPoint);
+					figureColorMap.put(newFigure, fillColorPicker.getValue());
+					canvasState.addFigure(newFigure);
+					startPoint = null;
+					redrawCanvas();
+					return;
+				}
 			}
-			else if(circleButton.isSelected()) {
-				double circleRadius = Math.abs(endPoint.getX() - startPoint.getX());
-				newFigure = new Circle(startPoint, circleRadius);
-			} else if(squareButton.isSelected()) {
-				double size = Math.abs(endPoint.getX() - startPoint.getX());
-				newFigure = new Square(startPoint, size);
-			} else if(ellipseButton.isSelected()) {
-				Point centerPoint = new Point(Math.abs(endPoint.x + startPoint.x) / 2, (Math.abs((endPoint.y + startPoint.y)) / 2));
-				double sMayorAxis = Math.abs(endPoint.x - startPoint.x);
-				double sMinorAxis = Math.abs(endPoint.y - startPoint.y);
-				newFigure = new Ellipse(centerPoint, sMayorAxis, sMinorAxis);
-			} else {
-				return ;
-			}
-			figureColorMap.put(newFigure, fillColorPicker.getValue());
-			canvasState.addFigure(newFigure);
-			startPoint = null;
-			redrawCanvas();
+			
 		});
 
 		canvas.setOnMouseMoved(event -> {

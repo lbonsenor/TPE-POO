@@ -22,4 +22,9 @@ public class Square implements Figure {
         return String.format("Cuadrado [ %s , %s ]", topLeft, bottomRight);
     }
 
+    public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
+        double size = Math.abs(endPoint.getX() - startPoint.getX());
+		return new Square(startPoint, size);
+    }
+
 }
