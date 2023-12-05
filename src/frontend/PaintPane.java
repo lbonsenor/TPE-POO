@@ -169,6 +169,13 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
+		rotateButton.setOnAction(event -> {
+			if (selectedFigure != null) {
+				selectedFigure.rotate();
+				redrawCanvas();
+			}
+		});
+
 		setLeft(buttonsBox);
 		setRight(canvas);
 	}

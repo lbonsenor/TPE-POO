@@ -5,7 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 public class Ellipse implements Figure {
 
     protected final Point centerPoint;
-    protected final double sMayorAxis, sMinorAxis;
+    protected double sMayorAxis, sMinorAxis;
 
     public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis) {
         this.centerPoint = centerPoint;
@@ -41,6 +41,13 @@ public class Ellipse implements Figure {
     public boolean found(Point eventPoint){
         return ((Math.pow(eventPoint.getX() - this.centerPoint.getX(), 2) / Math.pow(this.sMayorAxis, 2)) +
 				(Math.pow(eventPoint.getY() - this.centerPoint.getY(), 2) / Math.pow(this.sMinorAxis, 2))) <= 0.30;
+    }
+
+    @Override
+    public void rotate(){
+        double temp = this.sMayorAxis;
+        this.sMayorAxis = this.sMinorAxis;
+        this.sMinorAxis = temp;
     }
     
     @Override

@@ -7,4 +7,5 @@ public interface Figure {
     public abstract Figure getFigureBasedOnPoints(Point startPoint, Point endPoint);
     public abstract void redraw(GraphicsContext gc);
     public abstract boolean found(Point eventPoint);
+    public abstract void rotate();
 }

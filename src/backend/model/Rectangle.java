@@ -55,4 +55,17 @@ public class Rectangle implements Figure {
                && eventPoint.getY() < this.bottomRight.getY();
     }
 
+    @Override
+    public void rotate(){
+        double centerPoint[] = {(topLeft.getX()+bottomRight.getX())/2, (topLeft.getY()+bottomRight.getY())/2};
+        double offset[] = {(bottomRight.getY()-topLeft.getY())/2, (bottomRight.getX()-topLeft.getX())/2};
+
+        topLeft.x = centerPoint[0]-offset[0];
+        topLeft.y = centerPoint[1]-offset[1];
+
+
+        bottomRight.x = centerPoint[0]+offset[0];
+        bottomRight.y = centerPoint[1]+offset[1];
+    }
+
 }
