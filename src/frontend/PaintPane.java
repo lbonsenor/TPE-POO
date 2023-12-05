@@ -44,7 +44,7 @@ public class PaintPane extends BorderPane {
 	// Boton de Capa Izquierdo
 	Label layerLabel = new Label("Capa");
 	String layers[] = {"Layer 1", "Layer 2", "Layer 3"};
-	ComboBox<String> layerCB = new ComboBox<String>(FXCollections.observableArrayList(layers));
+	ComboBox<String> layerCB = new ComboBox<String>(FXCollections.observableArrayList(layers)); //Test
 	
 
 	// Dibujar una figura
