@@ -10,11 +10,4 @@ public class Square extends Rectangle {
     public String toString() {
         return String.format("Cuadrado [ %s , %s ]", getTopLeft(), getBottomRight());
     }
-
-    @Override
-    public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
-        double size = Math.abs(endPoint.getX() - startPoint.getX());
-		return new Square(startPoint, size);
-    }
-
 }

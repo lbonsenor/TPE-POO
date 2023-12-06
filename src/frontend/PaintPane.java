@@ -37,6 +37,11 @@ public class PaintPane extends BorderPane {
 	FigureToggleButton circleButton = new FigureToggleButton(FigureButtonEnum.CIRCLE);
 	FigureToggleButton squareButton = new FigureToggleButton(FigureButtonEnum.SQUARE);
 	FigureToggleButton ellipseButton = new FigureToggleButton(FigureButtonEnum.ELLIPSE);
+	ToggleButton rotateButton = new ToggleButton("Girar D");
+	ToggleButton flipHButton = new ToggleButton("Voltear H");
+	ToggleButton flipVButton = new ToggleButton("Voltear V");
+	ToggleButton scalePButton = new ToggleButton("Escalar +");
+	ToggleButton scaleMButton = new ToggleButton("Escalar -");
 	ToggleButton deleteButton = new ToggleButton("Borrar");
 
 	// Selector de color de relleno
@@ -63,7 +68,7 @@ public class PaintPane extends BorderPane {
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
-		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, squareButton, ellipseButton, deleteButton};
+		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, squareButton, ellipseButton, rotateButton, flipHButton, flipVButton, scalePButton, scaleMButton, deleteButton};
 		FigureToggleButton[] figuresArr = {rectangleButton, circleButton, squareButton, ellipseButton};
 		ToggleGroup tools = new ToggleGroup();
 		for (ToggleButton tool : toolsArr) {
@@ -160,6 +165,41 @@ public class PaintPane extends BorderPane {
 			if (selectedFigure != null) {
 				canvasState.deleteFigure(selectedFigure);
 				selectedFigure = null;
+				redrawCanvas();
+			}
+		});
+
+		rotateButton.setOnAction(event -> {
+			if (selectedFigure != null) {
+				selectedFigure.rotate();
+				redrawCanvas();
+			}
+		});
+
+		scalePButton.setOnAction(event->{
+			if (selectedFigure != null) {
+				selectedFigure.scale(1.25);
+				redrawCanvas();
+			}
+		});
+
+		scaleMButton.setOnAction(event->{
+			if (selectedFigure != null) {
+				selectedFigure.scale(0.75);
+				redrawCanvas();
+			}
+		});
+
+		flipHButton.setOnAction(event ->{
+			if (selectedFigure != null) {
+				selectedFigure.flipH();
+				redrawCanvas();
+			}
+		});
+
+		flipVButton.setOnAction(event ->{
+			if (selectedFigure != null) {
+				selectedFigure.flipV();
 				redrawCanvas();
 			}
 		});
