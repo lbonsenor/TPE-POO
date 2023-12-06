@@ -14,14 +14,6 @@ public class Ellipse implements Figure {
     }
 
     @Override
-    public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
-        Point centerPoint = new Point(Math.abs(endPoint.x + startPoint.x) / 2, (Math.abs((endPoint.y + startPoint.y)) / 2));
-		double sMayorAxis = Math.abs(endPoint.x - startPoint.x);
-		double sMinorAxis = Math.abs(endPoint.y - startPoint.y);
-		return new Ellipse(centerPoint, sMayorAxis, sMinorAxis);
-    }
-
-    @Override
     public void changePos(double diffX, double diffY){
         this.getCenterPoint().x += diffX;
 		this.getCenterPoint().y += diffY;

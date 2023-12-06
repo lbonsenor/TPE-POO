@@ -16,12 +16,6 @@ public class Circle extends Ellipse {
     }
 
     @Override
-    public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
-        double circleRadius = Math.abs(endPoint.getX() - startPoint.getX());
-		return new Circle(startPoint, circleRadius);
-    }
-
-    @Override
     public void redraw(GraphicsContext gc){
         double diameter = this.radius * 2;
 	    gc.fillOval(this.centerPoint.getX() - this.radius, 

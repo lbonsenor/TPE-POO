@@ -20,11 +20,6 @@ public class Rectangle implements Figure {
     }
 
     @Override
-    public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
-        return new Rectangle(startPoint, endPoint);
-    }
-
-    @Override
     public String toString() {
         return String.format("Rectángulo [ %s , %s ]", topLeft, bottomRight);
     }
