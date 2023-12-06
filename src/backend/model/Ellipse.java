@@ -49,6 +49,26 @@ public class Ellipse implements Figure {
         this.sMayorAxis = this.sMinorAxis;
         this.sMinorAxis = temp;
     }
+
+    @Override
+    public void scale(double multiplier){
+        // A = pi*sMayorAxis*sMinorAxis
+        // mult*A = pi*(a*sMayorAxis)*(a*sMinorAxis)
+        // mult*A = a²*A
+        // sqrt(mult) = a
+        this.sMayorAxis *= Math.sqrt(multiplier);
+        this.sMinorAxis *= Math.sqrt(multiplier);
+    }
+
+    @Override
+    public void flipH(){
+        changePos(sMayorAxis,0);
+    }
+
+    @Override
+    public void flipV(){
+        changePos(0, sMinorAxis);
+    }
     
     @Override
     public String toString() {

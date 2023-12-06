@@ -176,6 +176,34 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
+		scalePButton.setOnAction(event->{
+			if (selectedFigure != null) {
+				selectedFigure.scale(1.25);
+				redrawCanvas();
+			}
+		});
+
+		scaleMButton.setOnAction(event->{
+			if (selectedFigure != null) {
+				selectedFigure.scale(0.75);
+				redrawCanvas();
+			}
+		});
+
+		flipHButton.setOnAction(event ->{
+			if (selectedFigure != null) {
+				selectedFigure.flipH();
+				redrawCanvas();
+			}
+		});
+
+		flipVButton.setOnAction(event ->{
+			if (selectedFigure != null) {
+				selectedFigure.flipV();
+				redrawCanvas();
+			}
+		});
+
 		setLeft(buttonsBox);
 		setRight(canvas);
 	}
