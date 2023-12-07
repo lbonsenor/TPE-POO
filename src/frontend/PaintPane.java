@@ -22,6 +22,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.w3c.dom.css.Rect;
+
 public class PaintPane extends BorderPane {
 
 	// BackEnd
@@ -246,40 +248,47 @@ public class PaintPane extends BorderPane {
 					gc.setStroke(lineColor);
 				}
 				gc.setFill(figureColorMap.get(figure));
-
-				if (figure instanceof Circle) {
-					Circle figureCircle = (Circle) figure;
-					double diameter = figureCircle.getRadius() * 2;
-	    			gc.fillOval(figureCircle.getCenterPoint().getX() - figureCircle.getRadius(), 
-                    			figureCircle.getCenterPoint().getY() - figureCircle.getRadius(), 
-                    			diameter, diameter);
-					gc.strokeOval(figureCircle.getCenterPoint().getX() - figureCircle.getRadius(), 
-                      			figureCircle.getCenterPoint().getY() - figureCircle.getRadius(), diameter, diameter);
-				}
-				else if (figure instanceof Ellipse) {
-					Ellipse figureEllipse = (Ellipse) figure;
-					gc.strokeOval(figureEllipse.getCenterPoint().getX() - (figureEllipse.getsMayorAxis() / 2), 
-                      	figureEllipse.getCenterPoint().getY() - (figureEllipse.getsMinorAxis() / 2), 
-                      	figureEllipse.getsMayorAxis(), figureEllipse.getsMinorAxis());
-					gc.fillOval(figureEllipse.getCenterPoint().getX() - (figureEllipse.getsMayorAxis() / 2), 
-                    	figureEllipse.getCenterPoint().getY() - (figureEllipse.getsMinorAxis() / 2), 
-                    	figureEllipse.getsMayorAxis(), figureEllipse.getsMinorAxis());
-				}
-				else if (figure instanceof Rectangle) {
-					Rectangle figureRectangle = (Rectangle) figure;
-					gc.fillRect(figureRectangle.getTopLeft().getX(), figureRectangle.getTopLeft().getY(),
-						Math.abs(figureRectangle.getTopLeft().getX() - figureRectangle.getBottomRight().getX()), 
-                   		Math.abs(figureRectangle.getTopLeft().getY() - figureRectangle.getBottomRight().getY()));
-					gc.strokeRect(figureRectangle.getTopLeft().getX(), figureRectangle.getTopLeft().getY(),
-					  	Math.abs(figureRectangle.getTopLeft().getX() - figureRectangle.getBottomRight().getX()), 
-                      	Math.abs(figureRectangle.getTopLeft().getY() - figureRectangle.getBottomRight().getY()));
-				}
-				
+				createFigure(gc, figure);
 		}
 		}
 
-	boolean figureBelongs(Figure figure, Point eventPoint) {
-		return figure.found(eventPoint);
+	private void createFigure(GraphicsContext gc, Figure figure){
+		if (figure instanceof Circle) {
+			createFigure(gc, (Circle) figure);
+		}
+		else if (figure instanceof Rectangle) {
+			createFigure(gc, (Rectangle) figure);
+		}
+		else if (figure instanceof Ellipse) {
+			createFigure(gc, (Ellipse) figure);
+		}
+	}
+
+	private void createFigure(GraphicsContext gc, Circle figureCircle){
+		double diameter = figureCircle.getRadius() * 2;
+	    gc.fillOval(figureCircle.getCenterPoint().getX() - figureCircle.getRadius(), 
+                    figureCircle.getCenterPoint().getY() - figureCircle.getRadius(), 
+                    diameter, diameter);
+		gc.strokeOval(figureCircle.getCenterPoint().getX() - figureCircle.getRadius(), 
+                    figureCircle.getCenterPoint().getY() - figureCircle.getRadius(), diameter, diameter);
+	}
+
+	private void createFigure(GraphicsContext gc, Ellipse figureEllipse){
+		gc.strokeOval(figureEllipse.getCenterPoint().getX() - (figureEllipse.getsMayorAxis() / 2), 
+			figureEllipse.getCenterPoint().getY() - (figureEllipse.getsMinorAxis() / 2), 
+			figureEllipse.getsMayorAxis(), figureEllipse.getsMinorAxis());
+		gc.fillOval(figureEllipse.getCenterPoint().getX() - (figureEllipse.getsMayorAxis() / 2), 
+			figureEllipse.getCenterPoint().getY() - (figureEllipse.getsMinorAxis() / 2), 
+			figureEllipse.getsMayorAxis(), figureEllipse.getsMinorAxis());
+	}
+
+	private void createFigure(GraphicsContext gc, Rectangle figureRectangle){
+		gc.fillRect(figureRectangle.getTopLeft().getX(), figureRectangle.getTopLeft().getY(),
+			Math.abs(figureRectangle.getTopLeft().getX() - figureRectangle.getBottomRight().getX()), 
+			Math.abs(figureRectangle.getTopLeft().getY() - figureRectangle.getBottomRight().getY()));
+		gc.strokeRect(figureRectangle.getTopLeft().getX(), figureRectangle.getTopLeft().getY(),
+			Math.abs(figureRectangle.getTopLeft().getX() - figureRectangle.getBottomRight().getX()), 
+			Math.abs(figureRectangle.getTopLeft().getY() - figureRectangle.getBottomRight().getY()));
 	}
 
 }
