@@ -7,9 +7,11 @@ import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
@@ -55,12 +57,16 @@ public class PaintPane extends BorderPane {
 	String layers[] = {"Layer 1", "Layer 2", "Layer 3"};
 	ComboBox<String> layerCB = new ComboBox<String>(FXCollections.observableArrayList(layers)); //Test
 	
+	// Tags
+	Label tagLabel = new Label("Etiquetas");
+	TextArea tagArea = new TextArea();
+	Button tagButton = new Button("Guardar");
+
 
 	// Dibujar una figura
 	Point startPoint;
 
 	// Seleccionar una figura
-	//Figure selectedFigure;
 	Set<Figure> selectedFigures = new HashSet<>();
 
 	// StatusBar
@@ -84,8 +90,13 @@ public class PaintPane extends BorderPane {
 		buttonsBox.getChildren().addAll(toolsArr);
 		buttonsBox.getChildren().add(fillColorPicker);
 
-		buttonsBox.getChildren().addAll(layerLabel);
-		buttonsBox.getChildren().addAll(layerCB);
+		buttonsBox.getChildren().add(layerLabel);
+		buttonsBox.getChildren().add(layerCB);
+
+		buttonsBox.getChildren().add(tagLabel);
+		buttonsBox.getChildren().add(tagArea);
+		buttonsBox.getChildren().add(tagButton);
+		tagArea.setPrefHeight(10);
 
 		buttonsBox.setPadding(new Insets(5));
 		buttonsBox.setStyle("-fx-background-color: #999");
