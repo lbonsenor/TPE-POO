@@ -1,4 +1,11 @@
-package backend.model;
+package backend;
+
+import backend.model.Circle;
+import backend.model.Ellipse;
+import backend.model.Figure;
+import backend.model.Point;
+import backend.model.Rectangle;
+import backend.model.Square;
 
 public enum FigureButtonEnum {
     RECTANGLE("Rectangulo"){

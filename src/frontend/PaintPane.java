@@ -1,7 +1,7 @@
 package frontend;
 
 import backend.CanvasState;
-import backend.FigureToggleButton;
+import backend.FigureButtonEnum;
 import backend.model.*;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -236,6 +236,20 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
+		groupButton.setOnAction(event ->{
+			if (selectedFigures != null) {
+				canvasState.groupFigures(selectedFigures);
+				redrawCanvas();
+			}
+		});
+
+		ungroupButton.setOnAction(event ->{
+			if (selectedFigures != null) {
+				canvasState.ungroupFigures(selectedFigures);
+				redrawCanvas();
+			}
+		});
+
 		setLeft(buttonsBox);
 		setRight(canvas);
 	}
@@ -253,6 +267,8 @@ public class PaintPane extends BorderPane {
 		}
 		}
 
+	// Como GraphicsContext es final, estas funciones tienen que crearse de esta manera
+	// Si no fuera final, se debería crear una clase que extienda a GraphicsContext y que esten estas funciones ahi, sin la necesidad de createFigure(GraphicsContext gc, Figure figure)
 	private void createFigure(GraphicsContext gc, Figure figure){
 		if (figure instanceof Circle) {
 			createFigure(gc, (Circle) figure);
@@ -262,6 +278,9 @@ public class PaintPane extends BorderPane {
 		}
 		else if (figure instanceof Ellipse) {
 			createFigure(gc, (Ellipse) figure);
+		}
+		else if (figure instanceof GroupedFigure){
+			createFigure(gc, (GroupedFigure) figure);
 		}
 	}
 
@@ -290,6 +309,12 @@ public class PaintPane extends BorderPane {
 		gc.strokeRect(figureRectangle.getTopLeft().getX(), figureRectangle.getTopLeft().getY(),
 			Math.abs(figureRectangle.getTopLeft().getX() - figureRectangle.getBottomRight().getX()), 
 			Math.abs(figureRectangle.getTopLeft().getY() - figureRectangle.getBottomRight().getY()));
+	}
+
+	private void createFigure(GraphicsContext gc, GroupedFigure figureGrouped){
+		for (Figure figure : figureGrouped.getFiguresCopy()){
+			createFigure(gc, figure);
+		}
 	}
 
 }
