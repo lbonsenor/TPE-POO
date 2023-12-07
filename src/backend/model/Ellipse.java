@@ -44,8 +44,8 @@ public class Ellipse implements Figure {
 
     @Override
     public void scale(double multiplier){
-        // A = pi*sMayorAxis*sMinorAxis
-        // mult*A = pi*(a*sMayorAxis)*(a*sMinorAxis)
+        // A = pi*(sMayorAxis/2)*(sMinorAxis/2)
+        // mult*A = pi*(a(sMayorAxis/2))*(a(sMinorAxis/2))
         // mult*A = a²*A
         // sqrt(mult) = a
         this.sMayorAxis *= Math.sqrt(multiplier);
