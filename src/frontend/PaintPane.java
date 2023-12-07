@@ -17,9 +17,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class PaintPane extends BorderPane {
 
@@ -61,7 +62,7 @@ public class PaintPane extends BorderPane {
 
 	// Seleccionar una figura
 	//Figure selectedFigure;
-	ArrayList<Figure> selectedFigures = new ArrayList<>();
+	Set<Figure> selectedFigures = new HashSet<>();
 
 	// StatusBar
 	StatusPane statusPane;
