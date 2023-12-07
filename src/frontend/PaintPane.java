@@ -117,12 +117,14 @@ public class PaintPane extends BorderPane {
 
 			//Un rectangulo imaginario.
 			if (selectionButton.isSelected()){
+				selectedFigures = new HashSet<>();
 				for (Figure figure : canvasState.figures()){
 					if (figure.found(startPoint, endPoint)) {
 						selectedFigures.add(figure);
 					}
 				}
 			}
+			
 			
 		});
 
@@ -151,6 +153,7 @@ public class PaintPane extends BorderPane {
 				for (Figure figure : canvasState.figures()) {
 					if(figure.found(eventPoint)) {
 						found = true;
+						selectedFigures = new HashSet<>();
 						selectedFigures.add(figure);
 						label.append(figure.toString());
 					}
