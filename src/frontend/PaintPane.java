@@ -63,8 +63,7 @@ public class PaintPane extends BorderPane {
 	// Seleccionar una figura
 	//Figure selectedFigure;
 	Set<Figure> selectedFigures = new HashSet<>();
-	ArrayList<Figure> selectedFigures = new ArrayList<>();
-	ArrayList<Figure> groupFigures = new ArrayList<>();
+	Set<Figure> groupFigures = new HashSet<>();
 
 	// StatusBar
 	StatusPane statusPane;
@@ -129,27 +128,19 @@ public class PaintPane extends BorderPane {
 					}
 				}
 			}
-			
-						}
-					}
-					else if (figure instanceof Rectangle rectangle){
-						if (figureBelongs(ImaginaryRec,rectangle.getBottomRight())
-						&& figureBelongs(ImaginaryRec,rectangle.getTopLeft())){
-							selectedFigures.add(figure);
-						}
-						}
-				}
-			}
+
 
 		});
 
 		//vacio el arreglo de comportamiento homogeneo
 		ungroupButton.setOnAction(event -> {
-			groupFigures = new ArrayList<>();
+			groupFigures = new HashSet<>();
 		});
 
 		groupButton.setOnAction(event->{
-
+			if (selectionButton.isSelected()){
+				groupFigures = selectedFigures;
+			}
 		});
 
 		canvas.setOnMouseMoved(event -> {
@@ -208,7 +199,7 @@ public class PaintPane extends BorderPane {
 				for (Figure figure : selectedFigures){
 					canvasState.deleteFigure(figure);
 				}
-				selectedFigures = new ArrayList<>();
+				selectedFigures = new HashSet<>();
 				redrawCanvas();
 			//	selectedFigure = null;
 
