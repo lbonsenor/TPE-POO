@@ -1,7 +1,5 @@
 package backend.model;
 
-import javafx.scene.canvas.GraphicsContext;
-
 public class Ellipse implements Figure {
 
     protected final Point centerPoint;
@@ -20,19 +18,17 @@ public class Ellipse implements Figure {
     }
 
     @Override
-    public void redraw(GraphicsContext gc){
-        gc.strokeOval(this.getCenterPoint().getX() - (this.getsMayorAxis() / 2), 
-                      this.getCenterPoint().getY() - (this.getsMinorAxis() / 2), 
-                      this.getsMayorAxis(), this.getsMinorAxis());
-		gc.fillOval(this.getCenterPoint().getX() - (this.getsMayorAxis() / 2), 
-                    this.getCenterPoint().getY() - (this.getsMinorAxis() / 2), 
-                    this.getsMayorAxis(), this.getsMinorAxis());
-    }
-
-    @Override
     public boolean found(Point eventPoint){
         return ((Math.pow(eventPoint.getX() - this.centerPoint.getX(), 2) / Math.pow(this.sMayorAxis, 2)) +
 				(Math.pow(eventPoint.getY() - this.centerPoint.getY(), 2) / Math.pow(this.sMinorAxis, 2))) <= 0.30;
+    }
+
+    @Override
+    public boolean found(Point startPoint, Point endPoint){
+        return startPoint.getX() < centerPoint.getX()-sMayorAxis/2
+               && startPoint.getY() < centerPoint.getY()-sMinorAxis/2
+               && endPoint.getX() > centerPoint.getX()+sMayorAxis/2
+               && endPoint.getY() > centerPoint.getY()+sMinorAxis/2;
     }
 
     @Override

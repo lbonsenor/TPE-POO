@@ -16,16 +16,6 @@ public class Circle extends Ellipse {
     }
 
     @Override
-    public void redraw(GraphicsContext gc){
-        double diameter = this.radius * 2;
-	    gc.fillOval(this.centerPoint.getX() - this.radius, 
-                    this.centerPoint.getY() - this.radius, 
-                    diameter, diameter);
-		gc.strokeOval(this.centerPoint.getX() - this.radius, 
-                      this.centerPoint.getY() - this.radius, diameter, diameter);
-    }
-
-    @Override
     public boolean found(Point eventPoint){
         return Math.sqrt(Math.pow(this.centerPoint.getX() - eventPoint.getX(), 2) +
 			   Math.pow(this.centerPoint.getY() - eventPoint.getY(), 2)) < this.radius;

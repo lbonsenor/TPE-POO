@@ -10,7 +10,7 @@ public enum FigureButtonEnum {
     CIRCLE("Círculo"){
         @Override
         public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
-            double circleRadius = Math.abs(endPoint.getX() - startPoint.getX());
+            double circleRadius = Math.sqrt(Math.pow(endPoint.getX()-startPoint.getX(),2)+Math.pow(endPoint.getY()-startPoint.getY(), 2));
 			return new Circle(startPoint, circleRadius);
         }
     },

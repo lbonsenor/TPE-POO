@@ -116,30 +116,11 @@ public class PaintPane extends BorderPane {
 
 			//Un rectangulo imaginario.
 			if (selectionButton.isSelected()){
-				Rectangle ImaginaryRec = new Rectangle(startPoint,endPoint);
 				for (Figure figure : canvasState.figures()){
-					//Qvq cada punto "clave" de figure, figureBelongs ImaginaryRec
-					//Por ahora, lo hago de la manera bruta
-
-					//Probablemente no sea de esta manera la comparacion,
-					//por ahora lo dejo asi de prueba. Tengo q ver si es necesario comparar area qcy.
-
-					if (figure instanceof Ellipse ellipse){
-					if(figureBelongs(ImaginaryRec,ellipse.getCenterPoint())){
+					if (figure.found(startPoint, endPoint)) {
 						selectedFigures.add(figure);
-						}
 					}
-					else if (figure instanceof Rectangle rectangle){
-						if (figureBelongs(ImaginaryRec,rectangle.getBottomRight())
-						&& figureBelongs(ImaginaryRec,rectangle.getTopLeft())){
-							selectedFigures.add(figure);
-						}
-						}
-
-
-
 				}
-
 			}
 			
 		});
@@ -149,7 +130,7 @@ public class PaintPane extends BorderPane {
 			boolean found = false;
 			StringBuilder label = new StringBuilder();
 			for(Figure figure : canvasState.figures()) {
-				if(figureBelongs(figure, eventPoint)) {
+				if(figure.found(eventPoint)) {
 					found = true;
 					label.append(figure.toString());
 				}
@@ -167,7 +148,7 @@ public class PaintPane extends BorderPane {
 				boolean found = false;
 				StringBuilder label = new StringBuilder("Se seleccionó: ");
 				for (Figure figure : canvasState.figures()) {
-					if(figureBelongs(figure, eventPoint)) {
+					if(figure.found(eventPoint)) {
 						found = true;
 						selectedFigures.add(figure);
 						label.append(figure.toString());
@@ -264,7 +245,35 @@ public class PaintPane extends BorderPane {
 					gc.setStroke(lineColor);
 				}
 				gc.setFill(figureColorMap.get(figure));
-				figure.redraw(gc);
+
+				if (figure instanceof Circle) {
+					Circle figureCircle = (Circle) figure;
+					double diameter = figureCircle.getRadius() * 2;
+	    			gc.fillOval(figureCircle.getCenterPoint().getX() - figureCircle.getRadius(), 
+                    			figureCircle.getCenterPoint().getY() - figureCircle.getRadius(), 
+                    			diameter, diameter);
+					gc.strokeOval(figureCircle.getCenterPoint().getX() - figureCircle.getRadius(), 
+                      			figureCircle.getCenterPoint().getY() - figureCircle.getRadius(), diameter, diameter);
+				}
+				else if (figure instanceof Ellipse) {
+					Ellipse figureEllipse = (Ellipse) figure;
+					gc.strokeOval(figureEllipse.getCenterPoint().getX() - (figureEllipse.getsMayorAxis() / 2), 
+                      	figureEllipse.getCenterPoint().getY() - (figureEllipse.getsMinorAxis() / 2), 
+                      	figureEllipse.getsMayorAxis(), figureEllipse.getsMinorAxis());
+					gc.fillOval(figureEllipse.getCenterPoint().getX() - (figureEllipse.getsMayorAxis() / 2), 
+                    	figureEllipse.getCenterPoint().getY() - (figureEllipse.getsMinorAxis() / 2), 
+                    	figureEllipse.getsMayorAxis(), figureEllipse.getsMinorAxis());
+				}
+				else if (figure instanceof Rectangle) {
+					Rectangle figureRectangle = (Rectangle) figure;
+					gc.fillRect(figureRectangle.getTopLeft().getX(), figureRectangle.getTopLeft().getY(),
+						Math.abs(figureRectangle.getTopLeft().getX() - figureRectangle.getBottomRight().getX()), 
+                   		Math.abs(figureRectangle.getTopLeft().getY() - figureRectangle.getBottomRight().getY()));
+					gc.strokeRect(figureRectangle.getTopLeft().getX(), figureRectangle.getTopLeft().getY(),
+					  	Math.abs(figureRectangle.getTopLeft().getX() - figureRectangle.getBottomRight().getX()), 
+                      	Math.abs(figureRectangle.getTopLeft().getY() - figureRectangle.getBottomRight().getY()));
+				}
+				
 		}
 		}
 
