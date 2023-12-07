@@ -62,6 +62,7 @@ public class PaintPane extends BorderPane {
 	// Seleccionar una figura
 	//Figure selectedFigure;
 	ArrayList<Figure> selectedFigures = new ArrayList<>();
+	ArrayList<Figure> groupFigures = new ArrayList<>();
 
 	// StatusBar
 	StatusPane statusPane;
@@ -113,6 +114,10 @@ public class PaintPane extends BorderPane {
 					return;
 				}
 			}
+			//La idea es reiniciar este array, pues una vez q seleccione multiple formas,
+			// las muelve y cuando la suelta, quedan deseleccionados de nuevo . Acabo de probar
+			//esto, lo que logre es q con un click afuera de las formas se desseleccione.
+			selectedFigures = new ArrayList<>();
 
 			//Un rectangulo imaginario.
 			if (selectionButton.isSelected()){
@@ -135,13 +140,18 @@ public class PaintPane extends BorderPane {
 							selectedFigures.add(figure);
 						}
 						}
-
-
-
 				}
-
 			}
 			
+		});
+
+		//vacio el arreglo de comportamiento homogeneo
+		ungroupButton.setOnAction(event -> {
+			groupFigures = new ArrayList<>();
+		});
+
+		groupButton.setOnAction(event->{
+
 		});
 
 		canvas.setOnMouseMoved(event -> {
@@ -196,14 +206,14 @@ public class PaintPane extends BorderPane {
 		});
 
 		deleteButton.setOnAction(event -> {
-			if (selectedFigures != null) {
+
 				for (Figure figure : selectedFigures){
 					canvasState.deleteFigure(figure);
-				//	selectedFigures.remove(figure); //creo q no se podia mientras iteraba.
 				}
-			//	selectedFigure = null;
+				selectedFigures = new ArrayList<>();
 				redrawCanvas();
-			}
+			//	selectedFigure = null;
+
 		});
 
 		setLeft(buttonsBox);
