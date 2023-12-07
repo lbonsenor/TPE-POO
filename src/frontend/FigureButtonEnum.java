@@ -1,4 +1,4 @@
-package backend;
+package frontend;
 
 import backend.model.Circle;
 import backend.model.Ellipse;

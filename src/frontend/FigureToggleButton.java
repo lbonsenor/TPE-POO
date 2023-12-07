@@ -1,6 +1,5 @@
 package frontend;
 
-import backend.FigureButtonEnum;
 import backend.model.Figure;
 import backend.model.Point;
 import javafx.scene.control.ToggleButton;
