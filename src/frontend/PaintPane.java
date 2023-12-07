@@ -118,7 +118,7 @@ public class PaintPane extends BorderPane {
 			//La idea es reiniciar este array, pues una vez q seleccione multiple formas,
 			// las muelve y cuando la suelta, quedan deseleccionados de nuevo . Acabo de probar
 			//esto, lo que logre es q con un click afuera de las formas se desseleccione.
-		//	selectedFigures = new ArrayList<>();
+			selectedFigures = new HashSet<>();
 
 			//Un rectangulo imaginario.
 			if (selectionButton.isSelected()){
@@ -132,15 +132,21 @@ public class PaintPane extends BorderPane {
 
 		});
 
-		//vacio el arreglo de comportamiento homogeneo
 		ungroupButton.setOnAction(event -> {
-			groupFigures = new HashSet<>();
+			boolean found = false;
+			//si la figura seleccionada, es parte de groupFigures, entonces vacio el arreglo de comportamiento homogeneo.
+			for (Figure figure : selectedFigures){
+				if (groupFigures.contains(figure)){
+					found = true;
+				}
+			}
+			if (found) groupFigures = new HashSet<>();
+			//si no lo encuentra, no hace nada.
 		});
 
+		// Por ahora funciona para un solo set de formas. Habria q cambiar esto, para permitir varios grupos a la vez.
 		groupButton.setOnAction(event->{
-			if (selectionButton.isSelected()){
-				groupFigures = selectedFigures;
-			}
+				groupFigures.addAll(selectedFigures);
 		});
 
 		canvas.setOnMouseMoved(event -> {
@@ -168,14 +174,17 @@ public class PaintPane extends BorderPane {
 				for (Figure figure : canvasState.figures()) {
 					if(figure.found(eventPoint)) {
 						found = true;
-						selectedFigures.add(figure);
+						//si la figura pertenece al grupo de agrupados, entonces se deberian seleccionar todos.
+						if (groupFigures.contains(figure)){
+								selectedFigures.addAll(groupFigures);
+						} else selectedFigures.add(figure);
+
 						label.append(figure.toString());
 					}
 				}
 				if (found) {
 					statusPane.updateStatus(label.toString());
 				} else {
-				//	selectedFigure = null;
 					statusPane.updateStatus("Ninguna figura encontrada");
 				}
 				redrawCanvas();
@@ -201,7 +210,6 @@ public class PaintPane extends BorderPane {
 				}
 				selectedFigures = new HashSet<>();
 				redrawCanvas();
-			//	selectedFigure = null;
 
 		});
 
