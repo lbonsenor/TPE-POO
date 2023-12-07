@@ -17,9 +17,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class PaintPane extends BorderPane {
 
@@ -61,6 +62,7 @@ public class PaintPane extends BorderPane {
 
 	// Seleccionar una figura
 	//Figure selectedFigure;
+	Set<Figure> selectedFigures = new HashSet<>();
 	ArrayList<Figure> selectedFigures = new ArrayList<>();
 	ArrayList<Figure> groupFigures = new ArrayList<>();
 
@@ -99,7 +101,7 @@ public class PaintPane extends BorderPane {
 
 		canvas.setOnMouseReleased(event -> {
 			Point endPoint = new Point(event.getX(), event.getY());
-			if(startPoint == null || (endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY())) {
+			if(startPoint == null /*|| (endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY())*/) {
 				return ;
 			}
 			
@@ -117,21 +119,17 @@ public class PaintPane extends BorderPane {
 			//La idea es reiniciar este array, pues una vez q seleccione multiple formas,
 			// las muelve y cuando la suelta, quedan deseleccionados de nuevo . Acabo de probar
 			//esto, lo que logre es q con un click afuera de las formas se desseleccione.
-			selectedFigures = new ArrayList<>();
+		//	selectedFigures = new ArrayList<>();
 
 			//Un rectangulo imaginario.
 			if (selectionButton.isSelected()){
-				Rectangle ImaginaryRec = new Rectangle(startPoint,endPoint);
 				for (Figure figure : canvasState.figures()){
-					//Qvq cada punto "clave" de figure, figureBelongs ImaginaryRec
-					//Por ahora, lo hago de la manera bruta
-
-					//Probablemente no sea de esta manera la comparacion,
-					//por ahora lo dejo asi de prueba. Tengo q ver si es necesario comparar area qcy.
-
-					if (figure instanceof Ellipse ellipse){
-					if(figureBelongs(ImaginaryRec,ellipse.getCenterPoint())){
+					if (figure.found(startPoint, endPoint)) {
 						selectedFigures.add(figure);
+					}
+				}
+			}
+			
 						}
 					}
 					else if (figure instanceof Rectangle rectangle){
@@ -142,7 +140,7 @@ public class PaintPane extends BorderPane {
 						}
 				}
 			}
-			
+
 		});
 
 		//vacio el arreglo de comportamiento homogeneo
@@ -159,7 +157,7 @@ public class PaintPane extends BorderPane {
 			boolean found = false;
 			StringBuilder label = new StringBuilder();
 			for(Figure figure : canvasState.figures()) {
-				if(figureBelongs(figure, eventPoint)) {
+				if(figure.found(eventPoint)) {
 					found = true;
 					label.append(figure.toString());
 				}
@@ -177,7 +175,7 @@ public class PaintPane extends BorderPane {
 				boolean found = false;
 				StringBuilder label = new StringBuilder("Se seleccionó: ");
 				for (Figure figure : canvasState.figures()) {
-					if(figureBelongs(figure, eventPoint)) {
+					if(figure.found(eventPoint)) {
 						found = true;
 						selectedFigures.add(figure);
 						label.append(figure.toString());
@@ -216,6 +214,51 @@ public class PaintPane extends BorderPane {
 
 		});
 
+		rotateButton.setOnAction(event -> {
+			if (selectedFigures != null) {
+				for (Figure figure : selectedFigures){
+					figure.rotate();
+				}
+				redrawCanvas();
+			}
+		});
+
+		scalePButton.setOnAction(event->{
+			if (selectedFigures != null) {
+				for (Figure figure : selectedFigures){
+					figure.scale(1.25);
+				}
+				redrawCanvas();
+			}
+		});
+
+		scaleMButton.setOnAction(event->{
+			if (selectedFigures != null) {
+				for (Figure figure : selectedFigures){
+					figure.scale(0.75);
+				}
+				redrawCanvas();
+			}
+		});
+
+		flipHButton.setOnAction(event ->{
+			if (selectedFigures != null) {
+				for (Figure figure : selectedFigures){
+					figure.flipH();
+				}
+				redrawCanvas();
+			}
+		});
+
+		flipVButton.setOnAction(event ->{
+			if (selectedFigures != null) {
+				for (Figure figure : selectedFigures){
+					figure.flipV();
+				}
+				redrawCanvas();
+			}
+		});
+
 		setLeft(buttonsBox);
 		setRight(canvas);
 	}
@@ -229,12 +272,47 @@ public class PaintPane extends BorderPane {
 					gc.setStroke(lineColor);
 				}
 				gc.setFill(figureColorMap.get(figure));
-				figure.redraw(gc);
+				createFigure(gc, figure);
 		}
 		}
 
-	boolean figureBelongs(Figure figure, Point eventPoint) {
-		return figure.found(eventPoint);
+	private void createFigure(GraphicsContext gc, Figure figure){
+		if (figure instanceof Circle) {
+			createFigure(gc, (Circle) figure);
+		}
+		else if (figure instanceof Rectangle) {
+			createFigure(gc, (Rectangle) figure);
+		}
+		else if (figure instanceof Ellipse) {
+			createFigure(gc, (Ellipse) figure);
+		}
+	}
+
+	private void createFigure(GraphicsContext gc, Circle figureCircle){
+		double diameter = figureCircle.getRadius() * 2;
+	    gc.fillOval(figureCircle.getCenterPoint().getX() - figureCircle.getRadius(),
+                    figureCircle.getCenterPoint().getY() - figureCircle.getRadius(),
+                    diameter, diameter);
+		gc.strokeOval(figureCircle.getCenterPoint().getX() - figureCircle.getRadius(),
+                    figureCircle.getCenterPoint().getY() - figureCircle.getRadius(), diameter, diameter);
+	}
+
+	private void createFigure(GraphicsContext gc, Ellipse figureEllipse){
+		gc.strokeOval(figureEllipse.getCenterPoint().getX() - (figureEllipse.getsMayorAxis() / 2),
+			figureEllipse.getCenterPoint().getY() - (figureEllipse.getsMinorAxis() / 2),
+			figureEllipse.getsMayorAxis(), figureEllipse.getsMinorAxis());
+		gc.fillOval(figureEllipse.getCenterPoint().getX() - (figureEllipse.getsMayorAxis() / 2),
+			figureEllipse.getCenterPoint().getY() - (figureEllipse.getsMinorAxis() / 2),
+			figureEllipse.getsMayorAxis(), figureEllipse.getsMinorAxis());
+	}
+
+	private void createFigure(GraphicsContext gc, Rectangle figureRectangle){
+		gc.fillRect(figureRectangle.getTopLeft().getX(), figureRectangle.getTopLeft().getY(),
+			Math.abs(figureRectangle.getTopLeft().getX() - figureRectangle.getBottomRight().getX()),
+			Math.abs(figureRectangle.getTopLeft().getY() - figureRectangle.getBottomRight().getY()));
+		gc.strokeRect(figureRectangle.getTopLeft().getX(), figureRectangle.getTopLeft().getY(),
+			Math.abs(figureRectangle.getTopLeft().getX() - figureRectangle.getBottomRight().getX()),
+			Math.abs(figureRectangle.getTopLeft().getY() - figureRectangle.getBottomRight().getY()));
 	}
 
 }
