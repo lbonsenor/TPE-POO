@@ -21,7 +21,7 @@ public class Circle extends Ellipse {
     }
 
     @Override
-    public void redraw(GraphicsContext gc){
+    public void draw(GraphicsContext gc){
         double diameter = this.radius * 2;
 	    gc.fillOval(this.centerPoint.getX() - this.radius, 
                     this.centerPoint.getY() - this.radius, 

@@ -75,7 +75,7 @@ public class GroupedFigure extends Figure{
     }
 
     @Override
-    public void redraw(GraphicsContext gc) {
+    public void draw(GraphicsContext gc) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'redraw'");
     }
@@ -97,4 +97,5 @@ public class GroupedFigure extends Figure{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'bisel'");
     }
+
 }

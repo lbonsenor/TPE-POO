@@ -20,7 +20,7 @@ public class Ellipse extends Figure {
     }
 
     @Override
-    public void redraw(GraphicsContext gc){
+    public void draw(GraphicsContext gc){
         gc.strokeOval(this.getCenterPoint().getX() - (this.getsMayorAxis() / 2), 
                       this.getCenterPoint().getY() - (this.getsMinorAxis() / 2), 
                       this.getsMayorAxis(), this.getsMinorAxis());
