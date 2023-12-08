@@ -99,4 +99,16 @@ public class GroupedFigure extends Figure{
         throw new UnsupportedOperationException("Unimplemented method 'bisel'");
     }
 
+    @Override
+    public boolean contains(Point point) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'contains'");
+    }
+
+    @Override
+    public boolean isContainedIn(Rectangle rectangle) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isContainedIn'");
+    }
+
 }
