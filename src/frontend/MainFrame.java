@@ -9,9 +9,9 @@ public class MainFrame extends VBox {
         getChildren().add(new AppMenuBar());
         StatusPane statusPane = new StatusPane();
         TagsPane tagsPane = new TagsPane();
-        LayersPane layersPane = new LayersPane();
-        getChildren().add(new PaintPane(canvasState, statusPane));
-        getChildren().add(layersPane);
+        //LayersPane layersPane = new LayersPane();
+        getChildren().add(new PaintPane(canvasState, statusPane, tagsPane));
+        //getChildren().add(layersPane);
         getChildren().add(tagsPane);
         getChildren().add(statusPane);
         

@@ -4,10 +4,12 @@ import backend.CanvasState;
 import backend.model.*;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -15,11 +17,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,8 +33,8 @@ public class PaintPane extends BorderPane {
 	// BackEnd
 	CanvasState canvasState;
 
-	// Canvas y relacionados
-	Canvas canvas = new Canvas(800, 600);
+	// Canvas y relacionados, se le agrega mas altura para que utilice todo el canvas 
+	Canvas canvas = new Canvas(800, 665);
 	GraphicsContext gc = canvas.getGraphicsContext2D();
 	Color lineColor = Color.BLACK;
 	Color defaultFillColor = Color.YELLOW;
@@ -55,7 +60,7 @@ public class PaintPane extends BorderPane {
 	// Boton de Capa Izquierdo
 	Label layerLabel = new Label("Capa");
 	String layers[] = {"Layer 1", "Layer 2", "Layer 3"};
-	ComboBox<String> layerCB = new ComboBox<String>(FXCollections.observableArrayList(layers)); //Test
+	ComboBox<String> currentLayer = new ComboBox<String>(FXCollections.observableArrayList(layers)); //Test
 	
 	// Tags
 	Label tagLabel = new Label("Etiquetas");
@@ -69,15 +74,28 @@ public class PaintPane extends BorderPane {
 	// Seleccionar una figura
 	Set<Figure> selectedFigures = new HashSet<>();
 
-	// StatusBar
+	// Panes
 	StatusPane statusPane;
+	TagsPane tagsPane;
 
 	// Colores de relleno de cada figura
 	Map<Figure, Color> figureColorMap = new HashMap<>();
 
-	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
+	// Mostrar Capas
+	    Label layerShownLabel = new Label("Mostrar Capas:");
+    	CheckBox layer1 = new CheckBox("Layer 1");
+    	CheckBox layer2 = new CheckBox("Layer 2");
+    	CheckBox layer3 = new CheckBox("Layer 3");
+		CheckBox[] layersCheckBoxes = {layer1, layer2, layer3}; 
+
+	public PaintPane(CanvasState canvasState, StatusPane statusPane, TagsPane tagsPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
+		//this.layersPane = layersPane;
+		this.tagsPane = tagsPane;
+
+		currentLayer.setValue("Layer 1");
+
 		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, squareButton, ellipseButton,groupButton, ungroupButton, rotateButton, flipHButton, flipVButton, scalePButton, scaleMButton, deleteButton};
 		FigureToggleButton[] figuresArr = {rectangleButton, circleButton, squareButton, ellipseButton};
 		ToggleGroup tools = new ToggleGroup();
@@ -86,16 +104,14 @@ public class PaintPane extends BorderPane {
 			tool.setToggleGroup(tools);
 			tool.setCursor(Cursor.HAND);
 		}
+		// ----------- VBOX DE BOTONES ----------- //
 		VBox buttonsBox = new VBox(10);
 		buttonsBox.getChildren().addAll(toolsArr);
 		buttonsBox.getChildren().add(fillColorPicker);
 
-		buttonsBox.getChildren().add(layerLabel);
-		buttonsBox.getChildren().add(layerCB);
+		buttonsBox.getChildren().addAll(layerLabel, currentLayer);
 
-		buttonsBox.getChildren().add(tagLabel);
-		buttonsBox.getChildren().add(tagArea);
-		buttonsBox.getChildren().add(tagButton);
+		buttonsBox.getChildren().addAll(tagLabel, tagArea, tagButton);
 		tagArea.setPrefHeight(10);
 
 		buttonsBox.setPadding(new Insets(5));
@@ -103,6 +119,23 @@ public class PaintPane extends BorderPane {
 		buttonsBox.setPrefWidth(100);
 		gc.setLineWidth(1);
 
+		// ----------- HBOX DE LAYERS ----------- //
+        HBox layerBox = new HBox(10);
+
+        layerBox.getChildren().add(layerShownLabel);
+        layerBox.getChildren().addAll(layersCheckBoxes);
+
+        layerBox.setPadding(new Insets(5));
+        layerBox.setStyle("-fx-background-color: #999");
+        setBottom(layerBox);
+        layerBox.setAlignment(Pos.CENTER);
+
+		for (CheckBox checkBox : layersCheckBoxes){
+			checkBox.setSelected(true);
+		}
+
+		// -------------------------------------- //
+	
 		canvas.setOnMousePressed(event -> {
 			startPoint = new Point(event.getX(), event.getY());
 		});
@@ -118,20 +151,26 @@ public class PaintPane extends BorderPane {
 				if (button.isSelected()) {
 					newFigure = button.getFigureBasedOnPoints(startPoint, endPoint);
 					figureColorMap.put(newFigure, fillColorPicker.getValue());
-					canvasState.addFigure(newFigure);
+					canvasState.addFigure(newFigure, currentLayer.getValue());
 					startPoint = null;
 					redrawCanvas();
 					return;
 				}
 			}
 
-			//Un rectangulo imaginario.
-			if (selectionButton.isSelected()){
-				selectedFigures = new HashSet<>();
-				for (Figure figure : canvasState.figures()){
+			//Un rectangulo imaginario. Solo se acepta la seleccion multiple si es una sola capa
+			if (selectionButton.isSelected() && (getLayersShown().size() == 1)){
+				boolean found = false;
+				for (Figure figure : canvasState.figures(currentLayer.getValue())){
 					if (figure.found(startPoint, endPoint)) {
+						found = true;
 						selectedFigures.add(figure);
 					}
+				}
+				if (found) {
+					statusPane.updateStatus("Figuras seleccionadas mediante Seleccion Multiple");
+				} else {
+					statusPane.updateStatus("Ninguna figura encontrada");
 				}
 			}
 			
@@ -142,7 +181,7 @@ public class PaintPane extends BorderPane {
 			Point eventPoint = new Point(event.getX(), event.getY());
 			boolean found = false;
 			StringBuilder label = new StringBuilder();
-			for(Figure figure : canvasState.figures()) {
+			for(Figure figure : canvasState.figures(getLayersShown())) {
 				if(figure.found(eventPoint)) {
 					found = true;
 					label.append(figure.toString());
@@ -159,24 +198,36 @@ public class PaintPane extends BorderPane {
 			if(selectionButton.isSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				boolean found = false;
-				StringBuilder label = new StringBuilder("Se seleccionó: ");
-				for (Figure figure : canvasState.figures()) {
-					if(figure.found(eventPoint)) {
-						found = true;
-						selectedFigures = new HashSet<>();
-						selectedFigures.add(figure);
-						label.append(figure.toString());
+
+				// setOnMouseClicked no verifica si es literalmente un click, por lo tanto se verifica si startPoint es el mismo que endPoint
+				if (eventPoint.equals(startPoint)) {
+					selectedFigures = new HashSet<>(); // Creo un nuevo HashSet para que no se seleccione
+					StringBuilder label = new StringBuilder("Se seleccionó: ");
+					for (Figure figure : canvasState.figures(currentLayer.getValue())) {
+						if(figure.found(eventPoint)) {
+							found = true;
+							selectedFigures = new HashSet<>();
+							selectedFigures.add(figure);
+							label.append(figure.toString());
+						}
+					}
+					if (found) {
+						statusPane.updateStatus(label.toString());
+					} else {
+						statusPane.updateStatus("Ninguna figura encontrada");
 					}
 				}
-				if (found) {
-					statusPane.updateStatus(label.toString());
-				} else {
-				//	selectedFigure = null;
-					statusPane.updateStatus("Ninguna figura encontrada");
-				}
+				
 				redrawCanvas();
 			}
 		});
+		
+		for (CheckBox layerCheckBox : layersCheckBoxes){
+				layerCheckBox.setOnAction(event -> {
+					redrawCanvas();
+					statusPane.updateStatus(String.format("%s %s", layerCheckBox.getText(), layerCheckBox.isSelected() ? "Checked":"Unchecked"));
+				});
+			}
 
 		canvas.setOnMouseDragged(event -> {
 			if(selectionButton.isSelected() && selectedFigures!=null) {
@@ -193,10 +244,8 @@ public class PaintPane extends BorderPane {
 		deleteButton.setOnAction(event -> {
 			if (selectedFigures != null) {
 				for (Figure figure : selectedFigures){
-					canvasState.deleteFigure(figure);
-				//	selectedFigures.remove(figure); //creo q no se podia mientras iteraba.
+					canvasState.deleteFigure(figure, currentLayer.getValue());
 				}
-			//	selectedFigure = null;
 				redrawCanvas();
 			}
 		});
@@ -247,15 +296,15 @@ public class PaintPane extends BorderPane {
 		});
 
 		groupButton.setOnAction(event ->{
-			if (selectedFigures != null) {
-				canvasState.groupFigures(selectedFigures);
+			if (selectedFigures != null && getLayersShown().size() == 1) {
+				canvasState.groupFigures(selectedFigures, currentLayer.getValue());
 				redrawCanvas();
 			}
 		});
 
 		ungroupButton.setOnAction(event ->{
-			if (selectedFigures != null) {
-				canvasState.ungroupFigures(selectedFigures);
+			if (selectedFigures != null && getLayersShown().size() == 1) {
+				canvasState.ungroupFigures(selectedFigures, currentLayer.getValue());
 				redrawCanvas();
 			}
 		});
@@ -266,7 +315,7 @@ public class PaintPane extends BorderPane {
 
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		for(Figure figure : canvasState.figures()) {
+		for(Figure figure : canvasState.figures(getLayersShown())) {
 				if (selectedFigures != null && selectedFigures.contains(figure)) {
 					gc.setStroke(Color.RED);
 				} else {
@@ -325,6 +374,16 @@ public class PaintPane extends BorderPane {
 		for (Figure figure : figureGrouped.getFiguresCopy()){
 			createFigure(gc, figure);
 		}
+	}
+
+	private List<String> getLayersShown(){
+		List<String> toReturn = new ArrayList<>();
+		for (CheckBox layerCheckBox : layersCheckBoxes){
+			if (layerCheckBox.isSelected()) {
+				toReturn.add(layerCheckBox.getText());
+			}
+		}
+		return toReturn;
 	}
 
 }
