@@ -2,10 +2,16 @@ package backend.model;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public interface Figure {
+public abstract class Figure {
+
+    protected final static int SHADOWOFFSET = 10;
+
     public abstract void changePos(double diffX, double diffY);
 
     public abstract void redraw(GraphicsContext gc);
+    public abstract void shadow(GraphicsContext gc);
+    public abstract void gradient(GraphicsContext gc);
+    public abstract void bisel(GraphicsContext gc);
     public abstract boolean found(Point eventPoint);
 
     public abstract void rotate();

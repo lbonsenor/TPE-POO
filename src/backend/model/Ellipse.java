@@ -2,7 +2,7 @@ package backend.model;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public class Ellipse implements Figure {
+public class Ellipse extends Figure {
 
     protected final Point centerPoint;
     protected double sMayorAxis, sMinorAxis;
@@ -77,6 +77,24 @@ public class Ellipse implements Figure {
 
     public double getsMinorAxis() {
         return sMinorAxis;
+    }
+
+    @Override
+    public void shadow(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'shadow'");
+    }
+
+    @Override
+    public void bisel(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'bisel'");
+    }
+
+    @Override
+    public void gradient(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'gradient'");
     }
 
 }
