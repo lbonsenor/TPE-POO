@@ -1,12 +1,12 @@
 package backend.model;
 
+import backend.Movable;
 import javafx.scene.canvas.GraphicsContext;
 
-public abstract class Figure {
+public abstract class Figure implements Movable{
 
     protected final static int SHADOWOFFSET = 10;
 
-    public abstract void changePos(double diffX, double diffY);
 
     public abstract void redraw(GraphicsContext gc);
     public abstract void shadow(GraphicsContext gc);
