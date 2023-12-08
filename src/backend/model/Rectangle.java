@@ -43,6 +43,15 @@ public class Rectangle extends Figure {
                       Math.abs(this.getTopLeft().getY() - this.getBottomRight().getY()));
     }
 
+    // unicamente genera rectangulo invisible
+    // -> generado, "no dibujado"
+    public static Rectangle from(Point pointA, Point pointB) {
+        return new Rectangle(
+                new Point(Math.min(pointA.getX(), pointB.getX()), Math.min(pointA.getY(), pointB.getY())),
+                new Point(Math.max(pointA.getX(), pointB.getX()), Math.max(pointA.getY(), pointB.getY()))
+        );
+    }
+
     @Override
     public boolean found(Point eventPoint){
         return eventPoint.getX() > this.topLeft.getX() 
