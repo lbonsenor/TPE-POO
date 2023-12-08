@@ -159,22 +159,19 @@ public class PaintPane extends BorderPane {
 			}
 
 			//Un rectangulo imaginario. Solo se acepta la seleccion multiple si es una sola capa
-			if (selectionButton.isSelected() && (getLayersShown().size() == 1)){
+			if (selectionButton.isSelected()){
 				boolean found = false;
-				for (Figure figure : canvasState.figures(currentLayer.getValue())){
-					if (figure.found(startPoint, endPoint)) {
-						found = true;
-						selectedFigures.add(figure);
+				if (checkOneLayer("Seleccion Multiple")) {
+					for (Figure figure : canvasState.figures(currentLayer.getValue())){
+						if (figure.found(startPoint, endPoint)) {
+							found = true;
+							selectedFigures.add(figure);
+						}
 					}
-				}
-				if (found) {
-					statusPane.updateStatus("Figuras seleccionadas mediante Seleccion Multiple");
-				} else {
-					statusPane.updateStatus("Ninguna figura encontrada");
+					if (found) statusPane.updateStatus("Figuras seleccionadas mediante Seleccion Multiple");
+					else statusPane.updateStatus("Ninguna figura encontrada");
 				}
 			}
-			
-			
 		});
 
 		canvas.setOnMouseMoved(event -> {
@@ -296,17 +293,22 @@ public class PaintPane extends BorderPane {
 		});
 
 		groupButton.setOnAction(event ->{
-			if (selectedFigures != null && getLayersShown().size() == 1) {
-				canvasState.groupFigures(selectedFigures, currentLayer.getValue());
-				redrawCanvas();
+			if (selectedFigures != null) {
+				if (checkOneLayer("Agrupar")) {
+					canvasState.groupFigures(selectedFigures, currentLayer.getValue());
+					redrawCanvas();
+				}
 			}
 		});
 
 		ungroupButton.setOnAction(event ->{
-			if (selectedFigures != null && getLayersShown().size() == 1) {
-				canvasState.ungroupFigures(selectedFigures, currentLayer.getValue());
-				redrawCanvas();
+			if (selectedFigures != null) {
+				if (checkOneLayer("Desagrupar")) {
+					canvasState.ungroupFigures(selectedFigures, currentLayer.getValue());
+					redrawCanvas();
+				}
 			}
+			
 		});
 
 		setLeft(buttonsBox);
@@ -384,6 +386,14 @@ public class PaintPane extends BorderPane {
 			}
 		}
 		return toReturn;
+	}
+
+	public boolean checkOneLayer(String button){
+		if (getLayersShown().size() != 1) {
+			statusPane.updateStatus(String.format("%s esta deshabilitado si mas de una capa esta siendo mostrada", button));
+			return false;
+		}
+		return true;
 	}
 
 }
