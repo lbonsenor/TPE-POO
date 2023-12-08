@@ -97,4 +97,22 @@ public class Rectangle extends Figure {
         double toReturn[] = {(topLeft.getX()+bottomRight.getX())/2, (topLeft.getY()+bottomRight.getY())/2};
         return toReturn;
     }
+
+    @Override
+    public void shadow(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'shadow'");
+    }
+
+    @Override
+    public void gradient(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'gradient'");
+    }
+
+    @Override
+    public void bisel(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'bisel'");
+    }
 }
