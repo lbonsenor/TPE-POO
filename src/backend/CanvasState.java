@@ -4,6 +4,7 @@ import backend.model.Figure;
 import backend.model.GroupedFigure;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -37,6 +38,12 @@ public class CanvasState {
 
     public void deleteFigure(Figure figure) {
         list.remove(figure);
+    }
+
+    // borrar con conjunto de figuras nos ahorra iterar el conjunto de figuras original
+    // ventaja? -> mas claridad de codigo y reutilizacion de metodos de List<>
+    public boolean deleteFigures(Collection<Figure> figures) {
+        return list.removeAll(figures);
     }
 
     public Iterable<Figure> figures() {

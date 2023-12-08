@@ -44,6 +44,23 @@ public class Ellipse extends Figure {
                && endPoint.getY() > centerPoint.getY()+sMinorAxis/2;
     }
 
+    // nueva forma de utilizar "found"
+
+    @Override
+    public boolean contains(Point point) {
+        double dx = (centerPoint.getX() - point.getX()) / sMayorAxis;
+        double dy = (centerPoint.getY() - point.getY()) / sMinorAxis;
+        return dx * dx + dy * dy <= 1;
+    }
+
+    @Override
+    public boolean isContainedIn(Rectangle rectangle) {
+        Point tl = rectangle.getTopLeft();
+        Point br = rectangle.getBottomRight();
+        return tl.getX() <= centerPoint.getX() - sMayorAxis && centerPoint.getX() + sMayorAxis <= br.getX()
+                && tl.getY() <= centerPoint.getY() - sMinorAxis && centerPoint.getY() + sMayorAxis <= br.getY();
+    }
+
     @Override
     public void rotate(){
         double temp = this.sMayorAxis;

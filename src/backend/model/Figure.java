@@ -28,10 +28,10 @@ public abstract class Figure implements Movable, Drawable, Colorable{
     public abstract void shadow(GraphicsContext gc);
     public abstract void gradient(GraphicsContext gc);
     public abstract void bisel(GraphicsContext gc);
-    /*
-     * public abstract boolean contains(Point point);
-     * public abstract boolean isContainedIn(Rectangle rectangle);
-     */
+    
+    public abstract boolean contains(Point point);
+    public abstract boolean isContainedIn(Rectangle rectangle);
+    
     public abstract boolean found(Point eventPoint);
     public abstract boolean found(Point startPoint, Point endPoint);
 

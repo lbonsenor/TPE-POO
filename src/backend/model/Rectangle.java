@@ -59,6 +59,24 @@ public class Rectangle extends Figure {
                && endPoint.getY() > this.bottomRight.getY();
     }
 
+    // nueva forma de utilizar "found"
+
+    @Override
+    public boolean contains(Point point) {
+        return topLeft.getX() <= point.getX() && point.getX() <= bottomRight.getX() &&
+                topLeft.getY() <= point.getY() && point.getY() <= bottomRight.getY();
+    }
+
+    public boolean contains(Rectangle other) {
+        return topLeft.getX() <= other.topLeft.getX() && other.bottomRight.getX() <= bottomRight.getX()
+                && topLeft.getY() <= other.topLeft.getY() && other.bottomRight.getY() <= bottomRight.getY();
+    }
+
+    @Override
+    public boolean isContainedIn(Rectangle rectangle) {
+        return rectangle.contains(this);
+    }
+
     @Override
     public void rotate(){
         double centerPoint[] = getCenterPoints();
@@ -116,4 +134,6 @@ public class Rectangle extends Figure {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'bisel'");
     }
+
+    
 }
