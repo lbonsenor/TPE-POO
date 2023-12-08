@@ -9,6 +9,7 @@ public class GroupedFigure extends Figure{
     private final Set<Figure> figures = new HashSet<>();
 
     public GroupedFigure(Set<Figure> figures){
+        super(null);
         this.figures.addAll(figures);
     }
 
