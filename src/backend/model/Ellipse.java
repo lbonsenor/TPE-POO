@@ -36,6 +36,14 @@ public class Ellipse extends Figure {
     }
 
     @Override
+    public boolean found(Point startPoint, Point endPoint){
+        return startPoint.getX() < centerPoint.getX()-sMayorAxis/2
+               && startPoint.getY() < centerPoint.getY()-sMinorAxis/2
+               && endPoint.getX() > centerPoint.getX()+sMayorAxis/2
+               && endPoint.getY() > centerPoint.getY()+sMinorAxis/2;
+    }
+
+    @Override
     public void rotate(){
         double temp = this.sMayorAxis;
         this.sMayorAxis = this.sMinorAxis;
@@ -44,8 +52,8 @@ public class Ellipse extends Figure {
 
     @Override
     public void scale(double multiplier){
-        // A = pi*sMayorAxis*sMinorAxis
-        // mult*A = pi*(a*sMayorAxis)*(a*sMinorAxis)
+        // A = pi*(sMayorAxis/2)*(sMinorAxis/2)
+        // mult*A = pi*(a(sMayorAxis/2))*(a(sMinorAxis/2))
         // mult*A = a²*A
         // sqrt(mult) = a
         this.sMayorAxis *= Math.sqrt(multiplier);

@@ -51,6 +51,14 @@ public class Rectangle extends Figure {
     }
 
     @Override
+    public boolean found(Point startPoint, Point endPoint){
+        return startPoint.getX() < this.topLeft.getX()
+               && startPoint.getY() < this.topLeft.getY()
+               && endPoint.getX() > this.bottomRight.getX()
+               && endPoint.getY() > this.bottomRight.getY();
+    }
+
+    @Override
     public void rotate(){
         double centerPoint[] = getCenterPoints();
         double offset[] = {(bottomRight.getY()-topLeft.getY())/2, (bottomRight.getX()-topLeft.getX())/2};

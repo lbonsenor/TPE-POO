@@ -13,6 +13,7 @@ public abstract class Figure {
     public abstract void gradient(GraphicsContext gc);
     public abstract void bisel(GraphicsContext gc);
     public abstract boolean found(Point eventPoint);
+    public abstract boolean found(Point startPoint, Point endPoint);
 
     public abstract void rotate();
     public abstract void scale(double multiplier);

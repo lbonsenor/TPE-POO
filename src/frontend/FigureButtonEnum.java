@@ -1,16 +1,23 @@
-package backend.model;
+package frontend;
+
+import backend.model.Circle;
+import backend.model.Ellipse;
+import backend.model.Figure;
+import backend.model.Point;
+import backend.model.Rectangle;
+import backend.model.Square;
 
 public enum FigureButtonEnum {
     RECTANGLE("Rectangulo"){
         @Override
         public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
-            return new Rectangle(startPoint, endPoint);
+            return new Rectangle(getTopLeft(startPoint, endPoint), getBottomRight(startPoint,endPoint));
         }
     },
     CIRCLE("Círculo"){
         @Override
         public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
-            double circleRadius = Math.abs(endPoint.getX() - startPoint.getX());
+            double circleRadius = Math.sqrt(Math.pow(endPoint.getX()-startPoint.getX(),2)+Math.pow(endPoint.getY()-startPoint.getY(), 2));
 			return new Circle(startPoint, circleRadius);
         }
     },
@@ -27,7 +34,7 @@ public enum FigureButtonEnum {
         @Override
         public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
             double size = Math.abs(endPoint.getX() - startPoint.getX());
-			return new Square(startPoint, size);
+			return new Square(getTopLeft(startPoint, endPoint), size);
         }
     };
 
@@ -38,6 +45,14 @@ public enum FigureButtonEnum {
     }
 
     public abstract Figure getFigureBasedOnPoints(Point startPoint, Point endPoint);
+
+    private static Point getTopLeft(Point p1, Point p2){
+        return new Point(p1.getX()<p2.getX() ? p1.getX():p2.getX(), p1.getY()<p2.getY() ? p1.getY():p2.getY());
+    }
+
+    private static Point getBottomRight(Point p1, Point p2){
+        return new Point(p1.getX()>p2.getX() ? p1.getX():p2.getX(), p1.getY()>p2.getY() ? p1.getY():p2.getY());
+    }
     
     @Override
     public String toString(){
