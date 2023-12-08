@@ -3,7 +3,9 @@ package backend.model;
 import java.util.HashSet;
 import java.util.Set;
 
-public class GroupedFigure implements Figure{
+import javafx.scene.canvas.GraphicsContext;
+
+public class GroupedFigure extends Figure{
     private final Set<Figure> figures = new HashSet<>();
 
     public GroupedFigure(Set<Figure> figures){
@@ -70,5 +72,29 @@ public class GroupedFigure implements Figure{
     @Override
     public String toString(){
         return "Grouped Figure";
+    }
+
+    @Override
+    public void redraw(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'redraw'");
+    }
+
+    @Override
+    public void shadow(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'shadow'");
+    }
+
+    @Override
+    public void gradient(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'gradient'");
+    }
+
+    @Override
+    public void bisel(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'bisel'");
     }
 }
