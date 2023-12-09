@@ -11,6 +11,7 @@ public enum FigureButtonEnum {
     RECTANGLE("Rectangulo"){
         @Override
         public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
+            System.out.println("Rectangulo");
             return new Rectangle(getTopLeft(startPoint, endPoint), getBottomRight(startPoint,endPoint));
         }
     },

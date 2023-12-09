@@ -18,6 +18,14 @@ public abstract class Figure implements Movable, Drawable, Colorable{
         this.keyPoints = keyPoints;
     }
 
+    // muevo los puntos que definen a una figura
+    // -> la misma cambiara su posicion al ser dibujada
+    @Override
+    public void changePos(double deltaX, double deltaY) {
+        for (Point p : keyPoints)
+            p.changePos(deltaX, deltaY);
+    }
+
     public void setBorderColor(Color borderColor) {
         this.borderColor = borderColor;
     }
