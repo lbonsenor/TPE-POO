@@ -96,7 +96,6 @@ public class PaintPane extends BorderPane {
 		ToggleGroup tools = new ToggleGroup();
 		tools.selectedToggleProperty().addListener(this::onSelectedButtonChanged);
 		fillColorPicker.valueProperty().addListener(this::onFillColorChanged);
-		borderColorPicker.valueProperty().addListener(this::onBorderColorChanged);
 		for (ToggleButton tool : toolsArr) {
 			tool.setMinWidth(90);
 			tool.setToggleGroup(tools);
@@ -307,19 +306,6 @@ public class PaintPane extends BorderPane {
 			fillColorPicker.setValue(fc);			
 		}
 		redrawCanvas();
-	}
-
-	private void onBorderColorChanged(ObservableValue<? extends Color> observableValue, Color color, Color newValue) {
-		if (newValue == null)
-			return;
-
-		if (selectedFigures.isEmpty()) {
-			borderColor = newValue;
-		} else {
-			for (Figure figure : selectedFigures)
-				figure.setBorderColor(newValue);
-			redrawCanvas();
-		}
 	}
 
 	private void onFillColorChanged(ObservableValue<? extends Color> observableValue, Color color, Color newValue) {
