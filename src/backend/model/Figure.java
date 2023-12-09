@@ -10,11 +10,20 @@ public abstract class Figure implements Movable, Drawable, Colorable{
 
     private final Point[] keyPoints;
     private Color fillColor;
+    private Color borderColor;
 
     protected final static int SHADOWOFFSET = 10;
 
     protected Figure(Point[] keyPoints) {
         this.keyPoints = keyPoints;
+    }
+
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
+    }
+
+    public Color getBorderColor() {
+        return borderColor;
     }
 
     public void setFillColor(Color fillColor) {
@@ -31,7 +40,7 @@ public abstract class Figure implements Movable, Drawable, Colorable{
     
     // nueva forma de utilizar "found" con un punto
     public abstract boolean contains(Point point);
-    
+
     // nueva forma de utilizar "found" con respecto al rectangulo invisible
     public abstract boolean isContainedIn(Rectangle rectangle);
     

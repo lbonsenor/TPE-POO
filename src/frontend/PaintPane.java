@@ -32,8 +32,15 @@ public class PaintPane extends BorderPane {
 	// Canvas y relacionados
 	Canvas canvas = new Canvas(800, 600);
 	GraphicsContext gc = canvas.getGraphicsContext2D();
-	Color lineColor = Color.BLACK;
-	Color defaultFillColor = Color.YELLOW;
+
+	// Constantes de dibujo
+	private static final Color SELECTED_FIGURE_BORDER_COLOR = Color.RED;
+	private static final Color DEFAULT_FIGURE_FILL_COLOR = Color.YELLOW;
+	private static final Color DEFAULT_FIGURE_BORDER_COLOR = Color.BLACK;
+
+	// Propiedades de figuras seleccionadas (inicializads para figuras nuevas)
+	private Color borderColor = DEFAULT_FIGURE_BORDER_COLOR;
+	private Color fillColor = DEFAULT_FIGURE_FILL_COLOR;
 
 	// Botones Barra Izquierda
 	ToggleButton selectionButton = new ToggleButton("Seleccionar");
@@ -274,6 +281,19 @@ public class PaintPane extends BorderPane {
 		setRight(canvas);
 	}
 
+	private void onBorderColorChanged(ObservableValue<? extends Color> observableValue, Color color, Color newValue) {
+		if (newValue == null)
+			return;
+
+		if (selectedFigures.isEmpty()) {
+			borderColor = newValue;
+		} else {
+			for (Figure figure : selectedFigures)
+				figure.setBorderColor(newValue);
+			redrawCanvas();
+		}
+	}
+
 	private void onFillColorChanged(ObservableValue<? extends Color> observableValue, Color color, Color newValue) {
 		if (newValue == null)
 			return;
@@ -290,7 +310,9 @@ public class PaintPane extends BorderPane {
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		for(Figure figure : canvasState.figures()) {
-			
+			gc.setStroke(selectedFigures.contains(figure) ? SELECTED_FIGURE_BORDER_COLOR : figure.getBorderColor());
+			gc.setFill(figure.getFillColor());
+			figure.draw(gc);
 		}
 	}
 
