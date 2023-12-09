@@ -249,14 +249,10 @@ public class PaintPane extends BorderPane {
 		});
 
 		deleteButton.setOnAction(event -> {
-			if (selectedFigures != null) {
-				for (Figure figure : selectedFigures){
-					canvasState.deleteFigure(figure);
-				//	selectedFigures.remove(figure); //creo q no se podia mientras iteraba.
-				}
-			//	selectedFigure = null;
-				redrawCanvas();
-			}
+			// si hay figuras seleccionadas se van a borrar sino no habra cambios
+			canvasState.deleteFigures(selectedFigures);
+			selectedFigures.clear();
+			onSelectionChanged();
 		});
 
 		rotateButton.setOnAction(event -> {
