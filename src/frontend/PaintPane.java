@@ -273,63 +273,7 @@ public class PaintPane extends BorderPane {
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		for(Figure figure : canvasState.figures()) {
-				if (selectedFigures != null && selectedFigures.contains(figure)) {
-					gc.setStroke(Color.RED);
-				} else {
-					gc.setStroke(lineColor);
-				}
-				gc.setFill(figureColorMap.get(figure));
-				createFigure(gc, figure);
-		}
-		}
-
-	// Como GraphicsContext es final, estas funciones tienen que crearse de esta manera
-	// Si no fuera final, se debería crear una clase que extienda a GraphicsContext y que esten estas funciones ahi, sin la necesidad de createFigure(GraphicsContext gc, Figure figure)
-	private void createFigure(GraphicsContext gc, Figure figure){
-		if (figure instanceof Circle) {
-			createFigure(gc, (Circle) figure);
-		}
-		else if (figure instanceof Rectangle) {
-			createFigure(gc, (Rectangle) figure);
-		}
-		else if (figure instanceof Ellipse) {
-			createFigure(gc, (Ellipse) figure);
-		}
-		else if (figure instanceof GroupedFigure){
-			createFigure(gc, (GroupedFigure) figure);
-		}
-	}
-
-	private void createFigure(GraphicsContext gc, Circle figureCircle){
-		double diameter = figureCircle.getRadius() * 2;
-	    gc.fillOval(figureCircle.getCenterPoint().getX() - figureCircle.getRadius(), 
-                    figureCircle.getCenterPoint().getY() - figureCircle.getRadius(), 
-                    diameter, diameter);
-		gc.strokeOval(figureCircle.getCenterPoint().getX() - figureCircle.getRadius(), 
-                    figureCircle.getCenterPoint().getY() - figureCircle.getRadius(), diameter, diameter);
-	}
-
-	private void createFigure(GraphicsContext gc, Ellipse figureEllipse){
-		gc.strokeOval(figureEllipse.getCenterPoint().getX() - (figureEllipse.getsMayorAxis() / 2), 
-			figureEllipse.getCenterPoint().getY() - (figureEllipse.getsMinorAxis() / 2), 
-			figureEllipse.getsMayorAxis(), figureEllipse.getsMinorAxis());
-		gc.fillOval(figureEllipse.getCenterPoint().getX() - (figureEllipse.getsMayorAxis() / 2), 
-			figureEllipse.getCenterPoint().getY() - (figureEllipse.getsMinorAxis() / 2), 
-			figureEllipse.getsMayorAxis(), figureEllipse.getsMinorAxis());
-	}
-
-	private void createFigure(GraphicsContext gc, Rectangle figureRectangle){
-		gc.fillRect(figureRectangle.getTopLeft().getX(), figureRectangle.getTopLeft().getY(),
-			Math.abs(figureRectangle.getTopLeft().getX() - figureRectangle.getBottomRight().getX()), 
-			Math.abs(figureRectangle.getTopLeft().getY() - figureRectangle.getBottomRight().getY()));
-		gc.strokeRect(figureRectangle.getTopLeft().getX(), figureRectangle.getTopLeft().getY(),
-			Math.abs(figureRectangle.getTopLeft().getX() - figureRectangle.getBottomRight().getX()), 
-			Math.abs(figureRectangle.getTopLeft().getY() - figureRectangle.getBottomRight().getY()));
-	}
-
-	private void createFigure(GraphicsContext gc, GroupedFigure figureGrouped){
-		for (Figure figure : figureGrouped.getFiguresCopy()){
-			createFigure(gc, figure);
+			
 		}
 	}
 

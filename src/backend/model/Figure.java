@@ -29,11 +29,14 @@ public abstract class Figure implements Movable, Drawable, Colorable{
     public abstract void gradient(GraphicsContext gc);
     public abstract void bisel(GraphicsContext gc);
     
+    // nueva forma de utilizar "found" con un punto
     public abstract boolean contains(Point point);
+    
+    // nueva forma de utilizar "found" con respecto al rectangulo invisible
     public abstract boolean isContainedIn(Rectangle rectangle);
     
-    public abstract boolean found(Point eventPoint);
-    public abstract boolean found(Point startPoint, Point endPoint);
+    //public abstract boolean found(Point eventPoint);
+    //public abstract boolean found(Point startPoint, Point endPoint);
 
     public abstract void rotate();
     public abstract void scale(double multiplier);

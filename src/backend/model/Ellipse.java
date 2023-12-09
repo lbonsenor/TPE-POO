@@ -30,21 +30,19 @@ public class Ellipse extends Figure {
                     this.getsMayorAxis(), this.getsMinorAxis());
     }
 
-    @Override
-    public boolean found(Point eventPoint){
-        return ((Math.pow(eventPoint.getX() - this.centerPoint.getX(), 2) / Math.pow(this.sMayorAxis, 2)) +
-				(Math.pow(eventPoint.getY() - this.centerPoint.getY(), 2) / Math.pow(this.sMinorAxis, 2))) <= 0.30;
-    }
+    // @Override
+    // public boolean found(Point eventPoint){
+    //     return ((Math.pow(eventPoint.getX() - this.centerPoint.getX(), 2) / Math.pow(this.sMayorAxis, 2)) +
+	// 			(Math.pow(eventPoint.getY() - this.centerPoint.getY(), 2) / Math.pow(this.sMinorAxis, 2))) <= 0.30;
+    // }
 
-    @Override
-    public boolean found(Point startPoint, Point endPoint){
-        return startPoint.getX() < centerPoint.getX()-sMayorAxis/2
-               && startPoint.getY() < centerPoint.getY()-sMinorAxis/2
-               && endPoint.getX() > centerPoint.getX()+sMayorAxis/2
-               && endPoint.getY() > centerPoint.getY()+sMinorAxis/2;
-    }
-
-    // nueva forma de utilizar "found"
+    // @Override
+    // public boolean found(Point startPoint, Point endPoint){
+    //     return startPoint.getX() < centerPoint.getX()-sMayorAxis/2
+    //            && startPoint.getY() < centerPoint.getY()-sMinorAxis/2
+    //            && endPoint.getX() > centerPoint.getX()+sMayorAxis/2
+    //            && endPoint.getY() > centerPoint.getY()+sMinorAxis/2;
+    // }
 
     @Override
     public boolean contains(Point point) {

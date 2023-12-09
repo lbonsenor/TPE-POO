@@ -52,23 +52,21 @@ public class Rectangle extends Figure {
         );
     }
 
-    @Override
-    public boolean found(Point eventPoint){
-        return eventPoint.getX() > this.topLeft.getX() 
-               && eventPoint.getX() < this.bottomRight.getX() 
-               && eventPoint.getY() > this.topLeft.getY() 
-               && eventPoint.getY() < this.bottomRight.getY();
-    }
+    // @Override
+    // public boolean found(Point eventPoint){
+    //     return eventPoint.getX() > this.topLeft.getX() 
+    //            && eventPoint.getX() < this.bottomRight.getX() 
+    //            && eventPoint.getY() > this.topLeft.getY() 
+    //            && eventPoint.getY() < this.bottomRight.getY();
+    // }
 
-    @Override
-    public boolean found(Point startPoint, Point endPoint){
-        return startPoint.getX() < this.topLeft.getX()
-               && startPoint.getY() < this.topLeft.getY()
-               && endPoint.getX() > this.bottomRight.getX()
-               && endPoint.getY() > this.bottomRight.getY();
-    }
-
-    // nueva forma de utilizar "found"
+    // @Override
+    // public boolean found(Point startPoint, Point endPoint){
+    //     return startPoint.getX() < this.topLeft.getX()
+    //            && startPoint.getY() < this.topLeft.getY()
+    //            && endPoint.getX() > this.bottomRight.getX()
+    //            && endPoint.getY() > this.bottomRight.getY();
+    // }
 
     @Override
     public boolean contains(Point point) {
@@ -143,6 +141,5 @@ public class Rectangle extends Figure {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'bisel'");
     }
-
-    
+   
 }
