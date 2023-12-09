@@ -124,32 +124,6 @@ public class PaintPane extends BorderPane {
 			isMovingFigures = false;
 		});
 
-		// canvas.setOnMouseReleased(event -> {
-		// 	Point endPoint = new Point(event.getX(), event.getY());
-		// 	if(startPoint == null) {
-		// 		return ;
-		// 	}
-		// 	Figure newFigure = null;
-		// 	for(FigureToggleButton button : figuresArr){
-		// 		if (button.isSelected()) {
-		// 			newFigure = button.getFigureBasedOnPoints(startPoint, endPoint);
-		// 			canvasState.addFigure(newFigure);
-		// 			startPoint = null;
-		// 			redrawCanvas();
-		// 			return;
-		// 		}
-		// 	}
-		// 	//Un rectangulo imaginario.
-		// 	if (selectionButton.isSelected()){
-		// 		selectedFigures = new HashSet<>();
-		// 		for (Figure figure : canvasState.figures()){
-		// 			if (figure.found(startPoint, endPoint)) {
-		// 				selectedFigures.add(figure);
-		// 			}
-		// 		}
-		// 	}
-		// });
-
 		canvas.setOnMouseReleased(event -> {
 
 			Toggle selectedButton = tools.getSelectedToggle();
