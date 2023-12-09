@@ -13,6 +13,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
@@ -21,6 +22,7 @@ import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -58,7 +60,7 @@ public class PaintPane extends BorderPane {
 	ToggleButton deleteButton = new ToggleButton("Borrar");
 
 	// Selector de color de relleno
-	ColorPicker fillColorPicker = new ColorPicker(defaultFillColor);
+	ColorPicker fillColorPicker = new ColorPicker(DEFAULT_FIGURE_FILL_COLOR);
 
 	// Boton de Capa Izquierdo
 	Label layerLabel = new Label("Capa");
@@ -70,9 +72,9 @@ public class PaintPane extends BorderPane {
 	TextArea tagArea = new TextArea();
 	Button tagButton = new Button("Guardar");
 
-
 	// Dibujar una figura
 	Point startPoint;
+
 	boolean isMovingFigures;
 
 	// Seleccionar una figura
@@ -279,6 +281,37 @@ public class PaintPane extends BorderPane {
 
 		setLeft(buttonsBox);
 		setRight(canvas);
+	}
+
+	// cuando se activa/desactiva el boton de Seleccionar
+	private void onSelectedButtonChanged(ObservableValue<? extends Toggle> observableValue, Toggle value, Toggle newValue) {
+		if (value == selectionButton && newValue != selectionButton && !selectedFigures.isEmpty()) {
+			selectedFigures.clear();
+			onSelectionChanged();
+		}
+	}
+
+	// cuando las figuras selecciondas sufren cambios
+	private void onSelectionChanged() {
+		// si no hay figuras o las acabo de borrar
+		if (selectedFigures.isEmpty()) {
+			fillColorPicker.setValue(fillColor);
+		}
+		// si hay figuras seleccionadas
+		else {
+			Iterator<Figure> iter = selectedFigures.iterator();
+			Figure f = iter.next();
+			Color fc = f.getFillColor();
+
+			// Me fijo si las figuras seleccionadas comparten color para mostrar en la paleta
+			while (fc != null && iter.hasNext()) {
+				f = iter.next();
+				if (fc != null && !fc.equals(f.getFillColor())) fc = null;				
+			}
+			fillColorPicker.setValue(fc);			
+		}
+
+		redrawCanvas();
 	}
 
 	private void onBorderColorChanged(ObservableValue<? extends Color> observableValue, Color color, Color newValue) {
