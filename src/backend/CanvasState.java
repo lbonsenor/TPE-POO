@@ -57,16 +57,13 @@ public class CanvasState {
         return null;
     }
 
-    public int getFiguresOnRectangle(Rectangle rectangle, Collection<Figure> result) {
-        int count = 0;
+    public void getFiguresOnRectangle(Rectangle rectangle, Collection<Figure> result) {
         for (Figure f : list) {
             if (f.isContainedIn(rectangle))
             {
                 result.add(f);
-                count++;
             }
         }
-        return count;
     }
 
     public Iterable<Figure> figures() {
