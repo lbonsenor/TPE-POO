@@ -168,24 +168,19 @@ public class PaintPane extends BorderPane {
 			if (selectedButton == selectionButton) {
 				selectedFigures.clear();
 				if (startPoint.distanceSquaredTo(endPoint) > 1) {
-					try {
-						Rectangle container = Rectangle.from(startPoint, endPoint);
-						canvasState.getFiguresOnRectangle(container, selectedFigures);
-
-						String status;
-						if (selectedFigures.isEmpty()){
-							status = "No se encontraron figuras en el area";
-						}
-						else if (selectedFigures.size() == 1){
-							status = String.format("Se seleccionó: %s", selectedFigures.iterator().next());
-						}
-						else{
-							status = String.format("Se seleccionaron %d figuras", selectedFigures.size());
-						}
-						statusPane.updateStatus(status);
-					} catch (Exception e) {
-						statusPane.updateStatus(e.getMessage());
+					Rectangle container = Rectangle.from(startPoint, endPoint);
+					canvasState.getFiguresOnRectangle(container, selectedFigures);
+					String status;
+					if (selectedFigures.isEmpty()){
+						status = "No se encontraron figuras en el area";
 					}
+					else if (selectedFigures.size() == 1){
+						status = String.format("Se seleccionó: %s", selectedFigures.iterator().next());
+					}
+					else{
+						status = String.format("Se seleccionaron %d figuras", selectedFigures.size());
+					}
+					statusPane.updateStatus(status);
 				} 
 				else {
 					Figure selectedFigure = canvasState.getFigureAt(endPoint);
