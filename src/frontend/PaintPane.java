@@ -96,6 +96,7 @@ public class PaintPane extends BorderPane {
 		ToggleGroup tools = new ToggleGroup();
 		tools.selectedToggleProperty().addListener(this::onSelectedButtonChanged);
 		fillColorPicker.valueProperty().addListener(this::onFillColorChanged);
+		borderColorPicker.valueProperty().addListener(this::onBorderColorChanged);
 		for (ToggleButton tool : toolsArr) {
 			tool.setMinWidth(90);
 			tool.setToggleGroup(tools);
