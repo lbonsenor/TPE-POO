@@ -237,14 +237,14 @@ public class PaintPane extends BorderPane {
 		});
 
 		canvas.setOnMouseDragged(event -> {
-			if(selectionButton.isSelected() && selectedFigures!=null) {
-				Point eventPoint = new Point(event.getX(), event.getY());
-				double diffX = (eventPoint.getX() - startPoint.getX()) / 100;
-				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
-				for (Figure figure : selectedFigures){
+			if (selectedFigures!=null && !selectedFigures.isEmpty()) {
+				double diffX = event.getX() - startPoint.getX();
+				double diffY = event.getY() - startPoint.getY();
+				for (Figure figure : selectedFigures)
 					figure.changePos(diffX, diffY);
-					redrawCanvas();
-				}
+				redrawCanvas();
+				startPoint.changePos(diffX, diffY);
+				isMovingFigures = true;
 			}
 		});
 
