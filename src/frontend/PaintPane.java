@@ -332,16 +332,15 @@ public class PaintPane extends BorderPane {
 
 	// cuando las figuras selecciondas sufren cambios
 	private void onSelectionChanged() {
-		// si no hay figuras o las acabo de borrar
+		// si no hay figuras seleccionadas
+		// -> tomo el ultimo color en la paleta
 		if (selectedFigures.isEmpty()) {
 			fillColorPicker.setValue(fillColor);
 		}
-		// si hay figuras seleccionadas
 		else {
 			Iterator<Figure> iter = selectedFigures.iterator();
 			Figure f = iter.next();
 			Color fc = f.getFillColor();
-
 			// Me fijo si las figuras seleccionadas comparten color para mostrar en la paleta
 			while (fc != null && iter.hasNext()) {
 				f = iter.next();
@@ -349,7 +348,6 @@ public class PaintPane extends BorderPane {
 			}
 			fillColorPicker.setValue(fc);			
 		}
-
 		redrawCanvas();
 	}
 
