@@ -167,7 +167,11 @@ public class PaintPane extends BorderPane {
 			}
 			// si el boton de Selection NO esta activo -> dibujo figura
 			else{
-				((FigureToggleButton) selectedButton).getFigureBasedOnPoints(startPoint, endPoint);
+				Figure figure = ((FigureToggleButton) selectedButton).getFigureBasedOnPoints(startPoint, endPoint);
+				figure.setBorderColor(borderColor);
+				figure.setFillColor(fillColor);
+				canvasState.addFigure(figure);
+				redrawCanvas();
 				System.out.println("Hasta aca llegamos");
 			}
 			
