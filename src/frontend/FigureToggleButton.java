@@ -13,7 +13,6 @@ public class FigureToggleButton extends ToggleButton{
     }
 
     public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
-        System.out.println("Se intenta dibujar");
         return figureType.getFigureBasedOnPoints(startPoint, endPoint);
     }
 }

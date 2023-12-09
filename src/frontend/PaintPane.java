@@ -172,7 +172,6 @@ public class PaintPane extends BorderPane {
 				figure.setFillColor(fillColor);
 				canvasState.addFigure(figure);
 				redrawCanvas();
-				System.out.println("Hasta aca llegamos");
 			}
 			
 		});
