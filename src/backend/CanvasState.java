@@ -2,6 +2,7 @@ package backend;
 
 import backend.model.Figure;
 import backend.model.GroupedFigure;
+import backend.model.Point;
 import backend.model.Rectangle;
 
 import java.util.ArrayList;
@@ -45,6 +46,16 @@ public class CanvasState {
     // ventaja? -> mas claridad de codigo y reutilizacion de metodos de List<>
     public boolean deleteFigures(Collection<Figure> figures) {
         return list.removeAll(figures);
+    }
+
+    public Figure getFigureAt(Point point) {
+        for (int i = list.size() - 1; i >= 0; i--) {
+            Figure f = list.get(i);
+            if (f.contains(point))
+                return f;
+        }
+
+        return null;
     }
 
     public int getFiguresOnRectangle(Rectangle rectangle, Collection<Figure> result) {

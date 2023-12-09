@@ -2,6 +2,7 @@ package frontend;
 
 import backend.CanvasState;
 import backend.model.*;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
@@ -65,6 +66,7 @@ public class PaintPane extends BorderPane {
 
 	// Dibujar una figura
 	Point startPoint;
+	boolean isMovingFigures;
 
 	// Seleccionar una figura
 	Set<Figure> selectedFigures = new HashSet<>();
@@ -74,9 +76,6 @@ public class PaintPane extends BorderPane {
 
 	// Barra de selector de efectos
 	EffectsPane effectsPane;
-
-	// Colores de relleno de cada figura
-	Map<Figure, Color> figureColorMap = new HashMap<>();
 
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
 		this.effectsPane = new EffectsPane();
@@ -111,36 +110,41 @@ public class PaintPane extends BorderPane {
 
 		canvas.setOnMousePressed(event -> {
 			startPoint = new Point(event.getX(), event.getY());
+			isMovingFigures = false;
 		});
 
-		canvas.setOnMouseReleased(event -> {
-			Point endPoint = new Point(event.getX(), event.getY());
-			if(startPoint == null /*|| (endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY())*/) {
-				return ;
-			}
-			
-			Figure newFigure = null;
-			for(FigureToggleButton button : figuresArr){
-				if (button.isSelected()) {
-					newFigure = button.getFigureBasedOnPoints(startPoint, endPoint);
-					figureColorMap.put(newFigure, fillColorPicker.getValue());
-					canvasState.addFigure(newFigure);
-					startPoint = null;
-					redrawCanvas();
-					return;
-				}
-			}
+		// canvas.setOnMouseReleased(event -> {
+		// 	Point endPoint = new Point(event.getX(), event.getY());
+		// 	if(startPoint == null) {
+		// 		return ;
+		// 	}
+		// 	Figure newFigure = null;
+		// 	for(FigureToggleButton button : figuresArr){
+		// 		if (button.isSelected()) {
+		// 			newFigure = button.getFigureBasedOnPoints(startPoint, endPoint);
+		// 			canvasState.addFigure(newFigure);
+		// 			startPoint = null;
+		// 			redrawCanvas();
+		// 			return;
+		// 		}
+		// 	}
+		// 	//Un rectangulo imaginario.
+		// 	if (selectionButton.isSelected()){
+		// 		selectedFigures = new HashSet<>();
+		// 		for (Figure figure : canvasState.figures()){
+		// 			if (figure.found(startPoint, endPoint)) {
+		// 				selectedFigures.add(figure);
+		// 			}
+		// 		}
+		// 	}
+		// });
 
-			//Un rectangulo imaginario.
-			if (selectionButton.isSelected()){
-				selectedFigures = new HashSet<>();
-				for (Figure figure : canvasState.figures()){
-					if (figure.found(startPoint, endPoint)) {
-						selectedFigures.add(figure);
-					}
-				}
-			}
-			
+		canvas.setOnMouseReleased(event -> {
+
+			boolean wasMovingFigures = isMovingFigures;
+			isMovingFigures = false;
+
+			Point endPoint = new Point(event.getX(), event.getY());
 			
 		});
 
@@ -268,6 +272,19 @@ public class PaintPane extends BorderPane {
 
 		setLeft(buttonsBox);
 		setRight(canvas);
+	}
+
+	private void onFillColorChanged(ObservableValue<? extends Color> observableValue, Color color, Color newValue) {
+		if (newValue == null)
+			return;
+
+		if (selectedFigures.isEmpty()) {
+			fillColor = newValue;
+		} else {
+			for (Figure figure : selectedFigures)
+				figure.setFillColor(newValue);
+			redrawCanvas();
+		}
 	}
 
 	void redrawCanvas() {
