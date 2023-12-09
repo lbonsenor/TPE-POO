@@ -183,25 +183,17 @@ public class PaintPane extends BorderPane {
 		});
 
 		canvas.setOnMouseClicked(event -> {
-			if(selectionButton.isSelected()) {
+			if(selectionButton.isSelected()) {				
 				Point eventPoint = new Point(event.getX(), event.getY());
-				boolean found = false;
-				StringBuilder label = new StringBuilder("Se seleccionó: ");
-				for (Figure figure : canvasState.figures()) {
-					if(figure.found(eventPoint)) {
-						found = true;
-						selectedFigures = new HashSet<>();
-						selectedFigures.add(figure);
-						label.append(figure.toString());
-					}
+				selectedFigures.clear();
+				Figure selectedFigure = canvasState.getFigureAt(eventPoint);
+				if (selectedFigure != null) {
+					statusPane.updateStatus(selectedFigure.toString());
+					selectedFigures.add(selectedFigure);
+				}else{
+					statusPane.updateStatus(eventPoint.toString());
 				}
-				if (found) {
-					statusPane.updateStatus(label.toString());
-				} else {
-				//	selectedFigure = null;
-					statusPane.updateStatus("Ninguna figura encontrada");
-				}
-				redrawCanvas();
+				onSelectionChanged();
 			}
 		});
 
