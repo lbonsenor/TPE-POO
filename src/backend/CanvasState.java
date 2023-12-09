@@ -49,10 +49,9 @@ public class CanvasState {
     }
 
     public Figure getFigureAt(Point point) {
-        for (int i = list.size() - 1; i >= 0; i--) {
-            Figure f = list.get(i);
-            if (f.contains(point))
-                return f;
+        for (Figure figure : list) {
+            if (figure.contains(point))
+                return figure;
         }
 
         return null;
