@@ -92,8 +92,10 @@ public class PaintPane extends BorderPane {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
 		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, squareButton, ellipseButton,groupButton, ungroupButton, rotateButton, flipHButton, flipVButton, scalePButton, scaleMButton, deleteButton};
-		FigureToggleButton[] figuresArr = {rectangleButton, circleButton, squareButton, ellipseButton};
+		//FigureToggleButton[] figuresArr = {rectangleButton, circleButton, squareButton, ellipseButton};
 		ToggleGroup tools = new ToggleGroup();
+		tools.selectedToggleProperty().addListener(this::onSelectedButtonChanged);
+		fillColorPicker.valueProperty().addListener(this::onFillColorChanged);
 		for (ToggleButton tool : toolsArr) {
 			tool.setMinWidth(90);
 			tool.setToggleGroup(tools);
@@ -150,27 +152,64 @@ public class PaintPane extends BorderPane {
 
 		canvas.setOnMouseReleased(event -> {
 
+			Toggle selectedButton = tools.getSelectedToggle();
+
 			boolean wasMovingFigures = isMovingFigures;
 			isMovingFigures = false;
 
+			if (selectedButton == null || wasMovingFigures){
+				return;
+			}
+
 			Point endPoint = new Point(event.getX(), event.getY());
+
+			// si el boton de Selection esta activo busco figuras
+			// CHEQUEAR CON EQUIPO: que pasa con las figuras agrupadas
+			if (selectedButton == selectionButton) {
+				selectedFigures.clear();
+				if (startPoint.distanceSquaredTo(endPoint) > 1) {
+					try {
+						Rectangle container = Rectangle.from(startPoint, endPoint);
+						canvasState.getFiguresOnRectangle(container, selectedFigures);
+
+						String status;
+						if (selectedFigures.isEmpty()){
+							status = "No se encontraron figuras en el area";
+						}
+						else if (selectedFigures.size() == 1){
+							status = String.format("Se seleccionó: %s", selectedFigures.iterator().next());
+						}
+						else{
+							status = String.format("Se seleccionaron %d figuras", selectedFigures.size());
+						}
+						statusPane.updateStatus(status);
+					} catch (Exception e) {
+						statusPane.updateStatus(e.getMessage());
+					}
+				} 
+				else {
+					Figure selectedFigure = canvasState.getFigureAt(endPoint);
+					if (selectedFigure != null) {
+						selectedFigures.add(selectedFigure);
+						statusPane.updateStatus(String.format("Se seleccionó: %s", selectedFigure));
+					}
+				}
+				onSelectionChanged();
+			}
+			// si el boton de Selection NO esta activo -> dibujo figura
+			else{
+				((FigureToggleButton) selectedButton).getFigureBasedOnPoints(startPoint, endPoint);
+			}
 			
 		});
 
 		canvas.setOnMouseMoved(event -> {
-			Point eventPoint = new Point(event.getX(), event.getY());
-			boolean found = false;
-			StringBuilder label = new StringBuilder();
-			for(Figure figure : canvasState.figures()) {
-				if(figure.found(eventPoint)) {
-					found = true;
-					label.append(figure.toString());
-				}
-			}
-			if(found) {
-				statusPane.updateStatus(label.toString());
-			} else {
-				statusPane.updateStatus(eventPoint.toString());
+			// si no estoy seleccionando figuras
+			// --> muestro el cursor sobre un punto en el plano o sobre una figura
+			if (selectedFigures.isEmpty()) {
+				Point eventPoint = new Point(event.getX(), event.getY());
+				Figure selectedFigure = canvasState.getFigureAt(eventPoint);
+				statusPane.updateStatus(selectedFigure == null ? eventPoint.toString() : selectedFigure.toString());
 			}
 		});
 
