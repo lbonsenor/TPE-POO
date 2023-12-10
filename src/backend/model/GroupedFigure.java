@@ -24,25 +24,25 @@ public class GroupedFigure extends Figure{
         return new HashSet<>(figures);
     }
 
-    @Override
-    public boolean found(Point eventPoint){
-        for (Figure figure : figures){
-            if (figure.found(eventPoint)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // @Override
+    // public boolean found(Point eventPoint){
+    //     for (Figure figure : figures){
+    //         if (figure.found(eventPoint)) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
-    @Override
-    public boolean found(Point startPoint, Point endPoint){
-        for (Figure figure : figures){
-            if (!figure.found(startPoint, endPoint)) {
-                return false;
-            }
-        }
-        return true;
-    }
+    // @Override
+    // public boolean found(Point startPoint, Point endPoint){
+    //     for (Figure figure : figures){
+    //         if (!figure.found(startPoint, endPoint)) {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
 
     @Override
     public void rotate(){
