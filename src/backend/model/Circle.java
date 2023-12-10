@@ -21,16 +21,6 @@ public class Circle extends Ellipse {
     }
 
     @Override
-    public void draw(GraphicsContext gc){
-        double diameter = this.radius * 2;
-	    gc.fillOval(this.centerPoint.getX() - this.radius, 
-                    this.centerPoint.getY() - this.radius, 
-                    diameter, diameter);
-		gc.strokeOval(this.centerPoint.getX() - this.radius, 
-                      this.centerPoint.getY() - this.radius, diameter, diameter);
-    }
-
-    @Override
     public void shadow(GraphicsContext gc){
         double diameter = this.radius * 2;
         gc.fillOval(this.getCenterPoint().getX() - this.getRadius() + SHADOWOFFSET,
