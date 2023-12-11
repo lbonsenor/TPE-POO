@@ -9,6 +9,7 @@ import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -50,14 +51,14 @@ public class PaintPane extends BorderPane {
 	FigureToggleButton circleButton = new FigureToggleButton(FigureButtonEnum.CIRCLE);
 	FigureToggleButton squareButton = new FigureToggleButton(FigureButtonEnum.SQUARE);
 	FigureToggleButton ellipseButton = new FigureToggleButton(FigureButtonEnum.ELLIPSE);
-	ToggleButton groupButton = new ToggleButton("Agrupar");
-	ToggleButton ungroupButton = new ToggleButton("Desagrupar");
-	ToggleButton rotateButton = new ToggleButton("Girar D");
-	ToggleButton flipHButton = new ToggleButton("Voltear H");
-	ToggleButton flipVButton = new ToggleButton("Voltear V");
-	ToggleButton scalePButton = new ToggleButton("Escalar +");
-	ToggleButton scaleMButton = new ToggleButton("Escalar -");
-	ToggleButton deleteButton = new ToggleButton("Borrar");
+	Button groupButton = new Button("Agrupar");
+	Button ungroupButton = new Button("Desagrupar");
+	Button rotateButton = new Button("Girar D");
+	Button flipHButton = new Button("Voltear H");
+	Button flipVButton = new Button("Voltear V");
+	Button scalePButton = new Button("Escalar +");
+	Button scaleMButton = new Button("Escalar -");
+	Button deleteButton = new Button("Borrar");
 
 	// Selector de color de relleno
 	ColorPicker fillColorPicker = new ColorPicker(DEFAULT_FIGURE_FILL_COLOR);
@@ -91,19 +92,24 @@ public class PaintPane extends BorderPane {
 		this.setTop(effectsPane);
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
-		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, squareButton, ellipseButton,groupButton, ungroupButton, rotateButton, flipHButton, flipVButton, scalePButton, scaleMButton, deleteButton};
-		//FigureToggleButton[] figuresArr = {rectangleButton, circleButton, squareButton, ellipseButton};
+		ToggleButton[] figuresButtons = {selectionButton, rectangleButton, circleButton, squareButton, ellipseButton,};
+		ButtonBase[] functionalitiesButtons = { groupButton, ungroupButton, rotateButton, flipHButton, flipVButton, scalePButton, scaleMButton, deleteButton};
 		ToggleGroup tools = new ToggleGroup();
 		
 		fillColorPicker.valueProperty().addListener(this::onFillColorChanged);
-		for (ToggleButton tool : toolsArr) {
+		for (ToggleButton tool : figuresButtons) {
 			tool.setMinWidth(90);
 			tool.setToggleGroup(tools);
 			tool.setCursor(Cursor.HAND);
 		}
+		for (ButtonBase tool : functionalitiesButtons) {
+			tool.setMinWidth(90);
+			tool.setCursor(Cursor.HAND);
+		}
 		
 		VBox buttonsBox = new VBox(10);
-		buttonsBox.getChildren().addAll(toolsArr);
+		buttonsBox.getChildren().addAll(figuresButtons);
+		buttonsBox.getChildren().addAll(functionalitiesButtons);
 		buttonsBox.getChildren().add(fillColorPicker);
 
 		buttonsBox.getChildren().add(layerLabel);
@@ -220,8 +226,8 @@ public class PaintPane extends BorderPane {
 		deleteButton.setOnAction(event -> {
 			// si hay figuras seleccionadas se van a borrar sino no habra cambios
 			canvasState.deleteFigures(selectedFigures);
+			System.out.println("Lista de figuras en el back: "+canvasState.listSize());
 			selectedFigures.clear();
-			System.out.println("luego de borrar tamaño es "+selectedFigures.size());
 			onSelectionChanged();
 		});
 
