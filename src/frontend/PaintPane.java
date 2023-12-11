@@ -26,12 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class PaintPane extends BorderPane {
 
@@ -70,8 +65,7 @@ public class PaintPane extends BorderPane {
 	// Tags
 	Label tagLabel = new Label("Etiquetas");
 	TextArea tagArea = new TextArea();
-	Button tagButton = new Button("Guardar");
-
+	Button tagButton = new Button("Guardar"); //todo: es q sino no me deja usar isClicked.
 
 	// Dibujar una figura
 	Point startPoint;
@@ -227,8 +221,36 @@ public class PaintPane extends BorderPane {
 							found = true;
 							selectedFigures = new HashSet<>();
 							selectedFigures.add((GCFigure) figure);
-							label.append(figure.toString());
+
+							//Muestra tags de UNA SOLA figura.
+							if (canvasState.hasOne(selectedFigures)) {
+								tagButton.arm();
+								if (tagButton.isArmed()) {
+									tagArea.appendText(canvasState.getTags(selectedFigures));
+									//	tagArea.appendText("YES\n");
+
+								//Nose como guardar los tags BIEN. Funciona, PERO raro.
+
+									List<String> toAddTags = new ArrayList<>();
+									if (tagArea.getText().contains("\n")) {
+										toAddTags = Arrays.stream(tagArea.getText().split("\n")).toList();
+									} else if (tagArea.getText().contains(" ")) {
+										toAddTags = Arrays.stream(tagArea.getText().split(" ")).toList();
+									} else toAddTags.add(tagArea.getText());
+
+									canvasState.changeTag(selectedFigures, toAddTags);
+								}
+
+							}
 						}
+
+						else {
+									tagArea.disableProperty(); // todo Nose si es esta funcion
+									tagButton.disableProperty();
+						}
+
+							tagButton.disarm();
+							label.append(figure.toString());
 					}
 					if (found) {
 						statusPane.updateStatus(label.toString());
