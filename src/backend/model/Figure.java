@@ -8,8 +8,6 @@ import javafx.scene.paint.Color;
 public abstract class Figure{
 
     private final Point[] keyPoints;
-    private Color fillColor;
-    private Color borderColor;
 
     protected final static int SHADOWOFFSET = 10;
 
@@ -22,22 +20,6 @@ public abstract class Figure{
     public void changePos(double deltaX, double deltaY) {
         for (Point p : keyPoints)
             p.changePos(deltaX, deltaY);
-    }
-
-    public void setBorderColor(Color borderColor) {
-        this.borderColor = borderColor;
-    }
-
-    public Color getBorderColor() {
-        return borderColor;
-    }
-
-    public void setFillColor(Color fillColor) {
-        this.fillColor = fillColor;
-    }
-
-    public Color getFillColor() {
-        return fillColor;
     }
 
     public abstract void shadow(GraphicsContext gc);

@@ -1,6 +1,6 @@
 package backend.model;
 
-import backend.Movable;
+import frontend.paintFigures.Movable;
 
 public class Point implements Movable{
 
