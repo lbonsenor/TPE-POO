@@ -47,26 +47,10 @@ public class Rectangle extends Figure {
     // -> generado, "no dibujado"
     public static Rectangle from(Point pointA, Point pointB) {
         return new Rectangle(
-                new Point(Math.min(pointA.getX(), pointB.getX()), Math.min(pointA.getY(), pointB.getY())),
-                new Point(Math.max(pointA.getX(), pointB.getX()), Math.max(pointA.getY(), pointB.getY()))
+            new Point(pointA.getX()<pointB.getX() ? pointA.getX():pointB.getX(), pointA.getY()<pointB.getY() ? pointA.getY():pointB.getY()),
+            new Point(pointA.getX()>pointB.getX() ? pointA.getX():pointB.getX(), pointA.getY()>pointB.getY() ? pointA.getY():pointB.getY())
         );
     }
-
-    // @Override
-    // public boolean found(Point eventPoint){
-    //     return eventPoint.getX() > this.topLeft.getX() 
-    //            && eventPoint.getX() < this.bottomRight.getX() 
-    //            && eventPoint.getY() > this.topLeft.getY() 
-    //            && eventPoint.getY() < this.bottomRight.getY();
-    // }
-
-    // @Override
-    // public boolean found(Point startPoint, Point endPoint){
-    //     return startPoint.getX() < this.topLeft.getX()
-    //            && startPoint.getY() < this.topLeft.getY()
-    //            && endPoint.getX() > this.bottomRight.getX()
-    //            && endPoint.getY() > this.bottomRight.getY();
-    // }
 
     @Override
     public boolean contains(Point point) {

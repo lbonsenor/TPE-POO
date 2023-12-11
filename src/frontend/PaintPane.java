@@ -68,9 +68,9 @@ public class PaintPane extends BorderPane {
 	ComboBox<String> layerCB = new ComboBox<String>(FXCollections.observableArrayList(layers)); //Test
 	
 	// Tags
-	Label tagLabel = new Label("Etiquetas");
-	TextArea tagArea = new TextArea();
-	Button tagButton = new Button("Guardar");
+	//Label tagLabel = new Label("Etiquetas");
+	//TextArea tagArea = new TextArea();
+	//Button tagButton = new Button("Guardar");
 
 	// Dibujar una figura
 	Point startPoint;
@@ -81,7 +81,7 @@ public class PaintPane extends BorderPane {
 	Set<Figure> selectedFigures = new HashSet<>();
 
 	// StatusBar
-	StatusPane statusPane;
+	private final StatusPane statusPane;
 
 	// Barra de selector de efectos
 	EffectsPane effectsPane;
@@ -109,10 +109,10 @@ public class PaintPane extends BorderPane {
 		buttonsBox.getChildren().add(layerLabel);
 		buttonsBox.getChildren().add(layerCB);
 
-		buttonsBox.getChildren().add(tagLabel);
-		buttonsBox.getChildren().add(tagArea);
-		buttonsBox.getChildren().add(tagButton);
-		tagArea.setPrefHeight(10);
+		//buttonsBox.getChildren().add(tagLabel);
+		//buttonsBox.getChildren().add(tagArea);
+		//buttonsBox.getChildren().add(tagButton);
+		//tagArea.setPrefHeight(10);
 
 		buttonsBox.setPadding(new Insets(5));
 		buttonsBox.setStyle("-fx-background-color: #999");
@@ -144,6 +144,7 @@ public class PaintPane extends BorderPane {
 				if (startPoint.distanceSquaredTo(endPoint) > 1) {
 					Rectangle container = Rectangle.from(startPoint, endPoint);
 					canvasState.getFiguresOnRectangle(container, selectedFigures);
+					System.out.println(selectedFigures.size());
 					String status;
 					if (selectedFigures.isEmpty()){
 						status = "No se encontraron figuras en el area";
@@ -154,6 +155,7 @@ public class PaintPane extends BorderPane {
 					else{
 						status = String.format("Se seleccionaron %d figuras", selectedFigures.size());
 					}
+					System.out.println(status);
 					statusPane.updateStatus(status);
 				} 
 				else {
