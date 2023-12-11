@@ -24,26 +24,26 @@ public class Rectangle implements Figure {
 
     @Override
     public void changePos(double diffX, double diffY){
-        this.getTopLeft().x += diffX;
-		this.getBottomRight().x += diffX;
-		this.getTopLeft().y += diffY;
-		this.getBottomRight().y += diffY;
+        getTopLeft().x += diffX;
+		getBottomRight().x += diffX;
+		getTopLeft().y += diffY;
+		getBottomRight().y += diffY;
     }
 
     @Override
     public boolean found(Point eventPoint){
-        return eventPoint.getX() > this.topLeft.getX() 
-               && eventPoint.getX() < this.bottomRight.getX() 
-               && eventPoint.getY() > this.topLeft.getY() 
-               && eventPoint.getY() < this.bottomRight.getY();
+        return eventPoint.getX() > topLeft.getX() 
+               && eventPoint.getX() < bottomRight.getX() 
+               && eventPoint.getY() > topLeft.getY() 
+               && eventPoint.getY() < bottomRight.getY();
     }
 
     @Override
     public boolean found(Point startPoint, Point endPoint){
-        return startPoint.getX() < this.topLeft.getX()
-               && startPoint.getY() < this.topLeft.getY()
-               && endPoint.getX() > this.bottomRight.getX()
-               && endPoint.getY() > this.bottomRight.getY();
+        return startPoint.getX() < topLeft.getX()
+               && startPoint.getY() < topLeft.getY()
+               && endPoint.getX() > bottomRight.getX()
+               && endPoint.getY() > bottomRight.getY();
     }
 
     @Override
@@ -73,12 +73,12 @@ public class Rectangle implements Figure {
 
     @Override
     public void flipH(){
-        this.changePos(bottomRight.getX()-topLeft.getX(), 0);
+        changePos(bottomRight.getX()-topLeft.getX(), 0);
     }
 
     @Override
     public void flipV(){
-        this.changePos(0, bottomRight.getY()-topLeft.getY());
+        changePos(0, bottomRight.getY()-topLeft.getY());
     }
 
     private double[] getCenterPoints(){

@@ -24,7 +24,7 @@ public class Circle extends Ellipse {
         this.radius *= Math.sqrt(multiplier);
     }
 
-    public double getRadius() {
+    protected double getRadius() {
         return radius;
     }
 

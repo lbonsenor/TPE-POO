@@ -63,15 +63,15 @@ public class Ellipse implements Figure {
         return String.format("Elipse [Centro: %s, DMayor: %.2f, DMenor: %.2f]", centerPoint, sMayorAxis, sMinorAxis);
     }
 
-    public Point getCenterPoint() {
+    protected Point getCenterPoint() {
         return centerPoint;
     }
 
-    public double getsMayorAxis() {
+    protected double getsMayorAxis() {
         return sMayorAxis;
     }
 
-    public double getsMinorAxis() {
+    protected double getsMinorAxis() {
         return sMinorAxis;
     }
 

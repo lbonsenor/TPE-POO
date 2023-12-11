@@ -1,7 +1,10 @@
 package frontend;
 
 import backend.CanvasState;
-import backend.model.*;
+import backend.model.GroupedFigure;
+import backend.model.Point;
+import frontend.gcmodel.GCFigure;
+import frontend.gcmodel.GCGroupedFigure;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -31,7 +34,7 @@ import java.util.Set;
 public class PaintPane extends BorderPane {
 
 	// BackEnd
-	CanvasState canvasState;
+	CanvasState<GCFigure> canvasState;
 
 	// Canvas y relacionados, se le agrega mas altura para que utilice todo el canvas 
 	Canvas canvas = new Canvas(800, 665);
@@ -72,14 +75,14 @@ public class PaintPane extends BorderPane {
 	Point startPoint;
 
 	// Seleccionar una figura
-	Set<Figure> selectedFigures = new HashSet<>();
+	Set<GCFigure> selectedFigures = new HashSet<>();
 
 	// Panes
 	StatusPane statusPane;
 	TagsPane tagsPane;
 
 	// Colores de relleno de cada figura
-	Map<Figure, Color> figureColorMap = new HashMap<>();
+	Map<GCFigure, Color> figureColorMap = new HashMap<>();
 
 	// Mostrar Capas
 	    Label layerShownLabel = new Label("Mostrar Capas:");
@@ -88,10 +91,9 @@ public class PaintPane extends BorderPane {
     	CheckBox layer3 = new CheckBox("Layer 3");
 		CheckBox[] layersCheckBoxes = {layer1, layer2, layer3}; 
 
-	public PaintPane(CanvasState canvasState, StatusPane statusPane, TagsPane tagsPane) {
+	public PaintPane(CanvasState<GCFigure> canvasState, StatusPane statusPane, TagsPane tagsPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
-		//this.layersPane = layersPane;
 		this.tagsPane = tagsPane;
 
 		currentLayer.setValue("Layer 1");
@@ -146,7 +148,7 @@ public class PaintPane extends BorderPane {
 				return ;
 			}
 			
-			Figure newFigure = null;
+			GCFigure newFigure = null;
 			for(FigureToggleButton button : figuresArr){
 				if (button.isSelected()) {
 					newFigure = button.getFigureBasedOnPoints(startPoint, endPoint);
@@ -162,10 +164,10 @@ public class PaintPane extends BorderPane {
 			if (selectionButton.isSelected()){
 				boolean found = false;
 				if (checkOneLayer("Seleccion Multiple")) {
-					for (Figure figure : canvasState.figures(currentLayer.getValue())){
+					for (GCFigure figure : canvasState.figures(currentLayer.getValue())){
 						if (figure.found(startPoint, endPoint)) {
 							found = true;
-							selectedFigures.add(figure);
+							selectedFigures.add((GCFigure) figure);
 						}
 					}
 					if (found) statusPane.updateStatus("Figuras seleccionadas mediante Seleccion Multiple");
@@ -178,7 +180,7 @@ public class PaintPane extends BorderPane {
 			Point eventPoint = new Point(event.getX(), event.getY());
 			boolean found = false;
 			StringBuilder label = new StringBuilder();
-			for(Figure figure : canvasState.figures(getLayersShown())) {
+			for(GCFigure figure : canvasState.figures(getLayersShown())) {
 				if(figure.found(eventPoint)) {
 					found = true;
 					label.append(figure.toString());
@@ -200,11 +202,11 @@ public class PaintPane extends BorderPane {
 				if (eventPoint.equals(startPoint)) {
 					selectedFigures = new HashSet<>(); // Creo un nuevo HashSet para que no se seleccione
 					StringBuilder label = new StringBuilder("Se seleccionó: ");
-					for (Figure figure : canvasState.figures(currentLayer.getValue())) {
+					for (GCFigure figure : canvasState.figures(currentLayer.getValue())) {
 						if(figure.found(eventPoint)) {
 							found = true;
 							selectedFigures = new HashSet<>();
-							selectedFigures.add(figure);
+							selectedFigures.add((GCFigure) figure);
 							label.append(figure.toString());
 						}
 					}
@@ -231,7 +233,7 @@ public class PaintPane extends BorderPane {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				double diffX = (eventPoint.getX() - startPoint.getX()) / 100;
 				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
-				for (Figure figure : selectedFigures){
+				for (GCFigure figure : selectedFigures){
 					figure.changePos(diffX, diffY);
 					redrawCanvas();
 				}
@@ -240,16 +242,14 @@ public class PaintPane extends BorderPane {
 
 		deleteButton.setOnAction(event -> {
 			if (selectedFigures != null) {
-				for (Figure figure : selectedFigures){
-					canvasState.deleteFigure(figure, currentLayer.getValue());
-				}
+				canvasState.deleteFigure(selectedFigures, currentLayer.getValue());
 				redrawCanvas();
 			}
 		});
 
 		rotateButton.setOnAction(event -> {
 			if (selectedFigures != null) {
-				for (Figure figure : selectedFigures){
+				for (GCFigure figure : selectedFigures){
 					figure.rotate();
 				}
 				redrawCanvas();
@@ -258,7 +258,7 @@ public class PaintPane extends BorderPane {
 
 		scalePButton.setOnAction(event->{
 			if (selectedFigures != null) {
-				for (Figure figure : selectedFigures){
+				for (GCFigure figure : selectedFigures){
 					figure.scale(1.25);
 				}
 				redrawCanvas();
@@ -267,7 +267,7 @@ public class PaintPane extends BorderPane {
 
 		scaleMButton.setOnAction(event->{
 			if (selectedFigures != null) {
-				for (Figure figure : selectedFigures){
+				for (GCFigure figure : selectedFigures){
 					figure.scale(0.75);
 				}
 				redrawCanvas();
@@ -276,7 +276,7 @@ public class PaintPane extends BorderPane {
 
 		flipHButton.setOnAction(event ->{
 			if (selectedFigures != null) {
-				for (Figure figure : selectedFigures){
+				for (GCFigure figure : selectedFigures){
 					figure.flipH();
 				}
 				redrawCanvas();
@@ -285,7 +285,7 @@ public class PaintPane extends BorderPane {
 
 		flipVButton.setOnAction(event ->{
 			if (selectedFigures != null) {
-				for (Figure figure : selectedFigures){
+				for (GCFigure figure : selectedFigures){
 					figure.flipV();
 				}
 				redrawCanvas();
@@ -295,8 +295,10 @@ public class PaintPane extends BorderPane {
 		groupButton.setOnAction(event ->{
 			if (selectedFigures != null) {
 				if (checkOneLayer("Agrupar")) {
-					canvasState.groupFigures(selectedFigures, currentLayer.getValue());
-					redrawCanvas();
+					String layerName = currentLayer.getValue();
+					GCGroupedFigure groupedFigure = new GCGroupedFigure(selectedFigures);
+					canvasState.deleteFigure(selectedFigures, layerName);
+					canvasState.addFigure(groupedFigure, layerName);
 				}
 			}
 		});
@@ -304,7 +306,16 @@ public class PaintPane extends BorderPane {
 		ungroupButton.setOnAction(event ->{
 			if (selectedFigures != null) {
 				if (checkOneLayer("Desagrupar")) {
-					canvasState.ungroupFigures(selectedFigures, currentLayer.getValue());
+					String layerName = currentLayer.getValue();
+					for (GCFigure figure : selectedFigures){
+						// Solo tiene que desagrupar si es una figura agrupada
+						if (figure instanceof GroupedFigure) {
+							canvasState.deleteFigure(figure, layerName);
+							GCGroupedFigure group = (GCGroupedFigure) figure;
+							canvasState.addFigure(group.getFiguresCopy(), layerName);
+							
+						}
+					}
 					redrawCanvas();
 				}
 			}
@@ -317,66 +328,16 @@ public class PaintPane extends BorderPane {
 
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		for(Figure figure : canvasState.figures(getLayersShown())) {
+		for(GCFigure figure : canvasState.figures(getLayersShown())) {
 				if (selectedFigures != null && selectedFigures.contains(figure)) {
 					gc.setStroke(Color.RED);
 				} else {
 					gc.setStroke(lineColor);
 				}
 				gc.setFill(figureColorMap.get(figure));
-				createFigure(gc, figure);
+				figure.createFigure(gc);
 		}
 		}
-
-	// Como GraphicsContext es final, estas funciones tienen que crearse de esta manera
-	// Si no fuera final, se debería crear una clase que extienda a GraphicsContext y que esten estas funciones ahi, sin la necesidad de createFigure(GraphicsContext gc, Figure figure)
-	private void createFigure(GraphicsContext gc, Figure figure){
-		if (figure instanceof Circle) {
-			createFigure(gc, (Circle) figure);
-		}
-		else if (figure instanceof Rectangle) {
-			createFigure(gc, (Rectangle) figure);
-		}
-		else if (figure instanceof Ellipse) {
-			createFigure(gc, (Ellipse) figure);
-		}
-		else if (figure instanceof GroupedFigure){
-			createFigure(gc, (GroupedFigure) figure);
-		}
-	}
-
-	private void createFigure(GraphicsContext gc, Circle figureCircle){
-		double diameter = figureCircle.getRadius() * 2;
-	    gc.fillOval(figureCircle.getCenterPoint().getX() - figureCircle.getRadius(), 
-                    figureCircle.getCenterPoint().getY() - figureCircle.getRadius(), 
-                    diameter, diameter);
-		gc.strokeOval(figureCircle.getCenterPoint().getX() - figureCircle.getRadius(), 
-                    figureCircle.getCenterPoint().getY() - figureCircle.getRadius(), diameter, diameter);
-	}
-
-	private void createFigure(GraphicsContext gc, Ellipse figureEllipse){
-		gc.strokeOval(figureEllipse.getCenterPoint().getX() - (figureEllipse.getsMayorAxis() / 2), 
-			figureEllipse.getCenterPoint().getY() - (figureEllipse.getsMinorAxis() / 2), 
-			figureEllipse.getsMayorAxis(), figureEllipse.getsMinorAxis());
-		gc.fillOval(figureEllipse.getCenterPoint().getX() - (figureEllipse.getsMayorAxis() / 2), 
-			figureEllipse.getCenterPoint().getY() - (figureEllipse.getsMinorAxis() / 2), 
-			figureEllipse.getsMayorAxis(), figureEllipse.getsMinorAxis());
-	}
-
-	private void createFigure(GraphicsContext gc, Rectangle figureRectangle){
-		gc.fillRect(figureRectangle.getTopLeft().getX(), figureRectangle.getTopLeft().getY(),
-			Math.abs(figureRectangle.getTopLeft().getX() - figureRectangle.getBottomRight().getX()), 
-			Math.abs(figureRectangle.getTopLeft().getY() - figureRectangle.getBottomRight().getY()));
-		gc.strokeRect(figureRectangle.getTopLeft().getX(), figureRectangle.getTopLeft().getY(),
-			Math.abs(figureRectangle.getTopLeft().getX() - figureRectangle.getBottomRight().getX()), 
-			Math.abs(figureRectangle.getTopLeft().getY() - figureRectangle.getBottomRight().getY()));
-	}
-
-	private void createFigure(GraphicsContext gc, GroupedFigure figureGrouped){
-		for (Figure figure : figureGrouped.getFiguresCopy()){
-			createFigure(gc, figure);
-		}
-	}
 
 	private List<String> getLayersShown(){
 		List<String> toReturn = new ArrayList<>();
