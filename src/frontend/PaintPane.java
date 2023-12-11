@@ -16,7 +16,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
@@ -79,7 +81,6 @@ public class PaintPane extends BorderPane {
 
 	// Panes
 	StatusPane statusPane;
-	TagsPane tagsPane;
 
 	// Colores de relleno de cada figura
 	Map<GCFigure, Color> figureColorMap = new HashMap<>();
@@ -91,10 +92,16 @@ public class PaintPane extends BorderPane {
     	CheckBox layer3 = new CheckBox("Layer 3");
 		CheckBox[] layersCheckBoxes = {layer1, layer2, layer3}; 
 
-	public PaintPane(CanvasState<GCFigure> canvasState, StatusPane statusPane, TagsPane tagsPane) {
+	// Mostrar Tags
+		ToggleGroup toggleGroup = new ToggleGroup();
+		Label showLabel = new Label("Mostrar etiquetas:");
+		RadioButton showAll = new RadioButton("Todas");
+		RadioButton showOnly = new RadioButton("Sólo");
+		TextField showOnlyField = new TextField();
+
+	public PaintPane(CanvasState<GCFigure> canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
-		this.tagsPane = tagsPane;
 
 		currentLayer.setValue("Layer 1");
 
@@ -129,14 +136,27 @@ public class PaintPane extends BorderPane {
 
         layerBox.setPadding(new Insets(5));
         layerBox.setStyle("-fx-background-color: #999");
-        setBottom(layerBox);
         layerBox.setAlignment(Pos.CENTER);
 
 		for (CheckBox checkBox : layersCheckBoxes){
 			checkBox.setSelected(true);
 		}
 
-		// -------------------------------------- //
+		// ----------- HBOX DE TAGS ----------- //
+		HBox tagBox = new HBox(10);
+		tagBox.getChildren().addAll(showLabel, showAll, showOnly, showOnlyField);
+		tagBox.setPadding(new Insets(5));
+		tagBox.setStyle("-fx-background-color: #999");
+		setBottom(tagBox);
+		tagBox.setAlignment(Pos.CENTER);
+
+		showAll.setToggleGroup(toggleGroup);
+		showAll.setSelected(true);
+		showOnly.setToggleGroup(toggleGroup);
+
+		// ----------- VBOX DE MOSTRAR ----------- //
+		VBox shownBox = new VBox(layerBox, tagBox);
+		setBottom(shownBox);
 	
 		canvas.setOnMousePressed(event -> {
 			startPoint = new Point(event.getX(), event.getY());
