@@ -4,7 +4,6 @@ import backend.model.Figure;
 import backend.model.GroupedFigure;
 import backend.model.Point;
 import backend.model.Rectangle;
-import frontend.paintFigures.PaintFigure;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,11 +11,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class CanvasState implements Iterable<PaintFigure>{
+public class CanvasState implements Iterable<Figure>{
 
-    private List<PaintFigure> figuresList = new ArrayList<>();
+    private List<Figure> figuresList = new ArrayList<>();
 
-    public void addFigure(PaintFigure figure) {
+    public void addFigure(Figure figure) {
         figuresList.add(figure);
     }
 
@@ -46,12 +45,12 @@ public class CanvasState implements Iterable<PaintFigure>{
     
     // borrar con conjunto de figuras nos ahorra iterar el conjunto de figuras original
     // ventaja? -> mas claridad de codigo y reutilizacion de metodos de List<>
-    public boolean deleteFigures(Collection<PaintFigure> figures) {
+    public boolean deleteFigures(Collection<Figure> figures) {
         return figuresList.removeAll(figures);
     }
 
     public Figure getFigureAt(Point point) {
-        for (PaintFigure figure : figuresList) {
+        for (Figure figure : figuresList) {
             if (figure.contains(point)){
                 return figure;
             }
@@ -60,8 +59,8 @@ public class CanvasState implements Iterable<PaintFigure>{
         return null;
     }
 
-    public void getFiguresOnRectangle(Rectangle rectangle, Collection<PaintFigure> result) {
-        for (PaintFigure f : figuresList) {
+    public void getFiguresOnRectangle(Rectangle rectangle, Collection<Figure> result) {
+        for (Figure f : figuresList) {
             if (f.isContainedIn(rectangle))
             {
                 result.add(f);
@@ -70,7 +69,7 @@ public class CanvasState implements Iterable<PaintFigure>{
     }
 
     @Override
-    public Iterator<PaintFigure> iterator() {
+    public Iterator<Figure> iterator() {
         return figuresList.iterator();
     }
 
