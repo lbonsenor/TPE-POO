@@ -20,15 +20,15 @@ public class Ellipse extends Figure {
 		this.getCenterPoint().y += diffY;
     }
 
-    @Override
-    public void draw(GraphicsContext gc){
-        gc.strokeOval(this.getCenterPoint().getX() - (this.getsMayorAxis() / 2), 
-                      this.getCenterPoint().getY() - (this.getsMinorAxis() / 2), 
-                      this.getsMayorAxis(), this.getsMinorAxis());
-		gc.fillOval(this.getCenterPoint().getX() - (this.getsMayorAxis() / 2), 
-                    this.getCenterPoint().getY() - (this.getsMinorAxis() / 2), 
-                    this.getsMayorAxis(), this.getsMinorAxis());
-    }
+    // @Override
+    // public void draw(GraphicsContext gc){
+    //     gc.strokeOval(this.getCenterPoint().getX() - (this.getsMayorAxis() / 2), 
+    //                   this.getCenterPoint().getY() - (this.getsMinorAxis() / 2), 
+    //                   this.getsMayorAxis(), this.getsMinorAxis());
+	// 	gc.fillOval(this.getCenterPoint().getX() - (this.getsMayorAxis() / 2), 
+    //                 this.getCenterPoint().getY() - (this.getsMinorAxis() / 2), 
+    //                 this.getsMayorAxis(), this.getsMinorAxis());
+    // }
    
     @Override
     public boolean contains(Point point) {

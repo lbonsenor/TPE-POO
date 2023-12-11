@@ -76,12 +76,6 @@ public class GroupedFigure extends Figure{
     }
 
     @Override
-    public void draw(GraphicsContext gc) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'redraw'");
-    }
-
-    @Override
     public void shadow(GraphicsContext gc) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'shadow'");

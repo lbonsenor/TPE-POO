@@ -4,6 +4,7 @@ import backend.model.Figure;
 import backend.model.GroupedFigure;
 import backend.model.Point;
 import backend.model.Rectangle;
+import frontend.paintFigures.PaintFigure;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,7 +14,7 @@ import java.util.Set;
 
 public class CanvasState implements Iterable<Figure>{
 
-    private List<Figure> figuresList = new ArrayList<>();
+    private List<PaintFigure> figuresList = new ArrayList<>();
 
     public void addFigure(Figure figure) {
         figuresList.add(figure);

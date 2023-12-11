@@ -1,4 +1,4 @@
-package backend;
+package frontend.paintFigures;
 
 import javafx.scene.paint.Color;
 

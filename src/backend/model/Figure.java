@@ -1,12 +1,11 @@
 package backend.model;
 
-import backend.Colorable;
-import backend.Drawable;
-import backend.Movable;
+import frontend.paintFigures.Colorable;
+import frontend.paintFigures.Drawable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public abstract class Figure implements Movable, Drawable, Colorable{
+public abstract class Figure{
 
     private final Point[] keyPoints;
     private Color fillColor;
@@ -20,7 +19,6 @@ public abstract class Figure implements Movable, Drawable, Colorable{
 
     // muevo los puntos que definen a una figura
     // -> la misma cambiara su posicion al ser dibujada
-    @Override
     public void changePos(double deltaX, double deltaY) {
         for (Point p : keyPoints)
             p.changePos(deltaX, deltaY);
@@ -51,9 +49,6 @@ public abstract class Figure implements Movable, Drawable, Colorable{
 
     // nueva forma de utilizar "found" con respecto al rectangulo invisible
     public abstract boolean isContainedIn(Rectangle rectangle);
-    
-    //public abstract boolean found(Point eventPoint);
-    //public abstract boolean found(Point startPoint, Point endPoint);
 
     public abstract void rotate();
     public abstract void scale(double multiplier);

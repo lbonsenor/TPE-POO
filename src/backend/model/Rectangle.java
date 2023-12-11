@@ -33,15 +33,15 @@ public class Rectangle extends Figure {
 		this.getBottomRight().y += diffY;
     }
 
-    @Override
-    public void draw(GraphicsContext gc){
-        gc.fillRect(this.getTopLeft().getX(), this.getTopLeft().getY(),
-					Math.abs(this.getTopLeft().getX() - this.getBottomRight().getX()), 
-                    Math.abs(this.getTopLeft().getY() - this.getBottomRight().getY()));
-		gc.strokeRect(this.getTopLeft().getX(), this.getTopLeft().getY(),
-					  Math.abs(this.getTopLeft().getX() - this.getBottomRight().getX()), 
-                      Math.abs(this.getTopLeft().getY() - this.getBottomRight().getY()));
-    }
+    // @Override
+    // public void draw(GraphicsContext gc){
+    //     gc.fillRect(this.getTopLeft().getX(), this.getTopLeft().getY(),
+	// 				Math.abs(this.getTopLeft().getX() - this.getBottomRight().getX()), 
+    //                 Math.abs(this.getTopLeft().getY() - this.getBottomRight().getY()));
+	// 	gc.strokeRect(this.getTopLeft().getX(), this.getTopLeft().getY(),
+	// 				  Math.abs(this.getTopLeft().getX() - this.getBottomRight().getX()), 
+    //                   Math.abs(this.getTopLeft().getY() - this.getBottomRight().getY()));
+    // }
 
     // unicamente genera rectangulo invisible
     // -> generado, "no dibujado"
