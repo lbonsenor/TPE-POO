@@ -12,12 +12,12 @@ public class GCEllipse extends Ellipse implements GCFigure{
 
     @Override
     public void createFigure(GraphicsContext gc) {
-        gc.strokeOval(this.getCenterPoint().getX() - (this.getsMayorAxis() / 2), 
-			this.getCenterPoint().getY() - (this.getsMinorAxis() / 2), 
-			this.getsMayorAxis(), this.getsMinorAxis());
-		gc.fillOval(this.getCenterPoint().getX() - (this.getsMayorAxis() / 2), 
-			this.getCenterPoint().getY() - (this.getsMinorAxis() / 2), 
-			this.getsMayorAxis(), this.getsMinorAxis());
+        gc.strokeOval(getCenterPoint().getX() - (getsMayorAxis() / 2), 
+			getCenterPoint().getY() - (getsMinorAxis() / 2), 
+			getsMayorAxis(), getsMinorAxis());
+		gc.fillOval(getCenterPoint().getX() - (getsMayorAxis() / 2), 
+			getCenterPoint().getY() - (getsMinorAxis() / 2), 
+			getsMayorAxis(), getsMinorAxis());
     }
 
 

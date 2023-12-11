@@ -12,12 +12,12 @@ public class GCRectangle extends Rectangle implements GCFigure{
 
     @Override
     public void createFigure(GraphicsContext gc) {
-        gc.fillRect(this.getTopLeft().getX(), this.getTopLeft().getY(),
-			Math.abs(this.getTopLeft().getX() - this.getBottomRight().getX()), 
-			Math.abs(this.getTopLeft().getY() - this.getBottomRight().getY()));
-		gc.strokeRect(this.getTopLeft().getX(), this.getTopLeft().getY(),
-			Math.abs(this.getTopLeft().getX() - this.getBottomRight().getX()), 
-			Math.abs(this.getTopLeft().getY() - this.getBottomRight().getY()));
+        gc.fillRect(getTopLeft().getX(), getTopLeft().getY(),
+			Math.abs(getTopLeft().getX() - getBottomRight().getX()), 
+			Math.abs(getTopLeft().getY() - getBottomRight().getY()));
+		gc.strokeRect(getTopLeft().getX(), getTopLeft().getY(),
+			Math.abs(getTopLeft().getX() - getBottomRight().getX()), 
+			Math.abs(getTopLeft().getY() - getBottomRight().getY()));
     }
 
 }

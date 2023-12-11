@@ -13,7 +13,8 @@ public class CanvasState<F extends Figure> {
 
     //Como la naturaleza de un sistema de Capas, cada capa es un String
     private final SortedMap<String, List<F>> layers = new TreeMap<>();
-    //private final List<Figure> list = new ArrayList<>();
+    //private final SortedMap<F, List<String>> keys = new TreeMap<>();
+    //private final SortedMap<String, List<F>>
 
     public void addFigure(F figure, String layer) {
         if (!layers.containsKey(layer)) {
