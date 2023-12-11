@@ -81,7 +81,7 @@ public class PaintPane extends BorderPane {
 	Set<Figure> selectedFigures = new HashSet<>();
 
 	// StatusBar
-	private final StatusPane statusPane;
+	StatusPane statusPane;
 
 	// Barra de selector de efectos
 	EffectsPane effectsPane;
@@ -94,7 +94,7 @@ public class PaintPane extends BorderPane {
 		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, squareButton, ellipseButton,groupButton, ungroupButton, rotateButton, flipHButton, flipVButton, scalePButton, scaleMButton, deleteButton};
 		//FigureToggleButton[] figuresArr = {rectangleButton, circleButton, squareButton, ellipseButton};
 		ToggleGroup tools = new ToggleGroup();
-		tools.selectedToggleProperty().addListener(this::onSelectedButtonChanged);
+		
 		fillColorPicker.valueProperty().addListener(this::onFillColorChanged);
 		for (ToggleButton tool : toolsArr) {
 			tool.setMinWidth(90);
@@ -118,6 +118,8 @@ public class PaintPane extends BorderPane {
 		buttonsBox.setStyle("-fx-background-color: #999");
 		buttonsBox.setPrefWidth(100);
 		gc.setLineWidth(1);
+
+		tools.selectedToggleProperty().addListener(this::onSelectedButtonChanged);
 
 		canvas.setOnMousePressed(event -> {
 			startPoint = new Point(event.getX(), event.getY());
@@ -188,20 +190,20 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
-		canvas.setOnMouseClicked(event -> {
-			if(selectionButton.isSelected()) {				
-				Point eventPoint = new Point(event.getX(), event.getY());
-				selectedFigures.clear();
-				Figure selectedFigure = canvasState.getFigureAt(eventPoint);
-				if (selectedFigure != null) {
-					statusPane.updateStatus(selectedFigure.toString());
-					selectedFigures.add(selectedFigure);
-				}else{
-					statusPane.updateStatus(eventPoint.toString());
-				}
-				onSelectionChanged();
-			}
-		});
+		// canvas.setOnMouseClicked(event -> {
+		// 	if(selectionButton.isSelected()) {				
+		// 		Point eventPoint = new Point(event.getX(), event.getY());
+		// 		selectedFigures.clear();
+		// 		Figure selectedFigure = canvasState.getFigureAt(eventPoint);
+		// 		if (selectedFigure != null) {
+		// 			statusPane.updateStatus(selectedFigure.toString());
+		// 			selectedFigures.add(selectedFigure);
+		// 		}else{
+		// 			statusPane.updateStatus(eventPoint.toString());
+		// 		}
+		// 		onSelectionChanged();
+		// 	}
+		// });
 
 		canvas.setOnMouseDragged(event -> {
 			if (selectedFigures!=null && !selectedFigures.isEmpty()) {
@@ -219,6 +221,7 @@ public class PaintPane extends BorderPane {
 			// si hay figuras seleccionadas se van a borrar sino no habra cambios
 			canvasState.deleteFigures(selectedFigures);
 			selectedFigures.clear();
+			System.out.println("luego de borrar tamaño es "+selectedFigures.size());
 			onSelectionChanged();
 		});
 
@@ -329,7 +332,7 @@ public class PaintPane extends BorderPane {
 
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		for(Figure figure : canvasState.figures()) {
+		for(Figure figure : canvasState) {
 			gc.setStroke(selectedFigures.contains(figure) ? SELECTED_FIGURE_BORDER_COLOR : figure.getBorderColor());
 			gc.setFill(figure.getFillColor());
 			figure.draw(gc);

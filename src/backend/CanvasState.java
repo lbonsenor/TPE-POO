@@ -7,10 +7,11 @@ import backend.model.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class CanvasState {
+public class CanvasState implements Iterable<Figure>{
 
     private final List<Figure> list = new ArrayList<>();
 
@@ -37,11 +38,7 @@ public class CanvasState {
             }
         }
     }
-
-    public void deleteFigure(Figure figure) {
-        list.remove(figure);
-    }
-
+    
     // borrar con conjunto de figuras nos ahorra iterar el conjunto de figuras original
     // ventaja? -> mas claridad de codigo y reutilizacion de metodos de List<>
     public boolean deleteFigures(Collection<Figure> figures) {
@@ -50,8 +47,9 @@ public class CanvasState {
 
     public Figure getFigureAt(Point point) {
         for (Figure figure : list) {
-            if (figure.contains(point))
+            if (figure.contains(point)){
                 return figure;
+            }
         }
 
         return null;
@@ -66,8 +64,9 @@ public class CanvasState {
         }
     }
 
-    public Iterable<Figure> figures() {
-        return new ArrayList<>(list);
+    @Override
+    public Iterator<Figure> iterator() {
+        return list.iterator();
     }
 
 }

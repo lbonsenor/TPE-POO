@@ -32,17 +32,18 @@ public class Ellipse extends Figure {
    
     @Override
     public boolean contains(Point point) {
-        double dx = (centerPoint.getX() - point.getX()) / sMayorAxis;
-        double dy = (centerPoint.getY() - point.getY()) / sMinorAxis;
-        return dx * dx + dy * dy <= 1;
+        return ((Math.pow(point.getX() - this.centerPoint.getX(), 2) / Math.pow(this.sMayorAxis, 2)) +
+				(Math.pow(point.getY() - this.centerPoint.getY(), 2) / Math.pow(this.sMinorAxis, 2))) <= 0.30;
     }
 
     @Override
     public boolean isContainedIn(Rectangle rectangle) {
         Point tl = rectangle.getTopLeft();
         Point br = rectangle.getBottomRight();
-        return tl.getX() <= centerPoint.getX() - sMayorAxis && centerPoint.getX() + sMayorAxis <= br.getX()
-                && tl.getY() <= centerPoint.getY() - sMinorAxis && centerPoint.getY() + sMayorAxis <= br.getY();
+        return tl.getX() < centerPoint.getX()-sMayorAxis/2
+               && tl.getY() < centerPoint.getY()-sMinorAxis/2
+               && br.getX() > centerPoint.getX()+sMayorAxis/2
+               && br.getY() > centerPoint.getY()+sMinorAxis/2;
     }
 
     @Override

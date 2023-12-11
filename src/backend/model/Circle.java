@@ -45,11 +45,11 @@ public class Circle extends Ellipse {
         throw new UnsupportedOperationException("Unimplemented method 'gradient'");
     }
 
-    // @Override
-    // public boolean found(Point eventPoint){
-    //     return Math.sqrt(Math.pow(this.centerPoint.getX() - eventPoint.getX(), 2) +
-	// 		   Math.pow(this.centerPoint.getY() - eventPoint.getY(), 2)) < this.radius;
-    // }
+    @Override
+    public boolean contains(Point eventPoint){
+        return Math.sqrt(Math.pow(this.centerPoint.getX() - eventPoint.getX(), 2) +
+			   Math.pow(this.centerPoint.getY() - eventPoint.getY(), 2)) < this.radius;
+    }
 
     @Override
     public void scale(double multiplier){
