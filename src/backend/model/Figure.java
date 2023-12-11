@@ -1,6 +1,5 @@
 package backend.model;
 
-import frontend.paintFigures.Colorable;
 import frontend.paintFigures.Drawable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;

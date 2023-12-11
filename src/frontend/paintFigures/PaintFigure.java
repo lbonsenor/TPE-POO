@@ -4,14 +4,16 @@ import backend.model.Figure;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class PaintFigure implements Movable, Drawable{
+public abstract class PaintFigure implements Movable, Drawable{
 
     private Color fillColor;
     private Color borderColor;
     protected Figure figure;
+    protected GraphicsContext gc;
 
-    public PaintFigure(Color fillColor, Color borderColor, Figure figure) {
-        this.fillColor = fillColor;
+    public PaintFigure(Figure figure, GraphicsContext gc, Color fillColor, Color borderColor) {
+        this.figure = figure;
+        this.gc = gc;
         setBorderColor(borderColor);
         setFillColor(fillColor);
     }
@@ -32,8 +34,7 @@ public class PaintFigure implements Movable, Drawable{
         return fillColor;
     }
 
-    @Override
-    public void draw(GraphicsContext gc) {
+    public void draw() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'draw'");
     }

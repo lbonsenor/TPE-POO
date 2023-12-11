@@ -1,7 +1,5 @@
-package backend;
-
-import javafx.scene.canvas.GraphicsContext;
+package frontend.paintFigures;
 
 public interface Drawable {
-    void draw(GraphicsContext gc);
+    void draw();
 }

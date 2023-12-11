@@ -1,5 +1,5 @@
 package frontend.paintFigures;
 
-public class PaintEllipse {
+public class PaintEllipse extends PaintFigure{
 
 }
