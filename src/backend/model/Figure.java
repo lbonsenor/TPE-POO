@@ -1,9 +1,5 @@
 package backend.model;
 
-import frontend.paintFigures.Drawable;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-
 public abstract class Figure{
 
     private final Point[] keyPoints;
@@ -21,9 +17,9 @@ public abstract class Figure{
             p.changePos(deltaX, deltaY);
     }
 
-    public abstract void shadow(GraphicsContext gc);
-    public abstract void gradient(GraphicsContext gc);
-    public abstract void bisel(GraphicsContext gc);
+    //public abstract void shadow(GraphicsContext gc);
+    //public abstract void gradient(GraphicsContext gc);
+    //public abstract void bisel(GraphicsContext gc);
     
     // nueva forma de utilizar "found" con un punto
     public abstract boolean contains(Point point);

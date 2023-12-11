@@ -1,7 +1,5 @@
 package backend.model;
 
-import javafx.scene.canvas.GraphicsContext;
-
 public class Ellipse extends Figure {
 
     protected final Point centerPoint;
@@ -90,22 +88,22 @@ public class Ellipse extends Figure {
         return sMinorAxis;
     }
 
-    @Override
-    public void shadow(GraphicsContext gc) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'shadow'");
-    }
+    // @Override
+    // public void shadow(GraphicsContext gc) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'shadow'");
+    // }
 
-    @Override
-    public void bisel(GraphicsContext gc) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'bisel'");
-    }
+    // @Override
+    // public void bisel(GraphicsContext gc) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'bisel'");
+    // }
 
-    @Override
-    public void gradient(GraphicsContext gc) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gradient'");
-    }
+    // @Override
+    // public void gradient(GraphicsContext gc) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'gradient'");
+    // }
 
 }

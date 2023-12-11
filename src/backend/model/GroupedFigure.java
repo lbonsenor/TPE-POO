@@ -3,7 +3,6 @@ package backend.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javafx.scene.canvas.GraphicsContext;
 
 public class GroupedFigure extends Figure{
     private final Set<Figure> figures = new HashSet<>();
@@ -75,31 +74,31 @@ public class GroupedFigure extends Figure{
         return "Grouped Figure";
     }
 
-    @Override
-    public void shadow(GraphicsContext gc) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'shadow'");
-    }
+    // @Override
+    // public void shadow(GraphicsContext gc) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'shadow'");
+    // }
 
-    @Override
-    public void gradient(GraphicsContext gc) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gradient'");
-    }
+    // @Override
+    // public void gradient(GraphicsContext gc) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'gradient'");
+    // }
 
-    @Override
-    public void bisel(GraphicsContext gc) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'bisel'");
-    }
+    // @Override
+    // public void bisel(GraphicsContext gc) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'bisel'");
+    // }
 
-    @Override
+    
     public boolean contains(Point point) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'contains'");
     }
 
-    @Override
+    
     public boolean isContainedIn(Rectangle rectangle) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isContainedIn'");

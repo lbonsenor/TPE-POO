@@ -1,7 +1,5 @@
 package backend.model;
 
-import javafx.scene.canvas.GraphicsContext;
-
 public class Rectangle extends Figure {
 
     private final Point topLeft, bottomRight;
@@ -108,22 +106,22 @@ public class Rectangle extends Figure {
         return toReturn;
     }
 
-    @Override
-    public void shadow(GraphicsContext gc) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'shadow'");
-    }
+    // @Override
+    // public void shadow(GraphicsContext gc) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'shadow'");
+    // }
 
-    @Override
-    public void gradient(GraphicsContext gc) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gradient'");
-    }
+    // @Override
+    // public void gradient(GraphicsContext gc) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'gradient'");
+    // }
 
-    @Override
-    public void bisel(GraphicsContext gc) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'bisel'");
-    }
+    // @Override
+    // public void bisel(GraphicsContext gc) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'bisel'");
+    // }
    
 }
