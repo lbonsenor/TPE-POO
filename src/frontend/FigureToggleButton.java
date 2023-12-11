@@ -1,8 +1,7 @@
-package backend;
+package frontend;
 
-import backend.model.Figure;
-import backend.model.FigureButtonEnum;
 import backend.model.Point;
+import frontend.gcmodel.GCFigure;
 import javafx.scene.control.ToggleButton;
 
 public class FigureToggleButton extends ToggleButton{
@@ -13,7 +12,7 @@ public class FigureToggleButton extends ToggleButton{
         this.figureType = figureType;
     }
 
-    public Figure getFigureBasedOnPoints(Point startPoint, Point endPoint){
+    public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint){
         return figureType.getFigureBasedOnPoints(startPoint, endPoint);
     }
 }

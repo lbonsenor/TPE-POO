@@ -17,6 +17,11 @@ public class Point {
         return y;
     }
 
+    public boolean equals(Point o){
+        if (this == o) return true;
+        return this.x == o.x && this.y == o.y;
+    }
+
     @Override
     public String toString() {
         return String.format("{%.2f , %.2f}", x, y);

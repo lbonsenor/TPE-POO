@@ -3,22 +3,52 @@ package backend;
 import backend.model.Figure;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
-public class CanvasState {
+public class CanvasState<F extends Figure> {
 
-    private final List<Figure> list = new ArrayList<>();
+    //Como la naturaleza de un sistema de Capas, cada capa es un String
+    private final SortedMap<String, List<F>> layers = new TreeMap<>();
+    //private final SortedMap<F, List<String>> keys = new TreeMap<>();
+    //private final SortedMap<String, List<F>>
 
-    public void addFigure(Figure figure) {
-        list.add(figure);
+    public void addFigure(F figure, String layer) {
+        if (!layers.containsKey(layer)) {
+            layers.put(layer, new ArrayList<>());
+        }
+        layers.get(layer).add(figure);
     }
 
-    public void deleteFigure(Figure figure) {
-        list.remove(figure);
+    public void addFigure(Set<F> figures, String layer){
+        if (!layers.containsKey(layer)) {
+            layers.put(layer, new ArrayList<>());
+        }
+        layers.get(layer).addAll(figures);
     }
 
-    public Iterable<Figure> figures() {
-        return new ArrayList<>(list);
+    public void deleteFigure(F figure, String layer) {
+        layers.getOrDefault(layer, new ArrayList<>()).remove(figure);
+    }
+
+    public void deleteFigure(Collection<F> figures, String layer){
+        layers.getOrDefault(layer, new ArrayList<>()).removeAll(figures);
+    }
+
+    public Iterable<F> figures(List<String> layers) {
+        List<F> toReturn = new ArrayList<>();
+        for (String layer : layers){
+            toReturn.addAll(this.layers.getOrDefault(layer, new ArrayList<>()));
+        }
+        
+        return toReturn;
+    }
+
+    public Iterable<F> figures(String layer) {
+        return new ArrayList<>(layers.getOrDefault(layer, new ArrayList<>()));
     }
 
 }
