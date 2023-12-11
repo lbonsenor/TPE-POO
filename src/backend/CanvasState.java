@@ -5,7 +5,6 @@ import backend.model.Figure;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -23,7 +22,7 @@ public class CanvasState<F extends Figure> {
         layers.get(layer).add(figure);
     }
 
-    public void addFigure(Set<F> figures, String layer){
+    public void addFigure(Collection<F> figures, String layer){
         if (!layers.containsKey(layer)) {
             layers.put(layer, new ArrayList<>());
         }
@@ -49,6 +48,11 @@ public class CanvasState<F extends Figure> {
 
     public Iterable<F> figures(String layer) {
         return new ArrayList<>(layers.getOrDefault(layer, new ArrayList<>()));
+    }
+
+    public Iterable<F> figures(String layer, Collection<String> tags){
+        List<F> list = new ArrayList<>();
+        return list;
     }
 
 }

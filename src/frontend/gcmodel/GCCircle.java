@@ -12,12 +12,12 @@ public class GCCircle extends Circle implements GCFigure{
 
     @Override
     public void createFigure(GraphicsContext gc){
-        double diameter = this.getRadius() * 2;
-	    gc.fillOval(this.getCenterPoint().getX() - this.getRadius(), 
-                    this.getCenterPoint().getY() - this.getRadius(), 
+        double diameter = getRadius() * 2;
+	    gc.fillOval(getCenterPoint().getX() - getRadius(), 
+                    getCenterPoint().getY() - getRadius(), 
                     diameter, diameter);
-		gc.strokeOval(this.getCenterPoint().getX() - this.getRadius(), 
-                    this.getCenterPoint().getY() - this.getRadius(), diameter, diameter);
+		gc.strokeOval(getCenterPoint().getX() - getRadius(), 
+                    getCenterPoint().getY() - getRadius(), diameter, diameter);
     }
 
 }
