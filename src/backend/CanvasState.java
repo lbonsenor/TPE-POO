@@ -42,30 +42,28 @@ public class CanvasState implements Iterable<Figure>{
     //     }
     // }
     
-    // borrar con conjunto de figuras nos ahorra iterar el conjunto de figuras original
-    // ventaja? -> mas claridad de codigo y reutilizacion de metodos de List<>
-    public boolean deleteFigures(Collection<Figure> figures) {
-        return figuresList.removeAll(figures);
+    public boolean deleteFigure(Figure figure) {
+        return figuresList.remove(figure);
     }
 
-    public Figure getFigureAt(Point point) {
-        for (Figure figure : figuresList) {
-            if (figure.contains(point)){
-                return figure;
-            }
-        }
+    // public Figure getFigureAt(Point point) {
+    //     for (Figure figure : figuresList) {
+    //         if (figure.contains(point)){
+    //             return figure;
+    //         }
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
-    public void getFiguresOnRectangle(Rectangle rectangle, Collection<Figure> result) {
-        for (Figure f : figuresList) {
-            if (f.isContainedIn(rectangle))
-            {
-                result.add(f);
-            }
-        }
-    }
+    // public void getFiguresOnRectangle(Rectangle rectangle, Collection<Figure> result) {
+    //     for (Figure f : figuresList) {
+    //         if (f.isContainedIn(rectangle))
+    //         {
+    //             result.add(f);
+    //         }
+    //     }
+    // }
 
     @Override
     public Iterator<Figure> iterator() {
