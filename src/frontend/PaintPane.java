@@ -313,10 +313,8 @@ public class PaintPane extends BorderPane {
 							canvasState.deleteFigure(figure, layerName);
 							GCGroupedFigure group = (GCGroupedFigure) figure;
 							canvasState.addFigure(group.getFiguresCopy(), layerName);
-							
 						}
 					}
-					redrawCanvas();
 				}
 			}
 			
