@@ -18,4 +18,16 @@ public class GCGroupedFigure extends GroupedFigure<GCFigure> implements GCFigure
 		}
     }
 
+    @Override
+    public void setFillColor(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setFillColor'");
+    }
+
+    @Override
+    public void getFillColor(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getFillColor'");
+    }
+
 }

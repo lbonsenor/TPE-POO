@@ -20,4 +20,16 @@ public class GCRectangle extends Rectangle implements GCFigure{
 			Math.abs(getTopLeft().getY() - getBottomRight().getY()));
     }
 
+    @Override
+    public void setFillColor(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setFillColor'");
+    }
+
+    @Override
+    public void getFillColor(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getFillColor'");
+    }
+
 }
