@@ -3,7 +3,6 @@ package frontend;
 import backend.CanvasState;
 import backend.model.GroupedFigure;
 import backend.model.Point;
-import frontend.gcmodel.GCEffects;
 import frontend.gcmodel.GCFigure;
 import frontend.gcmodel.GCGroupedFigure;
 import javafx.collections.FXCollections;
@@ -85,9 +84,6 @@ public class PaintPane extends BorderPane {
 
 	// Barra de selector de efectos
 	EffectsPane effectsPane;
-
-	// Colores de relleno de cada figura
-	Map<GCFigure, GCEffects> figureColorMap = new HashMap<>();
 
 	// Mostrar Capas
 	    Label layerShownLabel = new Label("Mostrar Capas:");
@@ -178,7 +174,7 @@ public class PaintPane extends BorderPane {
 			for(FigureToggleButton button : figuresArr){
 				if (button.isSelected()) {
 					newFigure = button.getFigureBasedOnPoints(startPoint, endPoint);
-					figureColorMap.put(newFigure, new GCEffects(lineColor, defaultFillColor));
+					newFigure.setFillColor();
 					canvasState.addFigure(newFigure, currentLayer.getValue());
 					startPoint = null;
 					redrawCanvas();
@@ -355,11 +351,10 @@ public class PaintPane extends BorderPane {
 		for(GCFigure figure : canvasState.figures(getLayersShown())) {
 				if (selectedFigures != null && selectedFigures.contains(figure)) {
 					gc.setStroke(Color.RED);
-					figureColorMap.get(figure).setLineColor(Color.RED);
 				} else {
 					gc.setStroke(lineColor);
 				}
-				gc.setFill(figureColorMap.get(figure).getFillColor());
+				gc.setFill(figure.getFillColor());
 				figure.createFigure(gc);
 		}
 	}
