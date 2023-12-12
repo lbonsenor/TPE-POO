@@ -3,6 +3,7 @@ package frontend;
 import backend.CanvasState;
 import backend.model.GroupedFigure;
 import backend.model.Point;
+import frontend.gcmodel.GCEffects;
 import frontend.gcmodel.GCFigure;
 import frontend.gcmodel.GCGroupedFigure;
 import javafx.collections.FXCollections;
@@ -82,8 +83,11 @@ public class PaintPane extends BorderPane {
 	// Panes
 	StatusPane statusPane;
 
+	// Barra de selector de efectos
+	EffectsPane effectsPane;
+
 	// Colores de relleno de cada figura
-	Map<GCFigure, Color> figureColorMap = new HashMap<>();
+	Map<GCFigure, GCEffects> figureColorMap = new HashMap<>();
 
 	// Mostrar Capas
 	    Label layerShownLabel = new Label("Mostrar Capas:");
@@ -102,6 +106,8 @@ public class PaintPane extends BorderPane {
 	public PaintPane(CanvasState<GCFigure> canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
+		this.effectsPane = new EffectsPane();
+		setTop(effectsPane);
 
 		currentLayer.setValue("Layer 1");
 
@@ -172,7 +178,7 @@ public class PaintPane extends BorderPane {
 			for(FigureToggleButton button : figuresArr){
 				if (button.isSelected()) {
 					newFigure = button.getFigureBasedOnPoints(startPoint, endPoint);
-					figureColorMap.put(newFigure, fillColorPicker.getValue());
+					figureColorMap.put(newFigure, new GCEffects(lineColor, defaultFillColor));
 					canvasState.addFigure(newFigure, currentLayer.getValue());
 					startPoint = null;
 					redrawCanvas();
@@ -349,13 +355,14 @@ public class PaintPane extends BorderPane {
 		for(GCFigure figure : canvasState.figures(getLayersShown())) {
 				if (selectedFigures != null && selectedFigures.contains(figure)) {
 					gc.setStroke(Color.RED);
+					figureColorMap.get(figure).setLineColor(Color.RED);
 				} else {
 					gc.setStroke(lineColor);
 				}
-				gc.setFill(figureColorMap.get(figure));
+				gc.setFill(figureColorMap.get(figure).getFillColor());
 				figure.createFigure(gc);
 		}
-		}
+	}
 
 	private List<String> getLayersShown(){
 		List<String> toReturn = new ArrayList<>();
