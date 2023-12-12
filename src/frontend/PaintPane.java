@@ -1,7 +1,6 @@
 package frontend;
 
 import backend.CanvasState;
-import backend.model.GroupedFigure;
 import backend.model.Point;
 import frontend.gcmodel.GCFigure;
 import frontend.gcmodel.GCGroupedFigure;
@@ -344,7 +343,7 @@ public class PaintPane extends BorderPane {
 				String layerName = currentLayer.getValue();
 				for (GCFigure figure : selectedFigures){
 					// Solo tiene que desagrupar si es una figura agrupada
-					if (figure instanceof GroupedFigure) {
+					if (figure instanceof GCGroupedFigure) {
 						canvasState.deleteFigure(figure, layerName);
 						GCGroupedFigure group = (GCGroupedFigure) figure;
 						canvasState.addFigure(group.getFiguresCopy(), layerName, new ArrayList<>());
