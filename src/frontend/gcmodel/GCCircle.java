@@ -5,7 +5,6 @@ import backend.model.Point;
 import javafx.scene.canvas.GraphicsContext;
 
 public class GCCircle extends Circle implements GCFigure{
-
     public GCCircle(Point centerPoint, double radius) {
         super(centerPoint, radius);
     }

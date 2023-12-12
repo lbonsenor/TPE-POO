@@ -12,8 +12,6 @@ public class CanvasState<F extends Figure> {
 
     //Como la naturaleza de un sistema de Capas, cada capa es un String
     private final SortedMap<String, List<F>> layers = new TreeMap<>();
-    //private final SortedMap<F, List<String>> keys = new TreeMap<>();
-    //private final SortedMap<String, List<F>>
 
     public void addFigure(F figure, String layer) {
         if (!layers.containsKey(layer)) {
@@ -37,7 +35,7 @@ public class CanvasState<F extends Figure> {
         layers.getOrDefault(layer, new ArrayList<>()).removeAll(figures);
     }
 
-    public Iterable<F> figures(List<String> layers) {
+    public Iterable<F> figures(Collection<String> layers) {
         List<F> toReturn = new ArrayList<>();
         for (String layer : layers){
             toReturn.addAll(this.layers.getOrDefault(layer, new ArrayList<>()));
@@ -50,7 +48,7 @@ public class CanvasState<F extends Figure> {
         return new ArrayList<>(layers.getOrDefault(layer, new ArrayList<>()));
     }
 
-    public Iterable<F> figures(String layer, Collection<String> tags){
+    public Iterable<F> figures(Collection<String> layers, Collection<String> tags){
         List<F> list = new ArrayList<>();
         return list;
     }
