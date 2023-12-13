@@ -364,6 +364,7 @@ public class PaintPane extends BorderPane {
 				} else {
 					gc.setStroke(lineColor);
 				}
+				gc.setLineWidth(1);
 				//gc.setFill(figure.getFillColor());
 				figure.createFigure(gc);
 		}

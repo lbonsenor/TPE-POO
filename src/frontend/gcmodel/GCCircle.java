@@ -8,6 +8,7 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Stop;
+import javafx.scene.shape.ArcType;
 
 public class GCCircle extends Circle implements GCFigure{
 
@@ -21,6 +22,20 @@ public class GCCircle extends Circle implements GCFigure{
     @Override
     public void createFigure(GraphicsContext gc){
         double diameter = getRadius() * 2;
+        if (shadow) {
+            gc.setFill(Color.GRAY);
+            gc.fillOval(getCenterPoint().getX() - getRadius() + 10.0,
+            getCenterPoint().getY() - getRadius() + 10.0, diameter, diameter);
+        }
+        if( bisel ){
+            double arcX = getCenterPoint().getX() - getRadius();
+            double arcY = getCenterPoint().getY() - getRadius();
+            gc.setLineWidth(10);
+            gc.setStroke(Color.LIGHTGRAY);
+            gc.strokeArc(arcX, arcY, diameter, diameter, 45, 180, ArcType.OPEN);
+            gc.setStroke(Color.BLACK);
+            gc.strokeArc(arcX, arcY, diameter, diameter, 225, 180, ArcType.OPEN);
+        }
         gc.setFill( (grad) ? gradColor() : color );
 	    gc.fillOval(getCenterPoint().getX() - getRadius(), 
                     getCenterPoint().getY() - getRadius(), 

@@ -8,6 +8,7 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Stop;
+import javafx.scene.shape.ArcType;
 
 public class GCEllipse extends Ellipse implements GCFigure{
 
@@ -20,6 +21,21 @@ public class GCEllipse extends Ellipse implements GCFigure{
 
     @Override
     public void createFigure(GraphicsContext gc) {
+        if (shadow) {
+            gc.setFill(Color.GRAY);
+            gc.fillOval(getCenterPoint().getX() - (getsMayorAxis() / 2) + 10, 
+			getCenterPoint().getY() - (getsMinorAxis() / 2) + 10, 
+			getsMayorAxis(), getsMinorAxis());
+        }
+        if (bisel) {
+            double arcX = getCenterPoint().getX() - (getsMayorAxis() / 2);
+            double arcY = getCenterPoint().getY() - (getsMinorAxis() / 2);
+            gc.setLineWidth(10);
+            gc.setStroke(Color.LIGHTGRAY);
+            gc.strokeArc(arcX, arcY, getsMayorAxis(), getsMinorAxis(), 45, 180, ArcType.OPEN);
+            gc.setStroke(Color.BLACK);
+            gc.strokeArc(arcX, arcY, getsMayorAxis(), getsMinorAxis(), 225, 180, ArcType.OPEN);
+        }
         gc.setFill( (grad) ? gradColor() : color );
         gc.strokeOval(getCenterPoint().getX() - (getsMayorAxis() / 2), 
 			getCenterPoint().getY() - (getsMinorAxis() / 2), 
