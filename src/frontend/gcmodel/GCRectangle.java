@@ -16,6 +16,14 @@ public class GCRectangle extends Rectangle implements GCFigure{
 
     @Override
     public void createFigure(GraphicsContext gc) {
+        if (shadow) {
+            gc.setFill(Color.GRAY);
+            gc.fillRect(getTopLeft().getX() + 10.0,
+                getTopLeft().getY() + 10.0,
+                Math.abs(getTopLeft().getX() - getBottomRight().getX()),
+                Math.abs(getTopLeft().getY() - getBottomRight().getY()));
+        }
+        gc.setFill(color);
         gc.fillRect(getTopLeft().getX(), getTopLeft().getY(),
 			Math.abs(getTopLeft().getX() - getBottomRight().getX()), 
 			Math.abs(getTopLeft().getY() - getBottomRight().getY()));

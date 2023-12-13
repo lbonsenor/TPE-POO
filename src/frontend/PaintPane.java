@@ -5,6 +5,8 @@ import backend.model.GroupedFigure;
 import backend.model.Point;
 import frontend.gcmodel.GCFigure;
 import frontend.gcmodel.GCGroupedFigure;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -103,6 +105,7 @@ public class PaintPane extends BorderPane {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
 		this.effectsPane = new EffectsPane();
+		effectsPane.shadowCheckBox.selectedProperty().addListener(this::onShadowChange);
 		setTop(effectsPane);
 
 		currentLayer.setValue("Layer 1");
@@ -175,6 +178,7 @@ public class PaintPane extends BorderPane {
 				if (button.isSelected()) {
 					newFigure = button.getFigureBasedOnPoints(startPoint, endPoint);
 					newFigure.setFillColor(fillColorPicker.getValue());
+					newFigure.setShadow(effectsPane.shadowCheckBox.isSelected());
 					canvasState.addFigure(newFigure, currentLayer.getValue());
 					startPoint = null;
 					redrawCanvas();
@@ -354,8 +358,19 @@ public class PaintPane extends BorderPane {
 				} else {
 					gc.setStroke(lineColor);
 				}
-				gc.setFill(figure.getFillColor());
+				//gc.setFill(figure.getFillColor());
 				figure.createFigure(gc);
+		}
+	}
+
+	private void onShadowChange(ObservableValue<? extends Boolean> observableValue, Boolean selector, Boolean newValue) {
+		if (newValue == null)
+			return;
+
+		if (!selectedFigures.isEmpty()) {
+			for (GCFigure figure : selectedFigures)
+				figure.setShadow(newValue);
+			redrawCanvas();
 		}
 	}
 
