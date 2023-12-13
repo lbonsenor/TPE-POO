@@ -4,7 +4,10 @@ import backend.model.Point;
 import backend.model.Square;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
+import javafx.scene.paint.Stop;
 
 public class GCSquare extends Square implements GCFigure{
 
@@ -18,6 +21,14 @@ public class GCSquare extends Square implements GCFigure{
     @Override
     public void createFigure(GraphicsContext gc) {
         new GCRectangle(getTopLeft(), getBottomRight()).createFigure(gc);
+    }
+
+    private LinearGradient gradColor(){
+        LinearGradient linearGradient = new LinearGradient(0, 0, 1, 0, true,
+            CycleMethod.NO_CYCLE,
+            new Stop(0, (Color)color),
+            new Stop(1, ((Color)color).invert() ));
+        return linearGradient;
     }
 
     @Override

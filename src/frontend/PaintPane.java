@@ -198,9 +198,7 @@ public class PaintPane extends BorderPane {
 						if (figure.found(startPoint, endPoint)) {
 							found = true;
 							selectedFigures.add((GCFigure) figure);
-							effectsPane.shadowCheckBox.setSelected(figure.getShadow());
-							effectsPane.gradCheckBox.setSelected(figure.getGrad());
-							effectsPane.biselCheckBox.setSelected(figure.getBisel());
+							showEffectsOnFigure(figure);
 						}
 					}
 					if (found) statusPane.updateStatus("Figuras seleccionadas mediante Seleccion Multiple");
@@ -240,9 +238,7 @@ public class PaintPane extends BorderPane {
 							found = true;
 							selectedFigures = new HashSet<>();
 							selectedFigures.add((GCFigure) figure);
-							effectsPane.shadowCheckBox.setSelected(figure.getShadow());
-							effectsPane.gradCheckBox.setSelected(figure.getGrad());
-							effectsPane.biselCheckBox.setSelected(figure.getBisel());
+							showEffectsOnFigure(figure);
 							label.append(figure.toString());
 						}
 					}
@@ -371,6 +367,12 @@ public class PaintPane extends BorderPane {
 				//gc.setFill(figure.getFillColor());
 				figure.createFigure(gc);
 		}
+	}
+
+	private void showEffectsOnFigure(GCFigure figure){
+		effectsPane.shadowCheckBox.setSelected(figure.getShadow());
+		effectsPane.gradCheckBox.setSelected(figure.getGrad());
+		effectsPane.biselCheckBox.setSelected(figure.getBisel());
 	}
 
 	private void onShadowChange(ObservableValue<? extends Boolean> observableValue, Boolean selector, Boolean newValue) {
