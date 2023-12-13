@@ -4,10 +4,11 @@ import backend.model.Circle;
 import backend.model.Point;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class GCCircle extends Circle implements GCFigure{
 
-    private Color color;
+    private Paint color;
     private boolean shadow, bisel, grad;
 
     public GCCircle(Point centerPoint, double radius) {
@@ -25,12 +26,12 @@ public class GCCircle extends Circle implements GCFigure{
     }
 
     @Override
-    public void setFillColor(Color color) {
+    public void setFillColor(Paint color) {
         this.color = color;
     }
 
     @Override
-    public Color getFillColor() {
+    public Paint getFillColor() {
         return color;
     }
 

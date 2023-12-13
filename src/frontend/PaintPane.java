@@ -182,7 +182,7 @@ public class PaintPane extends BorderPane {
 					newFigure.setFillColor(fillColorPicker.getValue());
 					newFigure.setShadow(effectsPane.shadowCheckBox.isSelected());
 					newFigure.setGrad(effectsPane.gradCheckBox.isSelected());
-					newFigure.setShadow(effectsPane.biselCheckBox.isSelected());
+					newFigure.setBisel(effectsPane.biselCheckBox.isSelected());
 					canvasState.addFigure(newFigure, currentLayer.getValue());
 					startPoint = null;
 					redrawCanvas();
@@ -198,6 +198,9 @@ public class PaintPane extends BorderPane {
 						if (figure.found(startPoint, endPoint)) {
 							found = true;
 							selectedFigures.add((GCFigure) figure);
+							effectsPane.shadowCheckBox.setSelected(figure.getShadow());
+							effectsPane.gradCheckBox.setSelected(figure.getGrad());
+							effectsPane.biselCheckBox.setSelected(figure.getBisel());
 						}
 					}
 					if (found) statusPane.updateStatus("Figuras seleccionadas mediante Seleccion Multiple");
@@ -237,6 +240,9 @@ public class PaintPane extends BorderPane {
 							found = true;
 							selectedFigures = new HashSet<>();
 							selectedFigures.add((GCFigure) figure);
+							effectsPane.shadowCheckBox.setSelected(figure.getShadow());
+							effectsPane.gradCheckBox.setSelected(figure.getGrad());
+							effectsPane.biselCheckBox.setSelected(figure.getBisel());
 							label.append(figure.toString());
 						}
 					}

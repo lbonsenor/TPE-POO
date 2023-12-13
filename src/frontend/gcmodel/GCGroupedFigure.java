@@ -5,6 +5,7 @@ import java.util.Set;
 import backend.model.GroupedFigure;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class GCGroupedFigure extends GroupedFigure<GCFigure> implements GCFigure{
 
@@ -20,16 +21,16 @@ public class GCGroupedFigure extends GroupedFigure<GCFigure> implements GCFigure
     }
 
     @Override
-    public void setFillColor(Color color) {
+    public void setFillColor(Paint color) {
         for (GCFigure figure : this.getFiguresCopy()){
 			figure.setFillColor(color);
 		}
     }
 
     @Override
-    public Color getFillColor() {
+    public Paint getFillColor() {
         int iteration = 0;
-        Color commonValue = null;
+        Paint commonValue = null;
         for (GCFigure figure : this.getFiguresCopy()){
 			if (iteration != 0 && commonValue!=figure.getFillColor()) {
                 return null;

@@ -4,10 +4,11 @@ import backend.model.Point;
 import backend.model.Square;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class GCSquare extends Square implements GCFigure{
 
-    private Color color;
+    private Paint color;
     private boolean shadow, bisel, grad;
 
     public GCSquare(Point topLeft, double size) {
@@ -20,12 +21,12 @@ public class GCSquare extends Square implements GCFigure{
     }
 
     @Override
-    public void setFillColor(Color color) {
+    public void setFillColor(Paint color) {
         this.color = color;
     }
 
     @Override
-    public Color getFillColor() {
+    public Paint getFillColor() {
         return color;
     }
 

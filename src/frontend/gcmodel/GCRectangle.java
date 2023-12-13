@@ -4,10 +4,14 @@ import backend.model.Point;
 import backend.model.Rectangle;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.Stop;
 
 public class GCRectangle extends Rectangle implements GCFigure{
 
-    private Color color;
+    private Paint color;
     private boolean shadow, bisel, grad;
 
     public GCRectangle(Point topLeft, Point bottomRight) {
@@ -23,7 +27,7 @@ public class GCRectangle extends Rectangle implements GCFigure{
                 Math.abs(getTopLeft().getX() - getBottomRight().getX()),
                 Math.abs(getTopLeft().getY() - getBottomRight().getY()));
         }
-        gc.setFill(color);
+        gc.setFill( (grad) ? gradColor() : color );
         gc.fillRect(getTopLeft().getX(), getTopLeft().getY(),
 			Math.abs(getTopLeft().getX() - getBottomRight().getX()), 
 			Math.abs(getTopLeft().getY() - getBottomRight().getY()));
@@ -32,13 +36,21 @@ public class GCRectangle extends Rectangle implements GCFigure{
 			Math.abs(getTopLeft().getY() - getBottomRight().getY()));
     }
 
+    private LinearGradient gradColor(){
+        LinearGradient linearGradient = new LinearGradient(0, 0, 1, 0, true,
+            CycleMethod.NO_CYCLE,
+            new Stop(0, (Color)color),
+            new Stop(1, ((Color)color).invert() ));
+        return linearGradient;
+    }
+
     @Override
-    public void setFillColor(Color color) {
+    public void setFillColor(Paint color) {
         this.color = color;
     }
 
     @Override
-    public Color getFillColor() {
+    public Paint getFillColor() {
         return color;
     }
 

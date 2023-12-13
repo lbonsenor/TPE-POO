@@ -4,10 +4,11 @@ import backend.model.Ellipse;
 import backend.model.Point;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class GCEllipse extends Ellipse implements GCFigure{
 
-    private Color color;
+    private Paint color;
     private boolean shadow, bisel, grad;
 
     public GCEllipse(Point centerPoint, double sMayorAxis, double sMinorAxis) {
@@ -25,12 +26,12 @@ public class GCEllipse extends Ellipse implements GCFigure{
     }
 
     @Override
-    public void setFillColor(Color color) {
+    public void setFillColor(Paint color) {
         this.color = color;
     }
 
     @Override
-    public Color getFillColor() {
+    public Paint getFillColor() {
         return color;
     }
 
