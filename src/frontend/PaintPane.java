@@ -174,7 +174,7 @@ public class PaintPane extends BorderPane {
 			for(FigureToggleButton button : figuresArr){
 				if (button.isSelected()) {
 					newFigure = button.getFigureBasedOnPoints(startPoint, endPoint);
-					newFigure.setFillColor();
+					newFigure.setFillColor(fillColorPicker.getValue());
 					canvasState.addFigure(newFigure, currentLayer.getValue());
 					startPoint = null;
 					redrawCanvas();
