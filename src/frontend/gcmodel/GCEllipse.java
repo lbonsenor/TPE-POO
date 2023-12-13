@@ -4,7 +4,10 @@ import backend.model.Ellipse;
 import backend.model.Point;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
+import javafx.scene.paint.Stop;
 
 public class GCEllipse extends Ellipse implements GCFigure{
 
@@ -17,12 +20,21 @@ public class GCEllipse extends Ellipse implements GCFigure{
 
     @Override
     public void createFigure(GraphicsContext gc) {
+        gc.setFill( (grad) ? gradColor() : color );
         gc.strokeOval(getCenterPoint().getX() - (getsMayorAxis() / 2), 
 			getCenterPoint().getY() - (getsMinorAxis() / 2), 
 			getsMayorAxis(), getsMinorAxis());
 		gc.fillOval(getCenterPoint().getX() - (getsMayorAxis() / 2), 
 			getCenterPoint().getY() - (getsMinorAxis() / 2), 
 			getsMayorAxis(), getsMinorAxis());
+    }
+
+    private LinearGradient gradColor(){
+        LinearGradient linearGradient = new LinearGradient(0, 0, 1, 0, true,
+            CycleMethod.NO_CYCLE,
+            new Stop(0, (Color)color),
+            new Stop(1, ((Color)color).invert() ));
+        return linearGradient;
     }
 
     @Override

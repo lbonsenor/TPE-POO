@@ -4,7 +4,10 @@ import backend.model.Circle;
 import backend.model.Point;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
+import javafx.scene.paint.Stop;
 
 public class GCCircle extends Circle implements GCFigure{
 
@@ -18,11 +21,20 @@ public class GCCircle extends Circle implements GCFigure{
     @Override
     public void createFigure(GraphicsContext gc){
         double diameter = getRadius() * 2;
+        gc.setFill( (grad) ? gradColor() : color );
 	    gc.fillOval(getCenterPoint().getX() - getRadius(), 
                     getCenterPoint().getY() - getRadius(), 
                     diameter, diameter);
 		gc.strokeOval(getCenterPoint().getX() - getRadius(), 
                     getCenterPoint().getY() - getRadius(), diameter, diameter);
+    }
+
+    private LinearGradient gradColor(){
+        LinearGradient linearGradient = new LinearGradient(0, 0, 1, 0, true,
+            CycleMethod.NO_CYCLE,
+            new Stop(0, (Color)color),
+            new Stop(1, ((Color)color).invert() ));
+        return linearGradient;
     }
 
     @Override
