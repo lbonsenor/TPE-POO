@@ -1,12 +1,11 @@
 package backend.model;
 
-public class Ellipse extends Figure {
+public class Ellipse implements Figure {
 
     protected final Point centerPoint;
     protected double sMayorAxis, sMinorAxis;
 
-    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis) {
-        super(new Point[]{centerPoint});
+    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis) {        
         this.centerPoint = centerPoint;
         this.sMayorAxis = sMayorAxis;
         this.sMinorAxis = sMinorAxis;
@@ -17,16 +16,6 @@ public class Ellipse extends Figure {
         this.getCenterPoint().x += diffX;
 		this.getCenterPoint().y += diffY;
     }
-
-    // @Override
-    // public void draw(GraphicsContext gc){
-    //     gc.strokeOval(this.getCenterPoint().getX() - (this.getsMayorAxis() / 2), 
-    //                   this.getCenterPoint().getY() - (this.getsMinorAxis() / 2), 
-    //                   this.getsMayorAxis(), this.getsMinorAxis());
-	// 	gc.fillOval(this.getCenterPoint().getX() - (this.getsMayorAxis() / 2), 
-    //                 this.getCenterPoint().getY() - (this.getsMinorAxis() / 2), 
-    //                 this.getsMayorAxis(), this.getsMinorAxis());
-    // }
    
     @Override
     public boolean contains(Point point) {
@@ -53,10 +42,6 @@ public class Ellipse extends Figure {
 
     @Override
     public void scale(double multiplier){
-        // A = pi*(sMayorAxis/2)*(sMinorAxis/2)
-        // mult*A = pi*(a(sMayorAxis/2))*(a(sMinorAxis/2))
-        // mult*A = a²*A
-        // sqrt(mult) = a
         this.sMayorAxis *= Math.sqrt(multiplier);
         this.sMinorAxis *= Math.sqrt(multiplier);
     }
@@ -87,23 +72,5 @@ public class Ellipse extends Figure {
     public double getsMinorAxis() {
         return sMinorAxis;
     }
-
-    // @Override
-    // public void shadow(GraphicsContext gc) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'shadow'");
-    // }
-
-    // @Override
-    // public void bisel(GraphicsContext gc) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'bisel'");
-    // }
-
-    // @Override
-    // public void gradient(GraphicsContext gc) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'gradient'");
-    // }
 
 }

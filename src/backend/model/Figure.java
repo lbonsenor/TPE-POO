@@ -1,30 +1,9 @@
 package backend.model;
 
-public abstract class Figure{
+public interface Figure {
+    public abstract void changePos(double diffX, double diffY);
 
-    private final Point[] keyPoints;
-
-    protected final static int SHADOWOFFSET = 10;
-
-    protected Figure(Point[] keyPoints) {
-        this.keyPoints = keyPoints;
-    }
-
-    // muevo los puntos que definen a una figura
-    // -> la misma cambiara su posicion al ser dibujada
-    public void changePos(double deltaX, double deltaY) {
-        for (Point p : keyPoints)
-            p.changePos(deltaX, deltaY);
-    }
-
-    //public abstract void shadow(GraphicsContext gc);
-    //public abstract void gradient(GraphicsContext gc);
-    //public abstract void bisel(GraphicsContext gc);
-    
-    // nueva forma de utilizar "found" con un punto
-    public abstract boolean contains(Point point);
-
-    // nueva forma de utilizar "found" con respecto al rectangulo invisible
+    public abstract boolean contains(Point eventPoint);
     public abstract boolean isContainedIn(Rectangle rectangle);
 
     public abstract void rotate();

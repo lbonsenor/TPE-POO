@@ -1,8 +1,6 @@
 package backend.model;
 
-import frontend.paintFigures.Movable;
-
-public class Point implements Movable{
+public class Point{
 
     public double x, y;
 
@@ -30,12 +28,6 @@ public class Point implements Movable{
     @Override
     public String toString() {
         return String.format("{%.2f , %.2f}", x, y);
-    }
-
-    @Override
-    public void changePos(double diffX, double diffY) {
-        x += diffX;
-        y += diffY;
     }
 
 }

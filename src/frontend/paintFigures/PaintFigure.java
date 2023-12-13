@@ -6,16 +6,13 @@ import backend.model.Rectangle;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public abstract class PaintFigure implements Movable, Drawable{
+public abstract class PaintFigure{
 
-    private Color fillColor;
-    private Color borderColor;
+    protected Color fillColor, borderColor;
     protected Figure model;
-    protected GraphicsContext gc;
 
-    public PaintFigure(Figure model, GraphicsContext gc, Color fillColor, Color borderColor) {
+    public PaintFigure(Figure model, Color fillColor, Color borderColor) {
         this.model = model;
-        this.gc = gc;
         setBorderColor(borderColor);
         setFillColor(fillColor);
     }

@@ -1,11 +1,10 @@
 package backend.model;
 
-public class Rectangle extends Figure {
+public class Rectangle implements Figure {
 
-    private final Point topLeft, bottomRight;
+    protected final Point topLeft, bottomRight;
 
     public Rectangle(Point topLeft, Point bottomRight) {
-        super(new Point[]{topLeft, bottomRight});
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
     }
@@ -30,16 +29,6 @@ public class Rectangle extends Figure {
 		this.getTopLeft().y += diffY;
 		this.getBottomRight().y += diffY;
     }
-
-    // @Override
-    // public void draw(GraphicsContext gc){
-    //     gc.fillRect(this.getTopLeft().getX(), this.getTopLeft().getY(),
-	// 				Math.abs(this.getTopLeft().getX() - this.getBottomRight().getX()), 
-    //                 Math.abs(this.getTopLeft().getY() - this.getBottomRight().getY()));
-	// 	gc.strokeRect(this.getTopLeft().getX(), this.getTopLeft().getY(),
-	// 				  Math.abs(this.getTopLeft().getX() - this.getBottomRight().getX()), 
-    //                   Math.abs(this.getTopLeft().getY() - this.getBottomRight().getY()));
-    // }
 
     // unicamente genera rectangulo invisible
     // -> generado, "no dibujado"
@@ -105,23 +94,5 @@ public class Rectangle extends Figure {
         double toReturn[] = {(topLeft.getX()+bottomRight.getX())/2, (topLeft.getY()+bottomRight.getY())/2};
         return toReturn;
     }
-
-    // @Override
-    // public void shadow(GraphicsContext gc) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'shadow'");
-    // }
-
-    // @Override
-    // public void gradient(GraphicsContext gc) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'gradient'");
-    // }
-
-    // @Override
-    // public void bisel(GraphicsContext gc) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'bisel'");
-    // }
    
 }
