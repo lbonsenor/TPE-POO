@@ -173,22 +173,7 @@ public class PaintPane extends BorderPane {
 			Point endPoint = new Point(event.getX(), event.getY());
 			if(startPoint == null /*|| (endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY())*/) {
 				return ;
-			}
-			
-			GCFigure newFigure = null;
-			for(FigureToggleButton button : figuresArr){
-				if (button.isSelected()) {
-					newFigure = button.getFigureBasedOnPoints(startPoint, endPoint);
-					newFigure.setFillColor(fillColorPicker.getValue());
-					newFigure.setShadow(effectsPane.shadowCheckBox.isSelected());
-					newFigure.setGrad(effectsPane.gradCheckBox.isSelected());
-					newFigure.setBisel(effectsPane.biselCheckBox.isSelected());
-					canvasState.addFigure(newFigure, currentLayer.getValue());
-					startPoint = null;
-					redrawCanvas();
-					return;
-				}
-			}
+			}		
 
 			//Un rectangulo imaginario. Solo se acepta la seleccion multiple si es una sola capa
 			if (selectionButton.isSelected()){
@@ -203,6 +188,21 @@ public class PaintPane extends BorderPane {
 					}
 					if (found) statusPane.updateStatus("Figuras seleccionadas mediante Seleccion Multiple");
 					else statusPane.updateStatus("Ninguna figura encontrada");
+				}
+			}else{
+				GCFigure newFigure = null;
+				for(FigureToggleButton button : figuresArr){
+					if (button.isSelected()) {
+						newFigure = button.getFigureBasedOnPoints(startPoint, endPoint);
+						newFigure.setFillColor(fillColorPicker.getValue());
+						newFigure.setShadow(effectsPane.shadowCheckBox.isSelected());
+						newFigure.setGrad(effectsPane.gradCheckBox.isSelected());
+						newFigure.setBisel(effectsPane.biselCheckBox.isSelected());
+						canvasState.addFigure(newFigure, currentLayer.getValue());
+						startPoint = null;
+						redrawCanvas();
+						return;
+					}
 				}
 			}
 		});
@@ -370,9 +370,22 @@ public class PaintPane extends BorderPane {
 	}
 
 	private void showEffectsOnFigure(GCFigure figure){
-		effectsPane.shadowCheckBox.setSelected(figure.getShadow());
-		effectsPane.gradCheckBox.setSelected(figure.getGrad());
-		effectsPane.biselCheckBox.setSelected(figure.getBisel());
+		if (figure.getShadow()) {
+			effectsPane.shadowCheckBox.setSelected(figure.getShadow());
+		}else{
+			effectsPane.shadowCheckBox.setIndeterminate(!figure.getShadow());
+		}
+		if (figure.getGrad()) {
+			effectsPane.gradCheckBox.setSelected(figure.getGrad());
+		}else{
+			effectsPane.gradCheckBox.setIndeterminate(!figure.getGrad());
+		}
+		if (figure.getBisel()) {
+			effectsPane.biselCheckBox.setSelected(figure.getBisel());
+		}else{
+			effectsPane.biselCheckBox.setIndeterminate(!figure.getBisel());
+		}
+		
 	}
 
 	private void onShadowChange(ObservableValue<? extends Boolean> observableValue, Boolean selector, Boolean newValue) {
