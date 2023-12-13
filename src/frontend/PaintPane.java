@@ -106,6 +106,8 @@ public class PaintPane extends BorderPane {
 		this.statusPane = statusPane;
 		this.effectsPane = new EffectsPane();
 		effectsPane.shadowCheckBox.selectedProperty().addListener(this::onShadowChange);
+		effectsPane.gradCheckBox.selectedProperty().addListener(this::onGradChange);
+		effectsPane.biselCheckBox.selectedProperty().addListener(this::onBiselChange);
 		setTop(effectsPane);
 
 		currentLayer.setValue("Layer 1");
@@ -179,6 +181,8 @@ public class PaintPane extends BorderPane {
 					newFigure = button.getFigureBasedOnPoints(startPoint, endPoint);
 					newFigure.setFillColor(fillColorPicker.getValue());
 					newFigure.setShadow(effectsPane.shadowCheckBox.isSelected());
+					newFigure.setGrad(effectsPane.gradCheckBox.isSelected());
+					newFigure.setShadow(effectsPane.biselCheckBox.isSelected());
 					canvasState.addFigure(newFigure, currentLayer.getValue());
 					startPoint = null;
 					redrawCanvas();
@@ -370,6 +374,28 @@ public class PaintPane extends BorderPane {
 		if (!selectedFigures.isEmpty()) {
 			for (GCFigure figure : selectedFigures)
 				figure.setShadow(newValue);
+			redrawCanvas();
+		}
+	}
+
+	private void onGradChange(ObservableValue<? extends Boolean> observableValue, Boolean selector, Boolean newValue) {
+		if (newValue == null)
+			return;
+
+		if (!selectedFigures.isEmpty()) {
+			for (GCFigure figure : selectedFigures)
+				figure.setGrad(newValue);
+			redrawCanvas();
+		}
+	}
+
+	private void onBiselChange(ObservableValue<? extends Boolean> observableValue, Boolean selector, Boolean newValue) {
+		if (newValue == null)
+			return;
+
+		if (!selectedFigures.isEmpty()) {
+			for (GCFigure figure : selectedFigures)
+				figure.setBisel((newValue));
 			redrawCanvas();
 		}
 	}
