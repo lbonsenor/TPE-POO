@@ -26,51 +26,42 @@ public class GCCircle extends Circle implements GCFigure{
 
     @Override
     public void setFillColor(Color color) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setFillColor'");
+        this.color = color;
     }
 
     @Override
     public Color getFillColor() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFillColor'");
+        return color;
     }
 
     @Override
     public void setShadow(boolean value) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setShadow'");
+        this.shadow = value;
     }
 
     @Override
     public boolean getShadow() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getShadow'");
+        return this.shadow;
     }
 
     @Override
     public void setBisel(boolean value) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setBisel'");
+        this.bisel = value;
     }
 
     @Override
     public boolean getBisel() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBisel'");
+        return this.bisel;
     }
 
     @Override
     public void setGrad(boolean value) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setGrad'");
+        this.grad = value;
     }
 
     @Override
     public boolean getGrad() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getGrad'");
+        return this.grad;
     }
-
 
 }

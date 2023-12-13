@@ -21,52 +21,86 @@ public class GCGroupedFigure extends GroupedFigure<GCFigure> implements GCFigure
 
     @Override
     public void setFillColor(Color color) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setFillColor'");
+        for (GCFigure figure : this.getFiguresCopy()){
+			figure.setFillColor(color);
+		}
     }
 
     @Override
     public Color getFillColor() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFillColor'");
+        int iteration = 0;
+        Color commonValue = null;
+        for (GCFigure figure : this.getFiguresCopy()){
+			if (iteration != 0 && commonValue!=figure.getFillColor()) {
+                return null;
+            }
+            commonValue = figure.getFillColor();
+            iteration++;
+		}
+        return commonValue;
     }
 
     @Override
     public void setShadow(boolean value) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setShadow'");
+        for (GCFigure figure : this.getFiguresCopy()){
+			figure.setShadow(value);
+		}
     }
 
     @Override
     public boolean getShadow() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getShadow'");
+        int iteration = 0;
+        boolean commonValue = true;
+        for (GCFigure figure : this.getFiguresCopy()){
+			if (iteration != 0 && commonValue!=figure.getShadow()) {
+                return false;
+            }
+            commonValue = figure.getShadow();
+            iteration++;
+		}
+        return commonValue;
     }
 
     @Override
     public void setBisel(boolean value) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setBisel'");
+        for (GCFigure figure : this.getFiguresCopy()){
+			figure.setBisel(value);
+		}
     }
 
     @Override
     public boolean getBisel() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBisel'");
+        int iteration = 0;
+        boolean commonValue = true;
+        for (GCFigure figure : this.getFiguresCopy()){
+			if (iteration != 0 && commonValue!=figure.getBisel()) {
+                return false;
+            }
+            commonValue = figure.getBisel();
+            iteration++;
+		}
+        return commonValue;
     }
 
     @Override
     public void setGrad(boolean value) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setGrad'");
+        for (GCFigure figure : this.getFiguresCopy()){
+			figure.setGrad(value);
+		}
     }
 
     @Override
     public boolean getGrad() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getGrad'");
-    }
-
-    
+        int iteration = 0;
+        boolean commonValue = true;
+        for (GCFigure figure : this.getFiguresCopy()){
+			if (iteration != 0 && commonValue!=figure.getGrad()) {
+                return false;
+            }
+            commonValue = figure.getGrad();
+            iteration++;
+		}
+        return commonValue;
+    }    
 
 }
