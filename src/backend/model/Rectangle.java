@@ -24,10 +24,8 @@ public class Rectangle implements Figure {
 
     @Override
     public void changePos(double diffX, double diffY){
-        this.getTopLeft().x += diffX;
-		this.getBottomRight().x += diffX;
-		this.getTopLeft().y += diffY;
-		this.getBottomRight().y += diffY;
+        this.getTopLeft().changePos(diffX, diffY);
+        this.getBottomRight().changePos(diffX, diffY);
     }
 
     // unicamente genera rectangulo invisible
@@ -60,12 +58,8 @@ public class Rectangle implements Figure {
         double centerPoint[] = getCenterPoints();
         double offset[] = {(bottomRight.getY()-topLeft.getY())/2, (bottomRight.getX()-topLeft.getX())/2};
 
-        topLeft.x = centerPoint[0]-offset[0];
-        topLeft.y = centerPoint[1]-offset[1];
-
-
-        bottomRight.x = centerPoint[0]+offset[0];
-        bottomRight.y = centerPoint[1]+offset[1];
+        topLeft.setNewValues(centerPoint[0]-offset[0], centerPoint[1]-offset[1]);
+        bottomRight.setNewValues(centerPoint[0]+offset[0], centerPoint[1]+offset[1]);
     }
 
     @Override
@@ -73,11 +67,8 @@ public class Rectangle implements Figure {
         double centerPoint[] = getCenterPoints();
         double offset[] = {(bottomRight.getX()-topLeft.getX())*Math.sqrt(multiplier)/2,(bottomRight.getY()-topLeft.getY())*Math.sqrt(multiplier)/2};
 
-        topLeft.x = centerPoint[0]-offset[0];
-        topLeft.y = centerPoint[1]-offset[1];
-
-        bottomRight.x = centerPoint[0]+offset[0];
-        bottomRight.y = centerPoint[1]+offset[1];
+        topLeft.setNewValues(centerPoint[0]-offset[0], centerPoint[1]-offset[1]);
+        bottomRight.setNewValues(centerPoint[0]+offset[0], centerPoint[1]+offset[1]);
     }
 
     @Override

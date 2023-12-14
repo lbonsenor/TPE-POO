@@ -21,6 +21,9 @@ public class CanvasState<F extends Figure> {
     private final SortedMap<String, List<F>> layers = new TreeMap<>();
     private final Map<F, Set<String>> tags = new HashMap<>();
 
+    //lista provisoria para testing
+    
+
     public void addFigure(F figure, String layer, Collection<String> tags) {
         if (!layers.containsKey(layer)) {
             layers.put(layer, new ArrayList<>());

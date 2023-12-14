@@ -10,7 +10,6 @@ import frontend.paintFigures.PaintEllipse;
 import frontend.paintFigures.PaintFigure;
 import frontend.paintFigures.PaintRectangle;
 import frontend.paintFigures.PaintSquare;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public enum FigureButtonEnum {
@@ -30,9 +29,9 @@ public enum FigureButtonEnum {
     ELLIPSE("Elipse"){
         @Override
         public PaintFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, Color borderColor){
-            Point centerPoint = new Point(Math.abs(endPoint.x + startPoint.x) / 2, (Math.abs((endPoint.y + startPoint.y)) / 2));
-            double sMayorAxis = Math.abs(endPoint.x - startPoint.x);
-            double sMinorAxis = Math.abs(endPoint.y - startPoint.y);
+            Point centerPoint = new Point(Math.abs(endPoint.getX() + startPoint.getX()) / 2, (Math.abs((endPoint.getY() + startPoint.getY())) / 2));
+            double sMayorAxis = Math.abs(endPoint.getX() - startPoint.getX());
+            double sMinorAxis = Math.abs(endPoint.getY() - startPoint.getY());
             return new PaintEllipse(new Ellipse(centerPoint, sMayorAxis, sMinorAxis), fillColor, borderColor);
         }
     },

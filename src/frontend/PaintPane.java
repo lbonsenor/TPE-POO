@@ -225,7 +225,7 @@ public class PaintPane extends BorderPane {
 
 		deleteButton.setOnAction(event -> {
 			// si hay figuras seleccionadas se van a borrar sino no habra cambios
-			figures.deleteFigures(selectedFigures);
+			canvasState.deleteFigures(selectedFigures);
 			System.out.println("Lista de figuras en el back: "+canvasState.listSize());
 			selectedFigures.clear();
 			onSelectionChanged();

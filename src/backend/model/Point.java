@@ -2,7 +2,7 @@ package backend.model;
 
 public class Point{
 
-    public double x, y;
+    private double x, y;
 
     public Point(double x, double y) {
         this.x = x;
@@ -28,6 +28,22 @@ public class Point{
     @Override
     public String toString() {
         return String.format("{%.2f , %.2f}", x, y);
+    }
+
+    public void changePos(double diffX, double diffY){
+        this.x += diffX;
+        this.y += diffY;
+    }
+
+    public void setNewValues(double newX, double newY){
+        this.x = newX;
+        this.y = newY;
+    }
+
+    public boolean equals( Object other ){
+        return this == other || ( other instanceof Point point
+            && this.x == point.x && this.y == point.y
+        );
     }
 
 }

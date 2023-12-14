@@ -13,8 +13,7 @@ public class Ellipse implements Figure {
 
     @Override
     public void changePos(double diffX, double diffY){
-        this.getCenterPoint().x += diffX;
-		this.getCenterPoint().y += diffY;
+        centerPoint.changePos(diffX, diffY);
     }
    
     @Override
