@@ -1,6 +1,5 @@
 package frontend;
 
-import backend.model.Figure;
 import backend.model.Point;
 import frontend.paintFigures.PaintFigure;
 import javafx.scene.canvas.GraphicsContext;
@@ -15,7 +14,7 @@ public class FigureToggleButton extends ToggleButton{
         this.figureType = figureType;
     }
 
-    public PaintFigure getFigureBasedOnPoints(Point startPoint, Point endPoint,  GraphicsContext gc, Color fillColor, Color borderColor){
-        return figureType.getFigureBasedOnPoints(startPoint, endPoint, gc, fillColor, borderColor);
+    public PaintFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, Color borderColor){
+        return figureType.getFigureBasedOnPoints(startPoint, endPoint, fillColor, borderColor);
     }
 }

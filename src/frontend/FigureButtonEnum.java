@@ -16,20 +16,20 @@ import javafx.scene.paint.Color;
 public enum FigureButtonEnum {
     RECTANGLE("Rectangulo"){
         @Override
-        public PaintFigure getFigureBasedOnPoints(Point startPoint, Point endPoint,  GraphicsContext gc, Color fillColor, Color borderColor){
+        public PaintFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, Color borderColor){
             return new PaintRectangle(new Rectangle(getTopLeft(startPoint, endPoint), getBottomRight(startPoint,endPoint)), fillColor, borderColor);
         }
     },
     CIRCLE("Círculo"){
         @Override
-        public PaintFigure getFigureBasedOnPoints(Point startPoint, Point endPoint,  GraphicsContext gc, Color fillColor, Color borderColor){
+        public PaintFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, Color borderColor){
             double circleRadius = Math.sqrt(Math.pow(endPoint.getX()-startPoint.getX(),2)+Math.pow(endPoint.getY()-startPoint.getY(), 2));
 			return new PaintCircle(new Circle(startPoint, circleRadius), fillColor, borderColor);
         }
     },
     ELLIPSE("Elipse"){
         @Override
-        public PaintFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, GraphicsContext gc, Color fillColor, Color borderColor){
+        public PaintFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, Color borderColor){
             Point centerPoint = new Point(Math.abs(endPoint.x + startPoint.x) / 2, (Math.abs((endPoint.y + startPoint.y)) / 2));
             double sMayorAxis = Math.abs(endPoint.x - startPoint.x);
             double sMinorAxis = Math.abs(endPoint.y - startPoint.y);
@@ -38,7 +38,7 @@ public enum FigureButtonEnum {
     },
     SQUARE("Cuadrado"){
         @Override
-        public PaintFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, GraphicsContext gc, Color fillColor, Color borderColor){
+        public PaintFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, Color borderColor){
             double size = Math.abs(endPoint.getX() - startPoint.getX());
 			return new PaintSquare(new Square(getTopLeft(startPoint, endPoint), size), fillColor, borderColor);
         }
@@ -50,7 +50,7 @@ public enum FigureButtonEnum {
         this.name = name;
     }
 
-    public abstract PaintFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, GraphicsContext gc, Color fillColor, Color borderColor);
+    public abstract PaintFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, Color borderColor);
 
     private static Point getTopLeft(Point p1, Point p2){
         return new Point(p1.getX()<p2.getX() ? p1.getX():p2.getX(), p1.getY()<p2.getY() ? p1.getY():p2.getY());
