@@ -5,11 +5,16 @@ import backend.model.Point;
 import backend.model.Rectangle;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.Stop;
 
 public abstract class PaintFigure implements Figure{
 
-    protected Color fillColor, borderColor;
+    protected Paint fillColor, borderColor;
     protected Figure model;
+    protected boolean shadow, bisel, grad;
 
     public PaintFigure(Figure model, Color fillColor, Color borderColor) {
         this.model = model;
@@ -17,24 +22,28 @@ public abstract class PaintFigure implements Figure{
         setBorderColor(borderColor);
     }
 
-    public void setBorderColor(Color borderColor) {
+    public void gradColor(){
+        LinearGradient linearGradient = new LinearGradient(0, 0, 1, 0, true,
+            CycleMethod.NO_CYCLE,
+            new Stop(0, (Color) fillColor),
+            new Stop(1, ((Color) fillColor).invert() ));
+        setFillColor(linearGradient);
+    }
+
+    public void setBorderColor(Paint borderColor) {
         this.borderColor = borderColor;
     }
 
-    public Color getBorderColor() {
+    public Paint getBorderColor() {
         return borderColor;
     }
 
-    public void setFillColor(Color fillColor) {
+    public void setFillColor(Paint fillColor) {
         this.fillColor = fillColor;
     }
 
-    public Color getFillColor() {
+    public Paint getFillColor() {
         return fillColor;
-    }
-
-    public Figure getModel(){
-        return this.model;
     }
 
     @Override
@@ -52,6 +61,30 @@ public abstract class PaintFigure implements Figure{
     }
 
     public abstract void draw(GraphicsContext gc);
+
+    public void setShadow(boolean value){
+        this.shadow = value;
+    }
+
+    public boolean getShadow(){
+        return this.shadow;
+    }
+
+    public void setBisel(boolean value){
+        this.bisel = value;
+    }
+
+    public boolean getBisel(){
+        return this.bisel;
+    }
+
+    public void setGrad(boolean value){
+        this.grad = value;
+    }
+
+    public boolean getGrad(){
+        return this.grad;
+    }
 
     @Override
     public void changePos(double diffX, double diffY) {

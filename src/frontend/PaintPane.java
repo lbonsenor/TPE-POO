@@ -32,7 +32,7 @@ import java.util.Set;
 public class PaintPane extends BorderPane {
 
 	// BackEnd
-	CanvasState canvasState;
+	CanvasState<PaintFigure> canvasState;
 
 	// Canvas y relacionados
 	Canvas canvas = new Canvas(800, 600);
@@ -89,19 +89,14 @@ public class PaintPane extends BorderPane {
 	// Barra de selector de efectos
 	EffectsPane effectsPane;
 
-	//Figuras en el plano
-	Figures figures;
-
-	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
-		this.effectsPane = new EffectsPane();
-		this.setTop(effectsPane);
+	public PaintPane(CanvasState<PaintFigure> canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
+		this.effectsPane = new EffectsPane();
 		ToggleButton[] figuresButtons = {selectionButton, rectangleButton, circleButton, squareButton, ellipseButton,};
 		ButtonBase[] functionalitiesButtons = { groupButton, ungroupButton, rotateButton, flipHButton, flipVButton, scalePButton, scaleMButton, deleteButton};
 		ToggleGroup tools = new ToggleGroup();
-
-		this.figures = new Figures(canvasState);
+		this.setTop(effectsPane);
 		
 		fillColorPicker.valueProperty().addListener(this::onFillColorChanged);
 		for (ToggleButton tool : figuresButtons) {
@@ -158,7 +153,7 @@ public class PaintPane extends BorderPane {
 				selectedFigures.clear();
 				if (startPoint.distanceSquaredTo(endPoint) > 1) {
 					Rectangle container = Rectangle.from(startPoint, endPoint);
-					figures.getFiguresOnRectangle(container, selectedFigures);
+					canvasState.getFiguresOnRectangle(container, selectedFigures);
 					System.out.println(selectedFigures.size());
 					String status;
 					if (selectedFigures.isEmpty()){
@@ -173,13 +168,13 @@ public class PaintPane extends BorderPane {
 					System.out.println(status);
 					statusPane.updateStatus(status);
 				} 
-				else {
-					PaintFigure selectedFigure = figures.getFigureAt(endPoint);
-					if (selectedFigure != null) {
-						selectedFigures.add(selectedFigure);
-						statusPane.updateStatus(String.format("Se seleccionó: %s", selectedFigure));
-					}
-				}
+				// else {
+				// 	PaintFigure selectedFigure = figures.getFigureAt(endPoint);
+				// 	if (selectedFigure != null) {
+				// 		selectedFigures.add(selectedFigure);
+				// 		statusPane.updateStatus(String.format("Se seleccionó: %s", selectedFigure));
+				// 	}
+				// }
 				onSelectionChanged();
 			}
 			// si el boton de Selection NO esta activo -> dibujo figura
