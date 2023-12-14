@@ -7,20 +7,20 @@ import javafx.scene.paint.Color;
 
 public class PaintRectangle extends PaintFigure{
 
-    Rectangle localRectangle;
-    public PaintRectangle(Figure figure, GraphicsContext gc, Color filColor, Color borderColor) {
-        super(figure, gc, filColor, borderColor);
-        localRectangle = (Rectangle) figure;
+    public PaintRectangle(Rectangle figure, Color fillColor, Color borderColor) {
+        super(figure, fillColor, borderColor);
     }
 
     @Override
-    public void draw() {
-        gc.fillRect(localRectangle.getTopLeft().getX(), localRectangle.getTopLeft().getY(),
-                localRectangle.getBottomRight().getX() - localRectangle.getTopLeft().getX(),
-                localRectangle.getBottomRight().getY() - localRectangle.getTopLeft().getY());
-        gc.strokeRect(localRectangle.getTopLeft().getX(), localRectangle.getTopLeft().getY(),
-                localRectangle.getBottomRight().getX() - localRectangle.getTopLeft().getX(),
-                localRectangle.getBottomRight().getY() - localRectangle.getTopLeft().getY());
+    public void draw(GraphicsContext gc) {
+        Rectangle aux = (Rectangle) model;
+
+        gc.fillRect(aux.getTopLeft().getX(), aux.getTopLeft().getY(),
+                aux.getBottomRight().getX() - aux.getTopLeft().getX(),
+                aux.getBottomRight().getY() - aux.getTopLeft().getY());
+        gc.strokeRect(aux.getTopLeft().getX(), aux.getTopLeft().getY(),
+                aux.getBottomRight().getX() - aux.getTopLeft().getX(),
+                aux.getBottomRight().getY() - aux.getTopLeft().getY());
     }
 
     @Override

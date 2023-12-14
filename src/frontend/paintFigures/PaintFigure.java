@@ -13,8 +13,8 @@ public abstract class PaintFigure implements Figure{
 
     public PaintFigure(Figure model, Color fillColor, Color borderColor) {
         this.model = model;
-        setBorderColor(borderColor);
         setFillColor(fillColor);
+        setBorderColor(borderColor);
     }
 
     public void setBorderColor(Color borderColor) {

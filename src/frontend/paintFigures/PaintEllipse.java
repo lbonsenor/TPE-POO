@@ -1,25 +1,25 @@
 package frontend.paintFigures;
 
 import backend.model.Ellipse;
-import backend.model.Figure;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class PaintEllipse extends PaintFigure{
-    Ellipse localEllipse;
-    public PaintEllipse(Figure figure, GraphicsContext gc, Color fillColor, Color borderColor) {
-        super(figure, gc, fillColor, borderColor);
-        localEllipse = (Ellipse) figure;
+    
+    public PaintEllipse(Ellipse figure, Color fillColor, Color borderColor) {
+        super(figure, fillColor, borderColor);
     }
 
     @Override
-    public void draw() {
-        gc.fillOval(localEllipse.getCenterPoint().getX() - localEllipse.getsMayorAxis() / 2,
-                localEllipse.getCenterPoint().getY() - localEllipse.getsMinorAxis() / 2  ,
-                localEllipse.getsMayorAxis(), localEllipse.getsMinorAxis());
-        gc.strokeOval(localEllipse.getCenterPoint().getX() - localEllipse.getsMayorAxis() / 2 ,
-                localEllipse.getCenterPoint().getY() - localEllipse.getsMinorAxis() / 2,
-                localEllipse.getsMayorAxis(), localEllipse.getsMinorAxis());
+    public void draw(GraphicsContext gc) {
+        Ellipse aux = (Ellipse) model;
+        
+        gc.fillOval(aux.getCenterPoint().getX() - aux.getsMayorAxis() / 2,
+                aux.getCenterPoint().getY() - aux.getsMinorAxis() / 2  ,
+                aux.getsMayorAxis(), aux.getsMinorAxis());
+        gc.strokeOval(aux.getCenterPoint().getX() - aux.getsMayorAxis() / 2 ,
+                aux.getCenterPoint().getY() - aux.getsMinorAxis() / 2,
+                aux.getsMayorAxis(), aux.getsMinorAxis());
     }
 
     @Override
