@@ -1,73 +1,99 @@
 package backend;
 
 import backend.model.Figure;
-import backend.model.GroupedFigure;
-import backend.model.Point;
 import backend.model.Rectangle;
+import frontend.paintFigures.PaintFigure;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
-public class CanvasState implements Iterable<Figure>{
+public class CanvasState<F extends Figure> {
 
-    private List<Figure> figuresList = new ArrayList<>();
+    //Como la naturaleza de un sistema de Capas, cada capa es un String
+    private final SortedMap<String, List<F>> layers = new TreeMap<>();
+    private final Map<F, Set<String>> tags = new HashMap<>();
 
-    public void addFigure(Figure figure) {
-        figuresList.add(figure);
+    public void addFigure(F figure, String layer, Collection<String> tags) {
+        if (!layers.containsKey(layer)) {
+            layers.put(layer, new ArrayList<>());
+        }
+        layers.get(layer).add(figure);
+
+        this.tags.put(figure, new HashSet<>(tags));
     }
 
-    public int listSize(){
-        return figuresList.size();
+    public void addFigure(Collection<F> figures, String layer, Collection<String> tags){
+        if (!layers.containsKey(layer)) {
+            layers.put(layer, new ArrayList<>());
+        }
+        layers.get(layer).addAll(figures);
+        
+        for (F figure : figures){
+            this.tags.put(figure, new HashSet<>(tags));
+        }
     }
 
-    // public void groupFigures(Set<Figure> figures){
-    //     // Si es solo una figura, no tiene sentido agruparla
-    //     // OBS: Puedo agrupar dos figuras agrupadas, pues 
-    //     if (figures.size() > 1) {
-    //         figuresList.add(new GroupedFigure(figures));
-    //         figuresList.removeAll(figures); 
-    //     }
-    // }
+    public void deleteFigure(Collection<F> figures, String layer){
+        layers.getOrDefault(layer, new ArrayList<>()).removeAll(figures);
+        
+        for (F figure : figures){
+            tags.remove(figure);
+        }
+    }
 
-    // public void ungroupFigures(Set<Figure> figures){
-    //     // Puedo seleccionar más de una figura agrupada y desagrupar ambas, eso sí, si esa figura agrupada contenía una figura agrupada dentro, esta no se desagrupa
-    //     for (Figure figure : figures){
-    //         if (figure instanceof GroupedFigure) {
-    //             figuresList.remove(figure);
-    //             GroupedFigure group = (GroupedFigure) figure;
-    //             figuresList.addAll(group.getFiguresCopy());
-    //         }
-    //     }
-    // }
+    // muestra las figuras de todos los layers indicados
+    public Iterable<F> figures(Collection<String> layers) {
+        List<F> toReturn = new ArrayList<>();
+        for (String layer : layers){
+            toReturn.addAll(figures(layer));
+        }
+        
+        return toReturn;
+    }
+
+    // retorna las figuras de un layer especifico
+    public Collection<F> figures(String layer) {
+        return new ArrayList<>(layers.getOrDefault(layer, new ArrayList<>()));
+    }
     
-    public boolean deleteFigure(Figure figure) {
-        return figuresList.remove(figure);
+    // retorna figuras de todos los layers con el tag indicado
+    public Collection<F> figures(Collection<String> layers, String tag){
+        List<F> toReturn = new ArrayList<>();
+        for (F figure : figures(layers)){
+            if (this.tags.getOrDefault(figure, new HashSet<String>()).contains(tag)) {
+                toReturn.add(figure);
+            }
+        }
+
+        return toReturn;
     }
 
-    // public Figure getFigureAt(Point point) {
-    //     for (Figure figure : figuresList) {
-    //         if (figure.contains(point)){
-    //             return figure;
-    //         }
-    //     }
+    public Iterable<String> getTags(F figure){
+        return new ArrayList<>(tags.get(figure));
+    }
 
-    //     return null;
-    // }
+    public void changeTags(F figure, Collection<String> tags){
+        if (this.tags.containsKey(figure)) {
+            this.tags.put(figure, new HashSet<>(tags));
+        }
+    }
 
-    // public void getFiguresOnRectangle(Rectangle rectangle, Collection<Figure> result) {
-    //     for (Figure f : figuresList) {
-    //         if (f.isContainedIn(rectangle))
-    //         {
-    //             result.add(f);
-    //         }
-    //     }
-    // }
+    public void getFiguresOnRectangle(Rectangle rectangle, Collection<PaintFigure> params, Collection<PaintFigure> result) {
 
-    @Override
-    public Iterator<Figure> iterator() {
-        return figuresList.iterator();
+        for (PaintFigure paintFigure : params) {
+            if (paintFigure.isContainedIn(rectangle)) {
+                result.add(paintFigure);
+            }
+        }
+
     }
 
 }

@@ -6,7 +6,7 @@ import backend.model.Rectangle;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public abstract class PaintFigure{
+public abstract class PaintFigure implements Figure{
 
     protected Color fillColor, borderColor;
     protected Figure model;
@@ -51,7 +51,7 @@ public abstract class PaintFigure{
         return model.isContainedIn(rectangle);
     }
 
-    public abstract void draw();
+    public abstract void draw(GraphicsContext gc);
 
     @Override
     public void changePos(double diffX, double diffY) {
