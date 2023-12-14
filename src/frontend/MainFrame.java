@@ -1,20 +1,16 @@
 package frontend;
 
 import backend.CanvasState;
+import frontend.paintFigures.PaintFigure;
 import javafx.scene.layout.VBox;
 
 public class MainFrame extends VBox {
 
-    public MainFrame(CanvasState canvasState) {
+    public MainFrame(CanvasState<PaintFigure> canvasState) {
         getChildren().add(new AppMenuBar());
         StatusPane statusPane = new StatusPane();
-        //TagsPane tagsPane = new TagsPane();
-        //LayersPane layersPane = new LayersPane();
         getChildren().add(new PaintPane(canvasState, statusPane));
-        //getChildren().add(layersPane);
-        //getChildren().add(tagsPane);
         getChildren().add(statusPane);
-        
     }
 
 }
