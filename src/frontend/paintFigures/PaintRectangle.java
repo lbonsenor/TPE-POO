@@ -6,8 +6,8 @@ import javafx.scene.paint.Color;
 
 public class PaintRectangle extends PaintFigure{
 
-    public PaintRectangle(Rectangle figure, Color fillColor, Color borderColor) {
-        super(figure, fillColor, borderColor);
+    public PaintRectangle(Rectangle figure, Color fillColor, Color borderColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected) {
+        super(figure, fillColor, borderColor, shadowSelected, gradSelected, biselSelected);
     }
 
     @Override

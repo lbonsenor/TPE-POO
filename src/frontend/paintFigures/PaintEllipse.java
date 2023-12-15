@@ -6,8 +6,8 @@ import javafx.scene.paint.Color;
 
 public class PaintEllipse extends PaintFigure{
     
-    public PaintEllipse(Ellipse figure, Color fillColor, Color borderColor) {
-        super(figure, fillColor, borderColor);
+    public PaintEllipse(Ellipse figure, Color fillColor, Color borderColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected) {
+        super(figure, fillColor, borderColor, shadowSelected, gradSelected, biselSelected);
     }
 
     @Override

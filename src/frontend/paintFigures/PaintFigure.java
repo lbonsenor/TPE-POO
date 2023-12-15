@@ -20,10 +20,13 @@ public abstract class PaintFigure implements Figure{
     protected boolean shadow, bisel, grad;
     protected GroupFigure groupFigure;
 
-    public PaintFigure(Figure model, Color fillColor, Color borderColor) {
+    public PaintFigure(Figure model, Color fillColor, Color borderColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected) {
         this.model = model;
         setFillColor(fillColor);
         setBorderColor(borderColor);
+        setShadow(shadowSelected);
+        setGrad(gradSelected);
+        setBisel(biselSelected);
     }
 
     public void gradColor(){

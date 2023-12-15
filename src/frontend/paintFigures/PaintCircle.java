@@ -5,8 +5,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class PaintCircle extends PaintEllipse{
-    public PaintCircle(Circle figure, Color fillColor, Color borderColor) {
-        super(figure, fillColor, borderColor);
+    public PaintCircle(Circle figure, Color fillColor, Color borderColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected) {
+        super(figure, fillColor, borderColor, shadowSelected, gradSelected, biselSelected);
     }
 
     @Override

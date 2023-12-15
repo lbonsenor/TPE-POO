@@ -42,6 +42,9 @@ public class PaintPane extends BorderPane {
 	// Propiedades de figuras seleccionadas (inicializads para figuras nuevas)
 	private Color borderColor = DEFAULT_FIGURE_BORDER_COLOR;
 	private Color fillColor = DEFAULT_FIGURE_FILL_COLOR;
+	private boolean shadowSelected = false;
+	private boolean gradSelected = false;
+	private boolean biselSelected = false;
 
 	// Botones Barra Izquierda
 	ToggleButton selectionButton = new ToggleButton("Seleccionar");
@@ -83,16 +86,20 @@ public class PaintPane extends BorderPane {
 	StatusPane statusPane;
 
 	// Barra de selector de efectos
-	EffectsPane effectsPane;
+	EffectsPane effectsPane = new EffectsPane();
 
 	public PaintPane(CanvasState<PaintFigure> canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
-		this.effectsPane = new EffectsPane();
+
+		effectsPane.shadowCheckBox.selectedProperty().addListener(this::onShadowChange);
+		effectsPane.gradCheckBox.selectedProperty().addListener(this::onGradChange);
+		effectsPane.biselCheckBox.selectedProperty().addListener(this::onBiselChange);
+		this.setTop(effectsPane);
+
 		ToggleButton[] figuresButtons = {selectionButton, rectangleButton, circleButton, squareButton, ellipseButton,};
 		ButtonBase[] functionalitiesButtons = { groupButton, ungroupButton, rotateButton, flipHButton, flipVButton, scalePButton, scaleMButton, deleteButton};
 		ToggleGroup tools = new ToggleGroup();
-		this.setTop(effectsPane);
 		
 		fillColorPicker.valueProperty().addListener(this::onFillColorChanged);
 		for (ToggleButton tool : figuresButtons) {
@@ -171,7 +178,11 @@ public class PaintPane extends BorderPane {
 			}
 			// si el boton de Selection NO esta activo -> dibujo figura
 			else{
-				PaintFigure figure = ((FigureToggleButton) selectedButton).getFigureBasedOnPoints(startPoint, endPoint, fillColor, borderColor);
+				PaintFigure figure = ((FigureToggleButton) selectedButton).getFigureBasedOnPoints(startPoint, endPoint, fillColor, borderColor, shadowSelected, gradSelected, biselSelected);
+				System.out.println("esta figura nueva tiene color "+figure.getFillColor());
+				System.out.println("esta figura nueva tiene sombra? "+figure.getShadow());
+				System.out.println("esta figura nueva tiene grad? "+figure.getGrad());
+				System.out.println("esta figura nueva tiene bisel? "+figure.getBisel());
 				canvasState.addFigure(figure);
 				redrawCanvas();
 			}
@@ -278,12 +289,54 @@ public class PaintPane extends BorderPane {
 		}
 	}
 
+	private void onShadowChange(ObservableValue<? extends Boolean> observableValue, Boolean selector, Boolean newValue) {
+		if (newValue == null)
+			return;
+
+		if (selectedFigures.isEmpty()) {
+			shadowSelected = newValue;
+		} else {
+			for (PaintFigure figure : selectedFigures)
+				figure.setShadow(newValue);
+			redrawCanvas();
+		}
+	}
+
+	private void onGradChange(ObservableValue<? extends Boolean> observableValue, Boolean selector, Boolean newValue) {
+		if (newValue == null)
+			return;
+
+		if (selectedFigures.isEmpty()) {
+			gradSelected = newValue;
+		} else {
+			for (PaintFigure figure : selectedFigures)
+				figure.setGrad(newValue);
+			redrawCanvas();
+		}
+	}
+
+	private void onBiselChange(ObservableValue<? extends Boolean> observableValue, Boolean selector, Boolean newValue) {
+		if (newValue == null)
+			return;
+
+		if (selectedFigures.isEmpty()) {
+			biselSelected = newValue;
+		} else {
+			for (PaintFigure figure : selectedFigures)
+				figure.setBisel(newValue);
+			redrawCanvas();
+		}
+	}
+
 	// cuando las figuras selecciondas sufren cambios
 	private void onSelectionChanged() {
 		// si no hay figuras seleccionadas
 		// -> tomo el ultimo color en la paleta
 		if (selectedFigures.isEmpty()) {
 			fillColorPicker.setValue(fillColor);
+			effectsPane.shadowCheckBox.setSelected(shadowSelected);
+			effectsPane.gradCheckBox.setSelected(gradSelected);
+			effectsPane.biselCheckBox.setSelected(biselSelected);
 		}
 		else {
 			for (PaintFigure aux : selectedFigures) {
@@ -296,12 +349,22 @@ public class PaintPane extends BorderPane {
 			Iterator<PaintFigure> iter = selectedFigures.iterator();
 			PaintFigure f = iter.next();
 			Color fc = (Color) f.getFillColor();
+			// boolean fs = f.getShadow();
+			// System.out.println("Mi rectangulo tiene sombra? "+fs);
+			// boolean fg = f.getGrad();
+			// boolean fb = f.getBisel();
 			// Me fijo si las figuras seleccionadas comparten color para mostrar en la paleta
-			while (fc != null && iter.hasNext()) {
+			while ( fc != null && iter.hasNext()) {
 				f = iter.next();
-				if (fc != null && !fc.equals(f.getFillColor())) fc = null;				
+				if (fc != null && !fc.equals(f.getFillColor())) fc = null;
+				// if (!fs == f.getShadow()) fs = false;
+				// if (!fg == f.getGrad()) fg = false;
+				// if (!fb == f.getBisel()) fb = false;
 			}
-			fillColorPicker.setValue(fc);			
+			fillColorPicker.setValue(fc);
+			// effectsPane.shadowCheckBox.setSelected(fs);
+			// effectsPane.gradCheckBox.setSelected(fg);
+			// effectsPane.biselCheckBox.setSelected(fb);
 		}
 		redrawCanvas();
 	}
