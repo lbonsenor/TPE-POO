@@ -1,5 +1,9 @@
 package backend.model;
 
+import java.util.Objects;
+
+import frontend.paintFigures.PaintFigure;
+
 public class Ellipse implements Figure {
 
     protected final Point centerPoint;
@@ -70,6 +74,19 @@ public class Ellipse implements Figure {
 
     public double getsMinorAxis() {
         return sMinorAxis;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || (o instanceof Ellipse ellipse
+                && this.getCenterPoint().equals(ellipse.getCenterPoint())
+                && this.getsMayorAxis() == ellipse.getsMayorAxis()
+                && this.getsMinorAxis() == ellipse.getsMinorAxis());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash( getCenterPoint(), getsMayorAxis(), getsMinorAxis() );
     }
 
 }

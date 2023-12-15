@@ -3,7 +3,9 @@ package backend;
 import backend.model.Figure;
 import backend.model.Point;
 import backend.model.Rectangle;
+import frontend.GroupFigure;
 import frontend.paintFigures.PaintFigure;
+import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +25,7 @@ public class CanvasState<F extends Figure> {
     private final Map<F, Set<String>> tags = new HashMap<>();
 
     //lista provisoria para testing
-    private final List<PaintFigure> list = new ArrayList<>();
+    private final Set<PaintFigure> list = new HashSet<>();
 
     public void addFigure(F figure, String layer, Collection<String> tags) {
         if (!layers.containsKey(layer)) {
@@ -117,10 +119,10 @@ public class CanvasState<F extends Figure> {
      * Gets the Figure with the lowest depth that contains the given point, or null if none was found.
      */
     public PaintFigure getFigureAt(Point point) {
-        for (int i = list.size() - 1; i >= 0; i--) {
-            PaintFigure f = list.get(i);
-            if (f.contains(point))
-                return f;
+        for (PaintFigure paintFigure : list) {
+            if (paintFigure.contains(point)) {
+                return paintFigure;
+            }
         }
 
         return null;
@@ -151,6 +153,26 @@ public class CanvasState<F extends Figure> {
 
     public Iterable<PaintFigure> figures() {
         return new ArrayList<>(list);
+    }
+
+
+    //VERSION EXPERIMENTAL GROUPFIGURES
+    public void groupFigures(Collection<PaintFigure> selected){
+        GroupFigure newGroup = new GroupFigure(selected);
+        for (PaintFigure paintFigure : selected) {
+            if (paintFigure.getGroupFigure() == null) {
+                paintFigure.setGroupFigure(newGroup);
+            }
+        }
+    }
+
+    public void ungroupFigures(Collection<PaintFigure> selected){
+        for (PaintFigure paintFigure : selected) {
+            if (paintFigure.getGroupFigure() != null) {
+                paintFigure.getGroupFigure().clear();
+                paintFigure.setGroupFigure(null);
+            }
+        }
     }
 
 }

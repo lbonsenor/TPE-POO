@@ -1,8 +1,11 @@
 package frontend.paintFigures;
 
+import java.util.Objects;
+
 import backend.model.Figure;
 import backend.model.Point;
 import backend.model.Rectangle;
+import frontend.GroupFigure;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -15,6 +18,7 @@ public abstract class PaintFigure implements Figure{
     protected Paint fillColor, borderColor;
     protected Figure model;
     protected boolean shadow, bisel, grad;
+    protected GroupFigure groupFigure;
 
     public PaintFigure(Figure model, Color fillColor, Color borderColor) {
         this.model = model;
@@ -28,6 +32,21 @@ public abstract class PaintFigure implements Figure{
             new Stop(0, (Color) fillColor),
             new Stop(1, ((Color) fillColor).invert() ));
         setFillColor(linearGradient);
+    }
+
+    //metodo experimental
+    public void showFiguresInGroup(){
+        for (PaintFigure paintFigure : groupFigure) {
+            System.out.println(paintFigure);
+        }
+    }
+
+    public void setGroupFigure(GroupFigure groupFigure){
+        this.groupFigure = groupFigure;
+    }
+
+    public GroupFigure getGroupFigure(){
+        return this.groupFigure;
     }
 
     public void setBorderColor(Paint borderColor) {
@@ -110,5 +129,17 @@ public abstract class PaintFigure implements Figure{
     public void flipV() {
         model.flipV();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || (o instanceof PaintFigure figure
+                && this.model.equals(figure));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(model.hashCode());
+    }
+
 
 }

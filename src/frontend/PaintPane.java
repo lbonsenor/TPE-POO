@@ -252,19 +252,19 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
-		// groupButton.setOnAction(event ->{
-		// 	if (selectedFigures != null) {
-		// 		figures.groupFigures(selectedFigures);
-		// 		redrawCanvas();
-		// 	}
-		// });
+		groupButton.setOnAction(event ->{
+			if (selectedFigures != null) {
+				canvasState.groupFigures(selectedFigures);
+				redrawCanvas();
+			}
+		});
 
-		// ungroupButton.setOnAction(event ->{
-		// 	if (selectedFigures != null) {
-		// 		figures.ungroupFigures(selectedFigures);
-		// 		redrawCanvas();
-		// 	}
-		// });
+		ungroupButton.setOnAction(event ->{
+			if (selectedFigures != null) {
+				canvasState.ungroupFigures(selectedFigures);
+				redrawCanvas();
+			}
+		});
 
 		setLeft(buttonsBox);
 		setRight(canvas);
@@ -286,6 +286,13 @@ public class PaintPane extends BorderPane {
 			fillColorPicker.setValue(fillColor);
 		}
 		else {
+			for (PaintFigure aux : selectedFigures) {
+				if (aux.getGroupFigure() != null) {
+					for( PaintFigure elementos : aux.getGroupFigure() ){
+						selectedFigures.add(elementos);
+					}
+				}
+			}
 			Iterator<PaintFigure> iter = selectedFigures.iterator();
 			PaintFigure f = iter.next();
 			Color fc = (Color) f.getFillColor();

@@ -1,5 +1,9 @@
 package backend.model;
 
+import java.util.Objects;
+
+import frontend.paintFigures.PaintFigure;
+
 public class Rectangle implements Figure {
 
     protected final Point topLeft, bottomRight;
@@ -84,6 +88,18 @@ public class Rectangle implements Figure {
     private double[] getCenterPoints(){
         double toReturn[] = {(topLeft.getX()+bottomRight.getX())/2, (topLeft.getY()+bottomRight.getY())/2};
         return toReturn;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || (o instanceof Rectangle rectangle
+                && this.getBottomRight().equals(rectangle.getBottomRight())
+                && this.getTopLeft().equals(rectangle.getTopLeft()));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBottomRight(), getTopLeft());
     }
    
 }
