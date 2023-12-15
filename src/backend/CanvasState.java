@@ -5,7 +5,6 @@ import backend.model.Point;
 import backend.model.Rectangle;
 import frontend.GroupFigure;
 import frontend.paintFigures.PaintFigure;
-import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
 import java.util.Collection;

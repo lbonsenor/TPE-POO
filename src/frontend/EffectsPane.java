@@ -10,9 +10,9 @@ import javafx.scene.layout.HBox;
 
 public class EffectsPane extends BorderPane {
 
-	public CheckBox shadowCheckBox = new CheckBox("Sombra");
-	public CheckBox gradCheckBox = new CheckBox("Gradiente");
-	public CheckBox biselCheckBox = new CheckBox("Biselado");
+	private CheckBox shadowCheckBox = new CheckBox("Sombra");
+	private CheckBox gradCheckBox = new CheckBox("Gradiente");
+	private CheckBox biselCheckBox = new CheckBox("Biselado");
 
 	public EffectsPane() {
 		setStyle("-fx-background-color: #999");
@@ -35,6 +35,18 @@ public class EffectsPane extends BorderPane {
 		
 		setCenter(fxSelectorsBox);
 		
+	}
+
+	public CheckBox getShadowCheckBox() {
+		return shadowCheckBox;
+	}
+
+	public CheckBox getGradCheckBox() {
+		return gradCheckBox;
+	}
+
+	public CheckBox getBiselCheckBox() {
+		return biselCheckBox;
 	}
 
 }

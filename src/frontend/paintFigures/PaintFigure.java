@@ -29,13 +29,16 @@ public abstract class PaintFigure implements Figure{
         setBisel(biselSelected);
     }
 
-    public void gradColor(){
+    protected Paint gradColor(){
         LinearGradient linearGradient = new LinearGradient(0, 0, 1, 0, true,
             CycleMethod.NO_CYCLE,
             new Stop(0, (Color) fillColor),
             new Stop(1, ((Color) fillColor).invert() ));
-        setFillColor(linearGradient);
+        return linearGradient;
     }
+
+    protected abstract void shadowDraw(GraphicsContext gc);
+    protected abstract void biselDraw(GraphicsContext gc);
 
     //metodo experimental
     public void showFiguresInGroup(){

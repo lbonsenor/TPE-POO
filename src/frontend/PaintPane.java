@@ -92,9 +92,9 @@ public class PaintPane extends BorderPane {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
 
-		effectsPane.shadowCheckBox.selectedProperty().addListener(this::onShadowChange);
-		effectsPane.gradCheckBox.selectedProperty().addListener(this::onGradChange);
-		effectsPane.biselCheckBox.selectedProperty().addListener(this::onBiselChange);
+		effectsPane.getShadowCheckBox().selectedProperty().addListener(this::onShadowChange);
+		effectsPane.getGradCheckBox().selectedProperty().addListener(this::onGradChange);
+		effectsPane.getBiselCheckBox().selectedProperty().addListener(this::onBiselChange);
 		this.setTop(effectsPane);
 
 		ToggleButton[] figuresButtons = {selectionButton, rectangleButton, circleButton, squareButton, ellipseButton,};
@@ -334,9 +334,9 @@ public class PaintPane extends BorderPane {
 		// -> tomo el ultimo color en la paleta
 		if (selectedFigures.isEmpty()) {
 			fillColorPicker.setValue(fillColor);
-			effectsPane.shadowCheckBox.setSelected(shadowSelected);
-			effectsPane.gradCheckBox.setSelected(gradSelected);
-			effectsPane.biselCheckBox.setSelected(biselSelected);
+			effectsPane.getShadowCheckBox().setSelected(shadowSelected);
+			effectsPane.getGradCheckBox().setSelected(gradSelected);
+			effectsPane.getBiselCheckBox().setSelected(biselSelected);
 		}
 		else {
 			for (PaintFigure aux : selectedFigures) {
@@ -349,22 +349,22 @@ public class PaintPane extends BorderPane {
 			Iterator<PaintFigure> iter = selectedFigures.iterator();
 			PaintFigure f = iter.next();
 			Color fc = (Color) f.getFillColor();
-			// boolean fs = f.getShadow();
-			// System.out.println("Mi rectangulo tiene sombra? "+fs);
-			// boolean fg = f.getGrad();
-			// boolean fb = f.getBisel();
+			boolean fs = f.getShadow();
+			System.out.println("Mi rectangulo tiene sombra? "+fs);
+			boolean fg = f.getGrad();
+			boolean fb = f.getBisel();
 			// Me fijo si las figuras seleccionadas comparten color para mostrar en la paleta
 			while ( fc != null && iter.hasNext()) {
 				f = iter.next();
 				if (fc != null && !fc.equals(f.getFillColor())) fc = null;
-				// if (!fs == f.getShadow()) fs = false;
-				// if (!fg == f.getGrad()) fg = false;
-				// if (!fb == f.getBisel()) fb = false;
+				if (!fs == f.getShadow()) fs = false;
+				if (!fg == f.getGrad()) fg = false;
+				if (!fb == f.getBisel()) fb = false;
 			}
 			fillColorPicker.setValue(fc);
-			// effectsPane.shadowCheckBox.setSelected(fs);
-			// effectsPane.gradCheckBox.setSelected(fg);
-			// effectsPane.biselCheckBox.setSelected(fb);
+			effectsPane.getShadowCheckBox().setSelected(fs);
+			effectsPane.getGradCheckBox().setSelected(fg);
+			effectsPane.getBiselCheckBox().setSelected(fb);
 		}
 		redrawCanvas();
 	}
