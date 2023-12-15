@@ -91,9 +91,24 @@ public abstract class PaintFigure implements Figure{
         model.changePos(diffX, diffY);
     }
 
-    public abstract void rotate();
-    public abstract void scale(double multiplier);
-    public abstract void flipH();
-    public abstract void flipV();
-    
+    @Override
+    public void rotate() {
+        model.rotate();
+    }
+
+    @Override
+    public void scale(double multiplier) {
+        model.scale(multiplier);
+    }
+
+    @Override
+    public void flipH() {
+        model.flipH();
+    }
+
+    @Override
+    public void flipV() {
+        model.flipV();
+    }
+
 }

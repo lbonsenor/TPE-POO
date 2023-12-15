@@ -22,23 +22,4 @@ public class PaintRectangle extends PaintFigure{
                 aux.getBottomRight().getY() - aux.getTopLeft().getY());
     }
 
-    @Override
-    public void rotate() {
-        model.rotate();
-    }
-
-    @Override
-    public void scale(double multiplier) {
-        model.scale(multiplier);
-    }
-
-    @Override
-    public void flipH() {
-        model.flipH();
-    }
-
-    @Override
-    public void flipV() {
-        model.flipV();
-    }
 }

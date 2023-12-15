@@ -22,27 +22,4 @@ public class PaintEllipse extends PaintFigure{
                 aux.getsMayorAxis(), aux.getsMinorAxis());
     }
 
-    @Override
-    public void rotate() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'rotate'");
-    }
-
-    @Override
-    public void scale(double multiplier) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'scale'");
-    }
-
-    @Override
-    public void flipH() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'flipH'");
-    }
-
-    @Override
-    public void flipV() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'flipV'");
-    }
 }
