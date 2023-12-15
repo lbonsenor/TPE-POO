@@ -2,7 +2,6 @@ package frontend;
 
 import backend.model.Point;
 import frontend.paintFigures.PaintFigure;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.paint.Color;
 

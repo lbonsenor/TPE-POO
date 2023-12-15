@@ -24,25 +24,21 @@ public class PaintRectangle extends PaintFigure{
 
     @Override
     public void rotate() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'rotate'");
+        model.rotate();
     }
 
     @Override
     public void scale(double multiplier) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'scale'");
+        model.scale(multiplier);
     }
 
     @Override
     public void flipH() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'flipH'");
+        model.flipH();
     }
 
     @Override
     public void flipV() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'flipV'");
+        model.flipV();
     }
 }
