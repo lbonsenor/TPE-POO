@@ -154,7 +154,6 @@ public class PaintPane extends BorderPane {
 				if (startPoint.distanceSquaredTo(endPoint) > 1) {
 					Rectangle container = Rectangle.from(startPoint, endPoint);
 					canvasState.getFiguresOnRectangle(container, selectedFigures);
-					System.out.println(selectedFigures.size());
 					String status;
 					if (selectedFigures.isEmpty()){
 						status = "No se encontraron figuras en el area";
@@ -165,7 +164,6 @@ public class PaintPane extends BorderPane {
 					else{
 						status = String.format("Se seleccionaron %d figuras", selectedFigures.size());
 					}
-					System.out.println(status);
 					statusPane.updateStatus(status);
 				} 
 				// else {
@@ -179,8 +177,8 @@ public class PaintPane extends BorderPane {
 			}
 			// si el boton de Selection NO esta activo -> dibujo figura
 			else{
-				PaintFigure figure = ((FigureToggleButton) selectedButton).getFigureBasedOnPoints(startPoint, endPoint, gc, fillColor, borderColor);
-				figures.addFigure(figure);
+				PaintFigure figure = ((FigureToggleButton) selectedButton).getFigureBasedOnPoints(startPoint, endPoint, fillColor, borderColor);
+				canvasState.addFigure(figure);
 				redrawCanvas();
 			}
 			
@@ -191,7 +189,7 @@ public class PaintPane extends BorderPane {
 			// --> muestro el cursor sobre un punto en el plano o sobre una figura
 			if (selectedFigures.isEmpty()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
-				PaintFigure selectedFigure = figures.getFigureAt(eventPoint);
+				PaintFigure selectedFigure = canvasState.getFigureAt(eventPoint);
 				statusPane.updateStatus(selectedFigure == null ? eventPoint.toString() : selectedFigure.toString());
 			}
 		});
@@ -226,7 +224,6 @@ public class PaintPane extends BorderPane {
 		deleteButton.setOnAction(event -> {
 			// si hay figuras seleccionadas se van a borrar sino no habra cambios
 			canvasState.deleteFigures(selectedFigures);
-			System.out.println("Lista de figuras en el back: "+canvasState.listSize());
 			selectedFigures.clear();
 			onSelectionChanged();
 		});
@@ -276,19 +273,19 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
-		groupButton.setOnAction(event ->{
-			if (selectedFigures != null) {
-				figures.groupFigures(selectedFigures);
-				redrawCanvas();
-			}
-		});
+		// groupButton.setOnAction(event ->{
+		// 	if (selectedFigures != null) {
+		// 		figures.groupFigures(selectedFigures);
+		// 		redrawCanvas();
+		// 	}
+		// });
 
-		ungroupButton.setOnAction(event ->{
-			if (selectedFigures != null) {
-				figures.ungroupFigures(selectedFigures);
-				redrawCanvas();
-			}
-		});
+		// ungroupButton.setOnAction(event ->{
+		// 	if (selectedFigures != null) {
+		// 		figures.ungroupFigures(selectedFigures);
+		// 		redrawCanvas();
+		// 	}
+		// });
 
 		setLeft(buttonsBox);
 		setRight(canvas);
@@ -312,7 +309,7 @@ public class PaintPane extends BorderPane {
 		else {
 			Iterator<PaintFigure> iter = selectedFigures.iterator();
 			PaintFigure f = iter.next();
-			Color fc = f.getFillColor();
+			Color fc = (Color) f.getFillColor();
 			// Me fijo si las figuras seleccionadas comparten color para mostrar en la paleta
 			while (fc != null && iter.hasNext()) {
 				f = iter.next();
@@ -338,10 +335,10 @@ public class PaintPane extends BorderPane {
 
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		for(PaintFigure figure : figures) {
+		for(PaintFigure figure : canvasState.figures()) {
 			gc.setStroke(selectedFigures.contains(figure) ? SELECTED_FIGURE_BORDER_COLOR : figure.getBorderColor());
 			gc.setFill(figure.getFillColor());
-			figure.draw();
+			figure.draw(gc);
 		}
 	}
 

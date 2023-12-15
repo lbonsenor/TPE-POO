@@ -1,6 +1,7 @@
 package backend;
 
 import backend.model.Figure;
+import backend.model.Point;
 import backend.model.Rectangle;
 import frontend.paintFigures.PaintFigure;
 
@@ -22,7 +23,7 @@ public class CanvasState<F extends Figure> {
     private final Map<F, Set<String>> tags = new HashMap<>();
 
     //lista provisoria para testing
-    
+    private final List<PaintFigure> list = new ArrayList<>();
 
     public void addFigure(F figure, String layer, Collection<String> tags) {
         if (!layers.containsKey(layer)) {
@@ -97,6 +98,59 @@ public class CanvasState<F extends Figure> {
             }
         }
 
+    }
+
+    //metodos provisorios para testing
+    public void addFigure(PaintFigure figure) {
+        list.add(figure);
+    }
+
+    public boolean deleteFigures(Collection<PaintFigure> figures) {
+        return list.removeAll(figures);
+    }
+
+    public void clear() {
+        list.clear();
+    }
+
+    /**
+     * Gets the Figure with the lowest depth that contains the given point, or null if none was found.
+     */
+    public PaintFigure getFigureAt(Point point) {
+        for (int i = list.size() - 1; i >= 0; i--) {
+            PaintFigure f = list.get(i);
+            if (f.contains(point))
+                return f;
+        }
+
+        return null;
+    }
+
+    /**
+     * Adds all the figures that are fully contained within a given rectangle to the specified collection.
+     * Returns the amount of figures that were added to the collection.
+     */
+    public int getFiguresOnRectangle(Rectangle rectangle, Collection<PaintFigure> result) {
+        int count = 0;
+        for (PaintFigure f : list) {
+            if (f.isContainedIn(rectangle))
+            {
+                result.add(f);
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Returns an iterator through the Figures in this CanvasState in descending depth order (from bottom to top).
+     */
+    public Iterator<PaintFigure> iterator() {
+        return list.iterator();
+    }
+
+    public Iterable<PaintFigure> figures() {
+        return new ArrayList<>(list);
     }
 
 }
