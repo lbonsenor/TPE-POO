@@ -151,18 +151,26 @@ public class PaintPane extends BorderPane {
 			// CHEQUEAR CON EQUIPO: que pasa con las figuras agrupadas
 			if (selectedButton == selectionButton) {
 				selectedFigures.clear();
-				if (startPoint.distanceSquaredTo(endPoint) > 1) {
+				String status = "";
+				if (startPoint.distanceSquaredTo(endPoint) == 0) {
+					PaintFigure figure = canvasState.getFigureAt(endPoint);
+					if (figure != null) {
+						selectedFigures.add(figure);
+						status = String.format("Se seleccionó %s", figure);
+					}
+				}else {
 					Rectangle container = Rectangle.from(startPoint, endPoint);
 					canvasState.getFiguresOnRectangle(container, selectedFigures);
-					System.out.println("Estoy seleccionando varias, caso: "+selectedFigures.size());
-					String status;
 					if (selectedFigures.size() == 1){
 						status = String.format("Se seleccionó: %s", selectedFigures.iterator().next());
 					} else{
 						status = String.format("Se seleccionaron %d figuras", selectedFigures.size());
 					}
-					statusPane.updateStatus(status);
-				} 
+				}
+				if (selectedFigures.isEmpty()) {
+					status = "No se seleccionó ninguna figura";
+				}
+				statusPane.updateStatus(status);
 				onSelectionChanged();
 			}
 			// si el boton de Selection NO esta activo -> dibujo figura
@@ -183,35 +191,6 @@ public class PaintPane extends BorderPane {
 				statusPane.updateStatus(selectedFigure == null ? eventPoint.toString() : selectedFigure.toString());
 			}
 		});
-
-		// canvas.setOnMouseClicked(event -> {
-		// 	Toggle selectedButton = tools.getSelectedToggle();
-
-		// 	boolean wasMovingFigures = isMovingFigures;
-		// 	isMovingFigures = false;
-
-		// 	if (selectedButton == null || wasMovingFigures){
-		// 		return;
-		// 	}
-
-		// 	Point endPoint = new Point(event.getX(), event.getY());
-
-		// 	if (selectedButton == selectionButton) {
-		// 		selectedFigures.clear();
-		// 		if (startPoint.equals(endPoint)) {
-		// 			PaintFigure figure = canvasState.getFigureAt(endPoint);
-		// 			if (figure != null) {
-		// 				selectedFigures.add(figure);
-		// 				statusPane.updateStatus(String.format("Se seleccionó %s", figure));
-		// 			}
-		// 			else{
-		// 				statusPane.updateStatus("No se seleccionó ninguna figura");
-		// 			}
-		// 		}
-		// 		onSelectionChanged();
-		// 	}
-
-		// });
 
 		canvas.setOnMouseDragged(event -> {
 			if (selectedFigures!=null && !selectedFigures.isEmpty()) {
@@ -340,7 +319,6 @@ public class PaintPane extends BorderPane {
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		for(PaintFigure figure : canvasState.figures()) {
-			System.out.println("Se selecciono: " + selectedFigures.size());
 			gc.setStroke(selectedFigures.contains(figure) ? SELECTED_FIGURE_BORDER_COLOR : figure.getBorderColor());
 			gc.setFill(figure.getFillColor());
 			figure.draw(gc);
