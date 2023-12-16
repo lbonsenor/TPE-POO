@@ -1,7 +1,6 @@
 package frontend.gcmodel;
 
 import backend.model.Circle;
-import frontend.TriStateBoolean;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
@@ -13,9 +12,9 @@ public class GCCircle extends GCEllipse{
 
     @Override
     public void draw(GraphicsContext gc){
-        if (effectMap.get(Effects.SHADOW).equals(TriStateBoolean.TRUE)) shadowDraw(gc);
-        if (effectMap.get(Effects.BEVEL).equals(TriStateBoolean.TRUE)) biselDraw(gc);
-        gc.setFill( (effectMap.get(Effects.GRADIENT).equals(TriStateBoolean.TRUE)) ? gradColor() : fillColor );
+        if (effectMap.get(Effects.SHADOW)) shadowDraw(gc);
+        if (effectMap.get(Effects.BEVEL)) biselDraw(gc);
+        gc.setFill( (effectMap.get(Effects.GRADIENT)) ? gradColor() : fillColor );
 
         Circle aux = (Circle) model;
         double diameter = aux.getRadius() * 2;

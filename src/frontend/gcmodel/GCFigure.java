@@ -19,15 +19,15 @@ public abstract class GCFigure implements Figure{
 
     protected Color fillColor;
     protected Figure model;
-    protected Map<Effects, TriStateBoolean> effectMap = new EnumMap<>(Effects.class);
+    protected Map<Effects, Boolean> effectMap = new EnumMap<>(Effects.class);
 
     public GCFigure(Figure model, Color fillColor, boolean shadow, boolean grad, boolean bevel) {
         this.model = model;
         setFillColor(fillColor);
 
-        effectMap.put(Effects.SHADOW, TriStateBoolean.fromBoolean(shadow));
-        effectMap.put(Effects.GRADIENT, TriStateBoolean.fromBoolean(grad));
-        effectMap.put(Effects.BEVEL, TriStateBoolean.fromBoolean(bevel));
+        effectMap.put(Effects.SHADOW, shadow);
+        effectMap.put(Effects.GRADIENT, grad);
+        effectMap.put(Effects.BEVEL, bevel);
         
     }
 
@@ -69,11 +69,11 @@ public abstract class GCFigure implements Figure{
     public abstract void draw(GraphicsContext gc);
 
     public void setEffect(Effects effect, boolean value){
-        effectMap.put(effect, TriStateBoolean.fromBoolean(value));
+        effectMap.put(effect, value);
     }
 
     public TriStateBoolean getEffect(Effects effect){
-        return effectMap.get(effect);
+        return TriStateBoolean.fromBoolean(effectMap.get(effect));
     }
 
     @Override

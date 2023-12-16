@@ -109,7 +109,7 @@ public class GCGroupedFigure extends GCFigure{
 
     @Override
     public void setEffect(Effects effect, boolean value){
-        effectMap.put(effect, TriStateBoolean.fromBoolean(value));
+        effectMap.put(effect, value);
         for (GCFigure figure : figures){
             figure.setEffect(effect, value);
         }

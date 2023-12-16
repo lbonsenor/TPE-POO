@@ -1,7 +1,6 @@
 package frontend.gcmodel;
 
 import backend.model.Rectangle;
-import frontend.TriStateBoolean;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -13,9 +12,9 @@ public class GCRectangle extends GCFigure{
 
     @Override
     public void draw(GraphicsContext gc) {
-        if (effectMap.get(Effects.SHADOW).equals(TriStateBoolean.TRUE)) shadowDraw(gc);
-        if (effectMap.get(Effects.BEVEL).equals(TriStateBoolean.TRUE)) biselDraw(gc);
-        gc.setFill( (effectMap.get(Effects.GRADIENT).equals(TriStateBoolean.TRUE)) ? gradColor() : fillColor );
+        if (effectMap.get(Effects.SHADOW)) shadowDraw(gc);
+        if (effectMap.get(Effects.BEVEL)) biselDraw(gc);
+        gc.setFill( (effectMap.get(Effects.GRADIENT)) ? gradColor() : fillColor );
 
         Rectangle aux = (Rectangle) model;
 
