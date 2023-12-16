@@ -151,19 +151,26 @@ public class PaintPane extends BorderPane {
 			Point endPoint = new Point(event.getX(), event.getY());
 
 			// si el boton de Selection esta activo busco figuras		
-			if (selectedButton == selectionButton) {
+			if (selectedButton == selectionButton && checkOneLayer()) {
 				selectedFigures.clear();
 				String status = "";
 				if (startPoint.distanceSquaredTo(endPoint) == 0) {
-					GCFigure figure = canvasState.getFigureAt(endPoint);
-					if (figure != null) {
-						selectedFigures.add(figure);
-						status = String.format("Se seleccionó %s", figure);
+					for( GCFigure figure : canvasState.figures() ){
+						if (figure.contains(endPoint)) {
+							selectedFigures.add(figure);
+							status = String.format("Se seleccionó %s", figure);
 					}
+				}
 				}else {
-					Rectangle container = Rectangle.from(startPoint, endPoint);
-					canvasState.getFiguresOnRectangle(container, selectedFigures);
+					Rectangle imaginaryRect = new Rectangle(Point.getTopLeft(startPoint, endPoint), Point.getBottomRight(startPoint, endPoint));
+					for(GCFigure figure: getFigures()){
+						if (figure.found(imaginaryRect)) {
+							found = true;
+							selectedFigures.add(figure);
+						}
+					}	
 					if (selectedFigures.size() == 1){
+						tagsEnabled(true);
 						status = String.format("Se seleccionó: %s", selectedFigures.iterator().next());
 					} else{
 						status = String.format("Se seleccionaron %d figuras", selectedFigures.size());
@@ -171,6 +178,8 @@ public class PaintPane extends BorderPane {
 				}
 				if (selectedFigures.isEmpty()) {
 					status = "No se seleccionó ninguna figura";
+				}else{
+					modifiersEnabled(true);
 				}
 				statusPane.updateStatus(status);
 				onSelectionChanged();
@@ -178,11 +187,11 @@ public class PaintPane extends BorderPane {
 			// si el boton de Selection NO esta activo -> dibujo figura
 			else{
 				GCFigure figure = ((FigureToggleButton) selectedButton).getFigureBasedOnPoints(startPoint, endPoint, fillColor, borderColor, shadowSelected, gradSelected, biselSelected);
-				canvasState.addFigure(figure);
+				canvasState.addFigure(figure, currentLayer.getValue());
 				redrawCanvas();
 			}
 			
-		});
+});
 
 		canvas.setOnMouseMoved(event -> {
 			// si no estoy seleccionando figuras
