@@ -125,6 +125,7 @@ public class PaintPane extends BorderPane {
 
 		for (ToggleButton tool : functionalitiesButtons) {
 			tool.setMinWidth(90);
+			tool.setToggleGroup(tools);
 			tool.setCursor(Cursor.HAND);
 		}
 		modifiersEnabled(false);
