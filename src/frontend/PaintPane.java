@@ -267,8 +267,9 @@ public class PaintPane extends BorderPane {
 				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
 				for (GCFigure figure : selectedFigures){
 					figure.changePos(diffX, diffY);
-					redrawCanvas();
 				}
+				startPoint.changePos(diffX, diffY);
+				redrawCanvas();
 			}
 		});
 
@@ -359,11 +360,7 @@ public class PaintPane extends BorderPane {
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		for(GCFigure figure : canvasState.figures(getLayersShown())) {
-				if (selectedFigures != null && selectedFigures.contains(figure)) {
-					gc.setStroke(Color.RED);
-				} else {
-					gc.setStroke(lineColor);
-				}
+				gc.setStroke(selectedFigures.contains(figure) ? Color.RED : lineColor);
 				gc.setLineWidth(1);
 				//gc.setFill(figure.getFillColor());
 				figure.createFigure(gc);
