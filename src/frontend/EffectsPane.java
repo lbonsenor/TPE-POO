@@ -12,14 +12,14 @@ public class EffectsPane extends BorderPane {
 
 	private CheckBox shadowCheckBox = new CheckBox("Sombra");
 	private CheckBox gradCheckBox = new CheckBox("Gradiente");
-	private CheckBox biselCheckBox = new CheckBox("Biselado");
+	private CheckBox bevelCheckBox = new CheckBox("bevelado");
 
 	public EffectsPane() {
 		setStyle("-fx-background-color: #999");
 
 		HBox fxSelectorsBox = new HBox(10);
 
-		CheckBox[] checkers = { shadowCheckBox, gradCheckBox, biselCheckBox };
+		CheckBox[] checkers = { shadowCheckBox, gradCheckBox, bevelCheckBox };
 
 		for (CheckBox box : checkers) {
 			box.setMinWidth(70);
@@ -45,8 +45,8 @@ public class EffectsPane extends BorderPane {
 		return gradCheckBox;
 	}
 
-	public CheckBox getBiselCheckBox() {
-		return biselCheckBox;
+	public CheckBox getBevelCheckBox() {
+		return bevelCheckBox;
 	}
 
 }

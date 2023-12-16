@@ -7,6 +7,7 @@ import backend.model.Point;
 import backend.model.Rectangle;
 import frontend.TriStateBoolean;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class GCGroupedFigure extends GCFigure{
 
@@ -121,6 +122,19 @@ public class GCGroupedFigure extends GCFigure{
         for (GCFigure figure : figures){
             if (!figure.getEffect(effect).equals(first)) {
                 return TriStateBoolean.UNDEFINED;
+            }
+        }
+
+        return first;
+    }
+
+    @Override
+    public Color getFillColor(){
+        Color first = figures.iterator().next().getFillColor();
+
+        for (GCFigure figure : figures){
+            if (!figure.getFillColor().equals(first)) {
+                return null;
             }
         }
 

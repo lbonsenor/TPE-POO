@@ -17,7 +17,7 @@ import javafx.scene.paint.Stop;
 
 public abstract class GCFigure implements Figure{
 
-    protected Paint fillColor;
+    protected Color fillColor;
     protected Figure model;
     protected Map<Effects, TriStateBoolean> effectMap = new EnumMap<>(Effects.class);
 
@@ -42,11 +42,11 @@ public abstract class GCFigure implements Figure{
     protected abstract void shadowDraw(GraphicsContext gc);
     protected abstract void biselDraw(GraphicsContext gc);
 
-    public void setFillColor(Paint fillColor) {
+    public void setFillColor(Color fillColor) {
         this.fillColor = fillColor;
     }
 
-    public Paint getFillColor() {
+    public Color getFillColor() {
         return fillColor;
     }
 

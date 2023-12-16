@@ -113,7 +113,7 @@ public class PaintPane extends BorderPane {
 		EffectsPane effectsPane = new EffectsPane();
 		CheckBox shadowCheckBox = effectsPane.getShadowCheckBox();
 		CheckBox gradCheckBox = effectsPane.getGradCheckBox();
-		CheckBox biselCheckBox = effectsPane.getBiselCheckBox();
+		CheckBox bevelCheckBox = effectsPane.getBevelCheckBox();
 
 	public PaintPane(CanvasState<GCFigure> canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
@@ -247,7 +247,7 @@ public class PaintPane extends BorderPane {
 			else{
 				for (FigureToggleButton button : figuresButtons){
 					if (button.isSelected()) {
-						GCFigure newFigure = button.getFigureBasedOnPoints(startPoint, endPoint, fillColor, borderColor, shadowCheckBox.isSelected(), gradCheckBox.isSelected(), biselCheckBox.isSelected());
+						GCFigure newFigure = button.getFigureBasedOnPoints(startPoint, endPoint, fillColor, borderColor, shadowCheckBox.isSelected(), gradCheckBox.isSelected(), bevelCheckBox.isSelected());
 						figureColorMap.put(newFigure, fillColorPicker.getValue());
 						canvasState.addFigure(newFigure, currentLayer.getValue(), new ArrayList<>());
 						startPoint = null;
@@ -412,9 +412,9 @@ public class PaintPane extends BorderPane {
 			redrawCanvas();
 		});
 
-		biselCheckBox.setOnAction(event ->{
+		bevelCheckBox.setOnAction(event ->{
 			for (GCFigure figure : selectedFigures){
-				figure.setEffect(Effects.BEVEL, biselCheckBox.isSelected());
+				figure.setEffect(Effects.BEVEL, bevelCheckBox.isSelected());
 			}
 			redrawCanvas();
 		});
@@ -429,19 +429,6 @@ public class PaintPane extends BorderPane {
 		setLeft(buttonsBox);
 		setRight(canvas);
 	}
-
-	// private void onShadowChange(ObservableValue<? extends Boolean> observableValue, Boolean selector, Boolean newValue) {
-	// 	if (newValue == null)
-	// 		return;
-
-	// 	if (selectedFigures.isEmpty()) {
-	// 		shadowSelected = newValue;
-	// 	} else {
-	// 		for (GCFigure figure : selectedFigures)
-	// 			figure.setShadow(newValue);
-	// 		redrawCanvas();
-	// 	}
-	// }
 
 	private List<String> getLayersShown(){
 		List<String> toReturn = new ArrayList<>();
@@ -502,8 +489,10 @@ public class PaintPane extends BorderPane {
 			case 1:
 				GCFigure figure = selectedFigures.iterator().next();
 
+				fillColorPicker.setValue(figure.getFillColor());
+
 				setSelectedIndeterminate(shadowCheckBox, figure.getEffect(Effects.SHADOW));
-				setSelectedIndeterminate(biselCheckBox, figure.getEffect(Effects.BEVEL));
+				setSelectedIndeterminate(bevelCheckBox, figure.getEffect(Effects.BEVEL));
 				setSelectedIndeterminate(gradCheckBox, figure.getEffect(Effects.GRADIENT));
 				
 				tagsEnabled(true);
@@ -513,8 +502,10 @@ public class PaintPane extends BorderPane {
 			default:
 				GCGroupedFigure group = new GCGroupedFigure(selectedFigures);
 
+				fillColorPicker.setValue(group.getFillColor());
+
 				setSelectedIndeterminate(shadowCheckBox, group.getEffect(Effects.SHADOW));
-				setSelectedIndeterminate(biselCheckBox, group.getEffect(Effects.BEVEL));
+				setSelectedIndeterminate(bevelCheckBox, group.getEffect(Effects.BEVEL));
 				setSelectedIndeterminate(gradCheckBox, group.getEffect(Effects.GRADIENT));
 
 				tagsEnabled(false);
