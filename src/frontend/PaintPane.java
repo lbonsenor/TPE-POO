@@ -193,7 +193,7 @@ public class PaintPane extends BorderPane {
 			if (selectionButton.isSelected() && checkOneLayer()){
 				boolean found = false;
 				Rectangle imaginaryRect = new Rectangle(Point.getTopLeft(startPoint, endPoint), Point.getBottomRight(startPoint, endPoint));
-				for (GCFigure figure : canvasState.figures(currentLayer.getValue())){
+				for (GCFigure figure : getFigures()){
 					if (figure.found(imaginaryRect)) {
 						found = true;
 						selectedFigures.add(figure);
@@ -202,7 +202,7 @@ public class PaintPane extends BorderPane {
 				if (found) statusPane.updateStatus("Figuras seleccionadas mediante Seleccion Multiple");
 				else if (selectedFigures.isEmpty()) statusPane.updateStatus("Ninguna figura encontrada");
 
-				modifiersEnabled(selectedFigures.size() > 0);
+				modifiersEnabled(!selectedFigures.isEmpty());
 				tagsEnabled(selectedFigures.size() == 1);
 				
 			}
@@ -212,7 +212,7 @@ public class PaintPane extends BorderPane {
 			Point eventPoint = new Point(event.getX(), event.getY());
 			boolean found = false;
 			StringBuilder label = new StringBuilder();
-			for(GCFigure figure : canvasState.figures(getLayersShown())) {
+			for(GCFigure figure : getFigures()) {
 				if(figure.found(eventPoint)) {
 					found = true;
 					label.append(figure.toString());
@@ -232,14 +232,14 @@ public class PaintPane extends BorderPane {
 
 				// setOnMouseClicked no verifica si es literalmente un click, por lo tanto se verifica si startPoint es el mismo que endPoint
 				if (eventPoint.equals(startPoint)) {
-					selectedFigures = new HashSet<>(); // Creo un nuevo HashSet para que no se seleccione
+					selectedFigures.clear();; // Creo un nuevo HashSet para que no se seleccione
 					StringBuilder label = new StringBuilder("Se seleccionó: ");
 					StringBuilder tagsToDisplay = new StringBuilder();
 
-					for (GCFigure figure : canvasState.figures(currentLayer.getValue())) {
+					for (GCFigure figure : getFigures()) {
 						if(figure.found(eventPoint)) {
 							found = true;
-							selectedFigures = new HashSet<>();
+							selectedFigures.clear();
 							selectedFigures.add(figure);
 							label.append(figure.toString());
 
@@ -317,7 +317,7 @@ public class PaintPane extends BorderPane {
 		});
 
 		flipHButton.setOnAction(event ->{
-			if (selectedFigures != null) {
+			if (selectedFigures.isEmpty()) {
 				for (GCFigure figure : selectedFigures){
 					figure.flipH();
 				}
@@ -326,7 +326,7 @@ public class PaintPane extends BorderPane {
 		});
 
 		flipVButton.setOnAction(event ->{
-			if (selectedFigures != null) {
+			if (selectedFigures.isEmpty()) {
 				for (GCFigure figure : selectedFigures){
 					figure.flipV();
 				}
@@ -335,17 +335,20 @@ public class PaintPane extends BorderPane {
 		});
 
 		groupButton.setOnAction(event ->{
-			if (selectedFigures != null) {
+			if (selectedFigures.isEmpty()) {
 				String layerName = currentLayer.getValue();
 				GCGroupedFigure groupedFigure = new GCGroupedFigure(selectedFigures);
 				canvasState.deleteFigure(selectedFigures, layerName);
 				canvasState.addFigure(groupedFigure, layerName, new ArrayList<>());
+				
+				modifiersEnabled(false);
+				tagsEnabled(false);
 				redrawCanvas();
 			}
 		});
 
 		ungroupButton.setOnAction(event ->{
-			if (selectedFigures != null) {
+			if (selectedFigures.isEmpty()) {
 				String layerName = currentLayer.getValue();
 				for (GCFigure figure : selectedFigures){
 					// Solo tiene que desagrupar si es una figura agrupada
@@ -355,6 +358,8 @@ public class PaintPane extends BorderPane {
 						canvasState.addFigure(group.getFiguresCopy(), layerName, new ArrayList<>());
 					}
 				}
+				modifiersEnabled(false);
+				tagsEnabled(false);
 				redrawCanvas();
 			}
 			
@@ -369,6 +374,7 @@ public class PaintPane extends BorderPane {
 		});
 
 		showOnly.setOnAction(event -> {
+			selectedFigures.clear();
 			redrawCanvas();
 		});
 
@@ -392,8 +398,7 @@ public class PaintPane extends BorderPane {
 
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		String currentTag = showOnlyField.getText().split(" ")[0];
-		for(GCFigure figure : showOnly.isSelected() ? canvasState.figures(getLayersShown(), currentTag):canvasState.figures(getLayersShown())) {
+		for(GCFigure figure : getFigures()) {
 				if (selectedFigures.contains(figure)) {
 					gc.setStroke(Color.RED);
 				} else {
@@ -440,5 +445,10 @@ public class PaintPane extends BorderPane {
 	private void tagsEnabled(boolean enabled){
 		tagArea.setDisable(!enabled);
 		tagButton.setDisable(!enabled);
+	}
+
+	private Iterable<GCFigure> getFigures(){
+		String currentTag = showOnlyField.getText().split(" ")[0];
+		return showOnly.isSelected() ? canvasState.figures(getLayersShown(), currentTag):canvasState.figures(getLayersShown());
 	}
 }
