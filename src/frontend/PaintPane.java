@@ -218,7 +218,7 @@ public class PaintPane extends BorderPane {
 			// si el boton de Selection NO esta activo -> dibujo figura
 			else{
 				for (FigureToggleButton button : figuresButtons){
-					if (button.isSelected()) {
+					if (button.isSelected() && getLayersShown().contains(currentLayer.getValue())) {
 						selectedFigures.clear();
 						GCFigure newFigure = button.getFigureBasedOnPoints(startPoint, endPoint, fillColorPicker.getValue(), shadowCheckBox.isSelected(), gradCheckBox.isSelected(), bevelCheckBox.isSelected());
 						canvasState.addFigure(newFigure, currentLayer.getValue(), new ArrayList<>());
