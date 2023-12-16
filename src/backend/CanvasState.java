@@ -15,12 +15,12 @@ import java.util.TreeMap;
 public class CanvasState<F extends Figure> {
 
     //Como la naturaleza de un sistema de Capas, cada capa es un String
-    private final SortedMap<String, List<F>> layers = new TreeMap<>();
+    private final SortedMap<String, Set<F>> layers = new TreeMap<>();
     private final Map<F, Set<String>> tags = new HashMap<>();
 
     public void addFigure(F figure, String layer, Collection<String> tags) {
         if (!layers.containsKey(layer)) {
-            layers.put(layer, new ArrayList<>());
+            layers.put(layer, new HashSet<>());
         }
         layers.get(layer).add(figure);
 
@@ -29,7 +29,7 @@ public class CanvasState<F extends Figure> {
 
     public void addFigure(Collection<F> figures, String layer, Collection<String> tags){
         if (!layers.containsKey(layer)) {
-            layers.put(layer, new ArrayList<>());
+            layers.put(layer, new HashSet<>());
         }
         layers.get(layer).addAll(figures);
         
@@ -39,12 +39,12 @@ public class CanvasState<F extends Figure> {
     }
 
     public void deleteFigure(F figure, String layer) {
-        layers.getOrDefault(layer, new ArrayList<>()).remove(figure);
+        layers.getOrDefault(layer, new HashSet<>()).remove(figure);
         tags.remove(figure);
     }
 
     public void deleteFigure(Collection<F> figures, String layer){
-        layers.getOrDefault(layer, new ArrayList<>()).removeAll(figures);
+        layers.getOrDefault(layer, new HashSet<>()).removeAll(figures);
         
         for (F figure : figures){
             tags.remove(figure);
@@ -54,14 +54,14 @@ public class CanvasState<F extends Figure> {
     public Iterable<F> figures(Collection<String> layers) {
         List<F> toReturn = new ArrayList<>();
         for (String layer : layers){
-            toReturn.addAll(this.layers.getOrDefault(layer, new ArrayList<>()));
+            toReturn.addAll(this.layers.getOrDefault(layer, new HashSet<>()));
         }
         
         return toReturn;
     }
 
     public Iterable<F> figures(String layer) {
-        return new ArrayList<>(layers.getOrDefault(layer, new ArrayList<>()));
+        return new ArrayList<>(layers.getOrDefault(layer, new HashSet<>()));
     }
 
     public Iterable<F> figures(Collection<String> layers, String tag){

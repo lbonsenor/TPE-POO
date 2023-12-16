@@ -382,6 +382,10 @@ public class PaintPane extends BorderPane {
 			redrawCanvas();
 		});
 
+		effectsPane.getShadowCheckBox().setOnAction(event ->{
+			
+		});
+
 		setLeft(buttonsBox);
 		setRight(canvas);
 	}
