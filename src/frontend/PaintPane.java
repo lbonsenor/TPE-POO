@@ -303,7 +303,7 @@ public class PaintPane extends BorderPane {
 			canvasState.deleteFigure(selectedFigures, currentLayer.getValue());
 			selectedFigures.clear();
 			enableButtons(false);
-			
+			redrawCanvas();
 		});
 
 		rotateButton.setOnAction(event -> {
@@ -358,7 +358,9 @@ public class PaintPane extends BorderPane {
 				canvasState.deleteFigure(selectedFigures, layerName);
 				canvasState.addFigure(groupedFigure, layerName, tags);
 				
-				enableButtons(false);
+				selectedFigures.clear();
+				selectedFigures.add(groupedFigure);
+				redrawCanvas();
 			}
 		});
 
@@ -375,6 +377,7 @@ public class PaintPane extends BorderPane {
 				}
 				selectedFigures.clear();
 				enableButtons(false);
+				redrawCanvas();
 			}
 			
 		});
