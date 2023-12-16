@@ -1,13 +1,13 @@
-package frontend.paintFigures;
+package frontend.gcmodel;
 
 import backend.model.Ellipse;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 
-public class PaintEllipse extends PaintFigure{
+public class GCEllipse extends GCFigure{
     
-    public PaintEllipse(Ellipse figure, Color fillColor, Color borderColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected) {
+    public GCEllipse(Ellipse figure, Color fillColor, Color borderColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected) {
         super(figure, fillColor, borderColor, shadowSelected, gradSelected, biselSelected);
     }
 

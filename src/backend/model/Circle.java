@@ -2,7 +2,7 @@ package backend.model;
 
 import java.util.Objects;
 
-import frontend.paintFigures.PaintFigure;
+import frontend.gcmodel.GCFigure;
 
 public class Circle extends Ellipse {
     private double radius;

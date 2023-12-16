@@ -1,12 +1,12 @@
-package frontend.paintFigures;
+package frontend.gcmodel;
 
 import backend.model.Rectangle;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class PaintRectangle extends PaintFigure{
+public class GCRectangle extends GCFigure{
 
-    public PaintRectangle(Rectangle figure, Color fillColor, Color borderColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected) {
+    public GCRectangle(Rectangle figure, Color fillColor, Color borderColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected) {
         super(figure, fillColor, borderColor, shadowSelected, gradSelected, biselSelected);
     }
 

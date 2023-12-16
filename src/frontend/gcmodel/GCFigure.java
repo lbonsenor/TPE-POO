@@ -1,5 +1,6 @@
 package frontend.gcmodel;
 
+import java.util.Collection;
 import java.util.Objects;
 
 import backend.model.Figure;
@@ -145,6 +146,24 @@ public abstract class GCFigure implements Figure{
     @Override
     public int hashCode() {
         return Objects.hash(model.hashCode());
+    }
+
+    public void groupFigures(Collection<GCFigure> selected){
+        GroupFigure newGroup = new GroupFigure(selected);
+        for (GCFigure paintFigure : selected) {
+            if (paintFigure.getGroupFigure() == null) {
+                paintFigure.setGroupFigure(newGroup);
+            }
+        }
+    }
+
+    public void ungroupFigures(Collection<GCFigure> selected){
+        for (GCFigure paintFigure : selected) {
+            if (paintFigure.getGroupFigure() != null) {
+                paintFigure.getGroupFigure().clear();
+                paintFigure.setGroupFigure(null);
+            }
+        }
     }
 
 
