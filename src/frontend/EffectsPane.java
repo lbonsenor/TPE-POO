@@ -12,7 +12,7 @@ public class EffectsPane extends BorderPane {
 
 	private CheckBox shadowCheckBox = new CheckBox("Sombra");
 	private CheckBox gradCheckBox = new CheckBox("Gradiente");
-	private CheckBox bevelCheckBox = new CheckBox("bevelado");
+	private CheckBox bevelCheckBox = new CheckBox("Biselado");
 
 	public EffectsPane() {
 		setStyle("-fx-background-color: #999");
