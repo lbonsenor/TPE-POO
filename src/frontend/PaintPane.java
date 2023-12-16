@@ -232,7 +232,7 @@ public class PaintPane extends BorderPane {
 
 				// setOnMouseClicked no verifica si es literalmente un click, por lo tanto se verifica si startPoint es el mismo que endPoint
 				if (eventPoint.equals(startPoint)) {
-					selectedFigures.clear();; // Creo un nuevo HashSet para que no se seleccione
+					selectedFigures.clear(); // Creo un nuevo HashSet para que no se seleccione
 					StringBuilder label = new StringBuilder("Se seleccionó: ");
 					StringBuilder tagsToDisplay = new StringBuilder();
 
@@ -286,9 +286,8 @@ public class PaintPane extends BorderPane {
 
 		deleteButton.setOnAction(event -> {
 			canvasState.deleteFigure(selectedFigures, currentLayer.getValue());
-			modifiersEnabled(false);
-			tagsEnabled(false);
-			redrawCanvas();
+			selectedFigures.clear();
+			reset();
 			
 		});
 
@@ -317,25 +316,23 @@ public class PaintPane extends BorderPane {
 		});
 
 		flipHButton.setOnAction(event ->{
-			if (!selectedFigures.isEmpty()) {
-				for (GCFigure figure : selectedFigures){
-					figure.flipH();
-				}
-				redrawCanvas();
+			for (GCFigure figure : selectedFigures){
+				figure.flipH();
 			}
+			redrawCanvas();
+			
 		});
 
 		flipVButton.setOnAction(event ->{
-			if (!selectedFigures.isEmpty()) {
-				for (GCFigure figure : selectedFigures){
-					figure.flipV();
-				}
-				redrawCanvas();
+			for (GCFigure figure : selectedFigures){
+				figure.flipV();
 			}
+			redrawCanvas();
+			
 		});
 
 		groupButton.setOnAction(event ->{
-			if (!selectedFigures.isEmpty()) {
+			if (selectedFigures.size() > 1) {
 				Set<String> tags = new HashSet<>();
 				for(GCFigure figure : selectedFigures){
 					tags.addAll(canvasState.getTags(figure));
@@ -346,9 +343,7 @@ public class PaintPane extends BorderPane {
 				canvasState.deleteFigure(selectedFigures, layerName);
 				canvasState.addFigure(groupedFigure, layerName, tags);
 				
-				modifiersEnabled(false);
-				tagsEnabled(false);
-				redrawCanvas();
+				reset();
 			}
 		});
 
@@ -364,9 +359,7 @@ public class PaintPane extends BorderPane {
 					}
 				}
 				selectedFigures.clear();
-				modifiersEnabled(false);
-				tagsEnabled(false);
-				redrawCanvas();
+				reset();
 			}
 			
 		});
@@ -456,5 +449,11 @@ public class PaintPane extends BorderPane {
 	private Iterable<GCFigure> getFigures(){
 		String currentTag = showOnlyField.getText().split(" ")[0];
 		return showOnly.isSelected() ? canvasState.figures(getLayersShown(), currentTag):canvasState.figures(getLayersShown());
+	}
+
+	private void reset(){
+		modifiersEnabled(false);
+		tagsEnabled(false);
+		redrawCanvas();
 	}
 }
