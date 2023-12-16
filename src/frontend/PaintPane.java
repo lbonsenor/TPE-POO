@@ -150,8 +150,7 @@ public class PaintPane extends BorderPane {
 
 			Point endPoint = new Point(event.getX(), event.getY());
 
-			// si el boton de Selection esta activo busco figuras
-			// CHEQUEAR CON EQUIPO: que pasa con las figuras agrupadas
+			// si el boton de Selection esta activo busco figuras		
 			if (selectedButton == selectionButton) {
 				selectedFigures.clear();
 				String status = "";
@@ -179,10 +178,6 @@ public class PaintPane extends BorderPane {
 			// si el boton de Selection NO esta activo -> dibujo figura
 			else{
 				PaintFigure figure = ((FigureToggleButton) selectedButton).getFigureBasedOnPoints(startPoint, endPoint, fillColor, borderColor, shadowSelected, gradSelected, biselSelected);
-				System.out.println("esta figura nueva tiene color "+figure.getFillColor());
-				System.out.println("esta figura nueva tiene sombra? "+figure.getShadow());
-				System.out.println("esta figura nueva tiene grad? "+figure.getGrad());
-				System.out.println("esta figura nueva tiene bisel? "+figure.getBisel());
 				canvasState.addFigure(figure);
 				redrawCanvas();
 			}
@@ -341,9 +336,9 @@ public class PaintPane extends BorderPane {
 		else {
 			for (PaintFigure aux : selectedFigures) {
 				if (aux.getGroupFigure() != null) {
-					for( PaintFigure elementos : aux.getGroupFigure() ){
-						selectedFigures.add(elementos);
-					}
+					// for( PaintFigure elementos : aux.getGroupFigure() ){
+					// 	selectedFigures.add(elementos);
+					// }
 				}
 			}
 			Iterator<PaintFigure> iter = selectedFigures.iterator();
