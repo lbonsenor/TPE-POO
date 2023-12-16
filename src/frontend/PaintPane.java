@@ -464,6 +464,9 @@ public class PaintPane extends BorderPane {
 	}
 
 	private void tagsEnabled(boolean enabled){
+		if (enabled == false) {
+			tagArea.setText("");
+		}
 		tagArea.setDisable(!enabled);
 		tagButton.setDisable(!enabled);
 	}
@@ -490,6 +493,13 @@ public class PaintPane extends BorderPane {
 				GCFigure figure = selectedFigures.iterator().next();
 
 				fillColorPicker.setValue(figure.getFillColor());
+				
+				StringBuilder tags = new StringBuilder();
+				for (String tag : canvasState.getTags(figure)){
+					tags.append(tag).append("\n");
+				}
+
+				tagArea.setText(tags.toString());
 
 				setSelectedIndeterminate(shadowCheckBox, figure.getEffect(Effects.SHADOW));
 				setSelectedIndeterminate(bevelCheckBox, figure.getEffect(Effects.BEVEL));
