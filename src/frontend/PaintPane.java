@@ -253,8 +253,8 @@ public class PaintPane extends BorderPane {
 		
 		for (CheckBox layerCheckBox : layersCheckBoxes){
 				layerCheckBox.setOnAction(event -> {
+					selectedFigures.clear();
 					redrawCanvas();
-					checkOneLayer();
 					statusPane.updateStatus(String.format("%s %s", layerCheckBox.getText(), layerCheckBox.isSelected() ? "Checked":"Unchecked"));
 				});
 			}
