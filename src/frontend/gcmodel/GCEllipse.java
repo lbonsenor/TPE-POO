@@ -3,6 +3,10 @@ package frontend.gcmodel;
 import backend.model.Ellipse;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.ArcType;
 
 public class GCEllipse extends GCFigure{
@@ -47,6 +51,15 @@ public class GCEllipse extends GCFigure{
         gc.strokeArc(arcX, arcY, aux.getsMayorAxis(), aux.getsMinorAxis(), 45, 180, ArcType.OPEN);
         gc.setStroke(Color.BLACK);
         gc.strokeArc(arcX, arcY, aux.getsMayorAxis(), aux.getsMinorAxis(), 225, 180, ArcType.OPEN);
+    }
+
+    @Override
+    protected Paint gradColor(){
+        RadialGradient radialGradient = new RadialGradient(0, 0, 0.5, 0.5, 0.5, true,
+            CycleMethod.NO_CYCLE,
+            new Stop(0, fillColor),
+            new Stop(1, fillColor.invert()));
+        return radialGradient;
     }
 
 }
