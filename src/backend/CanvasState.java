@@ -96,7 +96,9 @@ public class CanvasState<F extends Figure> {
     }
 
     public void changeLayers(F figure, String newLayer){
-        changeLayers(figure, getLayer(figure), newLayer);
+        if (!getLayer(figure).equals(newLayer)) {
+            changeLayers(figure, getLayer(figure), newLayer);
+        }
     }
 
     public String getLayer(F figure){
