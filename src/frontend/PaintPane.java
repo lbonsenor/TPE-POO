@@ -347,7 +347,6 @@ public class PaintPane extends BorderPane {
 			GCFigure f = iter.next();
 			Color fc = (Color) f.getFillColor();
 			boolean fs = f.getShadow();
-			System.out.println("Mi rectangulo tiene sombra? "+fs);
 			boolean fg = f.getGrad();
 			boolean fb = f.getBisel();
 			// Me fijo si las figuras seleccionadas comparten color para mostrar en la paleta
