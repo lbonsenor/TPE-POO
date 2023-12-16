@@ -497,8 +497,8 @@ public class PaintPane extends BorderPane {
 
 	private void setSelectedIndeterminate(CheckBox checkBox, TriStateBoolean tsboolean){
 		switch (tsboolean) {
-			case TRUE -> checkBox.setSelected(true);
-			case FALSE -> checkBox.setSelected(false);
+			case TRUE -> {checkBox.setSelected(true); checkBox.setIndeterminate(false);}
+			case FALSE -> {checkBox.setSelected(false); checkBox.setIndeterminate(false);}
 			case UNDEFINED -> checkBox.setIndeterminate(true);
 		}
 	}
