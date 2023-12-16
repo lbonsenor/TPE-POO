@@ -39,7 +39,7 @@ public class PaintPane extends BorderPane {
 	CanvasState<GCFigure> canvasState;
 
 	// Canvas y relacionados, se le agrega mas altura para que utilice todo el canvas 
-	Canvas canvas = new Canvas(800, 665);
+	Canvas canvas = new Canvas(800, 600);
 	GraphicsContext gc = canvas.getGraphicsContext2D();
 	
 	// Constantes de dibujo
@@ -131,7 +131,7 @@ public class PaintPane extends BorderPane {
 		modifiersEnabled(false);
 
 		// ----------- VBOX DE BOTONES ----------- //
-		VBox buttonsBox = new VBox(10);
+		VBox buttonsBox = new VBox(5);
 		buttonsBox.getChildren().add(selectionButton);
 			selectionButton.setMinWidth(90);
 			selectionButton.setCursor(Cursor.HAND);
