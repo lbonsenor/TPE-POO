@@ -6,7 +6,6 @@ import java.util.Objects;
 import backend.model.Figure;
 import backend.model.Point;
 import backend.model.Rectangle;
-import frontend.GroupFigure;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;

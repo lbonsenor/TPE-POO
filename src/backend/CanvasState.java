@@ -89,7 +89,7 @@ public class CanvasState<F extends Figure> {
         }
     }
 
-    public void getFiguresOnRectangle(Rectangle rectangle, Collection<F> params, Collection<GCFigure> result) {
+    public void getFiguresOnRectangle(Rectangle rectangle, Collection<F> params, Collection<F> result) {
 
         for (F paintFigure : params) {
             if (paintFigure.isContainedIn(rectangle)) {
