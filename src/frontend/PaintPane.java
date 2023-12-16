@@ -67,8 +67,8 @@ public class PaintPane extends BorderPane {
 
 	// Boton de Capa Izquierdo
 	Label layerLabel = new Label("Capa");
-	String layers[] = {"Layer 1", "Layer 2", "Layer 3"};
-	ComboBox<String> currentLayer = new ComboBox<String>(FXCollections.observableArrayList(layers)); //Test
+	String[] layers = {"Layer 1", "Layer 2", "Layer 3"};
+	ComboBox<String> currentLayer = new ComboBox<>(FXCollections.observableArrayList(layers));
 	
 	// Tags
 	Label tagLabel = new Label("Etiquetas");
@@ -191,7 +191,6 @@ public class PaintPane extends BorderPane {
 
 			// si el boton de Selection esta activo busco figuras		
 			if (selectionButton.isSelected()) {
-				String status = "";
 				boolean found = false;
 				if (startPoint.equals(endPoint)) {
 					for( GCFigure figure : getFigures() ){
@@ -199,7 +198,6 @@ public class PaintPane extends BorderPane {
 							found = true;
 							selectedFigures.clear();
 							selectedFigures.add(figure);
-							status = String.format("Se seleccionó %s", figure);
 					}
 
 					if (!found) {
@@ -214,22 +212,7 @@ public class PaintPane extends BorderPane {
 						}
 					}	
 				}
-				switch (selectedFigures.size()) {
-					case 0:
-						status = "No se seleccionó ninguna figura";
-						break;
-
-					case 1:
-						tagsEnabled(true);
-						status = String.format("Se seleccionó: %s", selectedFigures.iterator().next());
-						break;
 				
-					default:
-						status = String.format("Se seleccionaron %d figuras", selectedFigures.size());
-						modifiersEnabled(true);
-						break;
-				}
-				statusPane.updateStatus(status);
 				onSelectionChanged();
 			}
 			// si el boton de Selection NO esta activo -> dibujo figura
@@ -255,7 +238,7 @@ public class PaintPane extends BorderPane {
 			for(GCFigure figure : getFigures()) {
 				if(figure.found(eventPoint)) {
 					found = true;
-					label.append(figure.toString());
+					label.append(figure);
 				}
 			}
 			if(found) {
@@ -441,7 +424,7 @@ public class PaintPane extends BorderPane {
 	}
 
 	private Set<String> getTags(){
-		return new HashSet<>(Arrays.stream(tagArea.getText().split(" |\n")).toList());
+		return new HashSet<>(Arrays.stream(tagArea.getText().split("[ \n]")).toList());
 	}
 
 	private void modifiersEnabled(boolean enabled){
@@ -453,7 +436,7 @@ public class PaintPane extends BorderPane {
 	}
 
 	private void tagsEnabled(boolean enabled){
-		if (enabled == false) {
+		if (!enabled) {
 			tagArea.setText("");
 		}
 		tagArea.setDisable(!enabled);
@@ -472,13 +455,15 @@ public class PaintPane extends BorderPane {
 
 	// cuando las figuras selecciondas sufren cambios
 	private void onSelectionChanged() {
+		String status;
 		switch (selectedFigures.size()) {
-			case 0:
+			case 0 -> {
 				enableButtons(false);
-				break;
-		
-			case 1:
+				status = "No se seleccionó ninguna figura";
+			}
+			case 1 -> {
 				GCFigure figure = selectedFigures.iterator().next();
+				status = String.format("Se seleccionó: %s", figure);
 				
 				StringBuilder tags = new StringBuilder();
 				for (String tag : canvasState.getTags(figure)){
@@ -491,12 +476,12 @@ public class PaintPane extends BorderPane {
 				setSelectedIndeterminate(bevelCheckBox, figure.getEffect(Effects.BEVEL));
 				setSelectedIndeterminate(gradCheckBox, figure.getEffect(Effects.GRADIENT));
 				
-				tagsEnabled(true);
-				modifiersEnabled(true);
-				break;
+				enableButtons(true);
+			}
 
-			default:
+			default -> {
 				GCGroupedFigure group = new GCGroupedFigure(selectedFigures);
+				status = String.format("Se seleccionaron %d figuras", selectedFigures.size());
 
 				setSelectedIndeterminate(shadowCheckBox, group.getEffect(Effects.SHADOW));
 				setSelectedIndeterminate(bevelCheckBox, group.getEffect(Effects.BEVEL));
@@ -504,25 +489,17 @@ public class PaintPane extends BorderPane {
 
 				tagsEnabled(false);
 				modifiersEnabled(true);
-				break;
+			}
 		}
-		
+		statusPane.updateStatus(status);
 		redrawCanvas();
 	}
 
 	private void setSelectedIndeterminate(CheckBox checkBox, TriStateBoolean tsboolean){
 		switch (tsboolean) {
-			case TRUE:
-				checkBox.setSelected(true);
-				break;
-		
-			case FALSE:
-				checkBox.setSelected(false);
-				break;
-
-			case UNDEFINED:
-				checkBox.setIndeterminate(true);
-				break;
+			case TRUE -> checkBox.setSelected(true);
+			case FALSE -> checkBox.setSelected(false);
+			case UNDEFINED -> checkBox.setIndeterminate(true);
 		}
 	}
 
