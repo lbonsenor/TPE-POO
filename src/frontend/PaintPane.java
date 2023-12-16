@@ -317,7 +317,7 @@ public class PaintPane extends BorderPane {
 		});
 
 		flipHButton.setOnAction(event ->{
-			if (selectedFigures.isEmpty()) {
+			if (!selectedFigures.isEmpty()) {
 				for (GCFigure figure : selectedFigures){
 					figure.flipH();
 				}
@@ -326,7 +326,7 @@ public class PaintPane extends BorderPane {
 		});
 
 		flipVButton.setOnAction(event ->{
-			if (selectedFigures.isEmpty()) {
+			if (!selectedFigures.isEmpty()) {
 				for (GCFigure figure : selectedFigures){
 					figure.flipV();
 				}
@@ -335,11 +335,16 @@ public class PaintPane extends BorderPane {
 		});
 
 		groupButton.setOnAction(event ->{
-			if (selectedFigures.isEmpty()) {
+			if (!selectedFigures.isEmpty()) {
+				Set<String> tags = new HashSet<>();
+				for(GCFigure figure : selectedFigures){
+					tags.addAll(canvasState.getTags(figure));
+				}
+
 				String layerName = currentLayer.getValue();
 				GCGroupedFigure groupedFigure = new GCGroupedFigure(selectedFigures);
 				canvasState.deleteFigure(selectedFigures, layerName);
-				canvasState.addFigure(groupedFigure, layerName, new ArrayList<>());
+				canvasState.addFigure(groupedFigure, layerName, tags);
 				
 				modifiersEnabled(false);
 				tagsEnabled(false);
@@ -348,16 +353,17 @@ public class PaintPane extends BorderPane {
 		});
 
 		ungroupButton.setOnAction(event ->{
-			if (selectedFigures.isEmpty()) {
+			if (!selectedFigures.isEmpty()) {
 				String layerName = currentLayer.getValue();
 				for (GCFigure figure : selectedFigures){
 					// Solo tiene que desagrupar si es una figura agrupada
 					if (figure instanceof GCGroupedFigure) {
-						canvasState.deleteFigure(figure, layerName);
 						GCGroupedFigure group = (GCGroupedFigure) figure;
-						canvasState.addFigure(group.getFiguresCopy(), layerName, new ArrayList<>());
+						canvasState.addFigure(group.getFiguresCopy(), layerName, canvasState.getTags(figure));
+						canvasState.deleteFigure(figure, layerName);
 					}
 				}
+				selectedFigures.clear();
 				modifiersEnabled(false);
 				tagsEnabled(false);
 				redrawCanvas();

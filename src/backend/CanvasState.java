@@ -75,7 +75,7 @@ public class CanvasState<F extends Figure> {
         return toReturn;
     }
 
-    public Iterable<String> getTags(F figure){
+    public Collection<String> getTags(F figure){
         return new ArrayList<>(tags.get(figure));
     }
 
