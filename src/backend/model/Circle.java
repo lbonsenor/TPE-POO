@@ -2,7 +2,6 @@ package backend.model;
 
 import java.util.Objects;
 
-import frontend.gcmodel.GCFigure;
 
 public class Circle extends Ellipse {
     private double radius;
@@ -35,7 +34,7 @@ public class Circle extends Ellipse {
     @Override
     public boolean equals(Object o) {
         return this == o || (o instanceof Circle circle
-                && this.radius == circle.radius
+                && radius == circle.radius
                 && super.equals(circle));
     }
 

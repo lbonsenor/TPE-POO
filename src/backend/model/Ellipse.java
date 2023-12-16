@@ -2,8 +2,6 @@ package backend.model;
 
 import java.util.Objects;
 
-import frontend.gcmodel.GCFigure;
-
 public class Ellipse implements Figure {
 
     protected final Point centerPoint;
@@ -79,9 +77,9 @@ public class Ellipse implements Figure {
     @Override
     public boolean equals(Object o) {
         return this == o || (o instanceof Ellipse ellipse
-                && this.getCenterPoint().equals(ellipse.getCenterPoint())
-                && this.getsMayorAxis() == ellipse.getsMayorAxis()
-                && this.getsMinorAxis() == ellipse.getsMinorAxis());
+                && getCenterPoint().equals(ellipse.getCenterPoint())
+                && getsMayorAxis() == ellipse.getsMayorAxis()
+                && getsMinorAxis() == ellipse.getsMinorAxis());
     }
 
     @Override

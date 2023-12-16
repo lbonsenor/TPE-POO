@@ -52,7 +52,7 @@ public abstract class GCFigure implements Figure{
     }
 
     public GroupFigure getGroupFigure(){
-        return this.groupFigure;
+        return groupFigure;
     }
 
     public void setBorderColor(Paint borderColor) {
@@ -88,27 +88,27 @@ public abstract class GCFigure implements Figure{
     public abstract void draw(GraphicsContext gc);
 
     public void setShadow(boolean value){
-        this.shadow = value;
+        shadow = value;
     }
 
     public boolean getShadow(){
-        return this.shadow;
+        return shadow;
     }
 
     public void setBisel(boolean value){
-        this.bisel = value;
+        bisel = value;
     }
 
     public boolean getBisel(){
-        return this.bisel;
+        return bisel;
     }
 
     public void setGrad(boolean value){
-        this.grad = value;
+        grad = value;
     }
 
     public boolean getGrad(){
-        return this.grad;
+        return grad;
     }
 
     @Override
@@ -139,7 +139,7 @@ public abstract class GCFigure implements Figure{
     @Override
     public boolean equals(Object o) {
         return this == o || (o instanceof GCFigure figure
-                && this.model.equals(figure));
+                && model.equals(figure));
     }
 
     @Override
@@ -150,9 +150,7 @@ public abstract class GCFigure implements Figure{
     public void groupFigures(Collection<GCFigure> selected){
         GroupFigure newGroup = new GroupFigure(selected);
         for (GCFigure paintFigure : selected) {
-            if (paintFigure.getGroupFigure() == null) {
-                paintFigure.setGroupFigure(newGroup);
-            }
+            paintFigure.setGroupFigure(newGroup);
         }
     }
 

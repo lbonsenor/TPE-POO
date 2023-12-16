@@ -1,9 +1,6 @@
 package backend.model;
 
 import java.util.Objects;
-
-import frontend.gcmodel.GCFigure;
-
 public class Rectangle implements Figure {
 
     protected final Point topLeft, bottomRight;
@@ -28,8 +25,8 @@ public class Rectangle implements Figure {
 
     @Override
     public void changePos(double diffX, double diffY){
-        this.getTopLeft().changePos(diffX, diffY);
-        this.getBottomRight().changePos(diffX, diffY);
+        getTopLeft().changePos(diffX, diffY);
+        getBottomRight().changePos(diffX, diffY);
     }
 
     // unicamente genera rectangulo invisible
@@ -77,12 +74,12 @@ public class Rectangle implements Figure {
 
     @Override
     public void flipH(){
-        this.changePos(bottomRight.getX()-topLeft.getX(), 0);
+        changePos(bottomRight.getX()-topLeft.getX(), 0);
     }
 
     @Override
     public void flipV(){
-        this.changePos(0, bottomRight.getY()-topLeft.getY());
+        changePos(0, bottomRight.getY()-topLeft.getY());
     }
 
     private double[] getCenterPoints(){
@@ -93,8 +90,8 @@ public class Rectangle implements Figure {
     @Override
     public boolean equals(Object o) {
         return this == o || (o instanceof Rectangle rectangle
-                && this.getBottomRight().equals(rectangle.getBottomRight())
-                && this.getTopLeft().equals(rectangle.getTopLeft()));
+                && getBottomRight().equals(rectangle.getBottomRight())
+                && getTopLeft().equals(rectangle.getTopLeft()));
     }
 
     @Override
