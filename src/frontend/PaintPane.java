@@ -402,6 +402,7 @@ public class PaintPane extends BorderPane {
 			if (selectedFigures.size() == 1) {
 				GCFigure figure = selectedFigures.iterator().next();
 				canvasState.changeLayers(figure, currentLayer.getValue());
+				redrawCanvas();
 			}
 		});
 
