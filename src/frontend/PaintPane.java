@@ -340,9 +340,7 @@ public class PaintPane extends BorderPane {
 		else {
 			for (GCFigure aux : selectedFigures) {
 				if (aux.getGroupFigure() != null) {
-					for( GCFigure elementos : aux.getGroupFigure() ){
-						selectedFigures.add(elementos);
-					}
+					selectedFigures.addAll(aux.getGroupFigure());
 				}
 			}
 			Iterator<GCFigure> iter = selectedFigures.iterator();

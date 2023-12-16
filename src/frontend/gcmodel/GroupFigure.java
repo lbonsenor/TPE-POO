@@ -1,9 +1,7 @@
-package frontend;
+package frontend.gcmodel;
 
 import java.util.Collection;
 import java.util.HashSet;
-
-import frontend.gcmodel.GCFigure;
 
 public class GroupFigure extends HashSet<GCFigure>{
 
