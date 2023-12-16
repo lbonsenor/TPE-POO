@@ -32,9 +32,9 @@ public class GroupedFigure<F extends Figure> implements Figure{
     }
 
     @Override
-    public boolean found(Point startPoint, Point endPoint){
+    public boolean found(Rectangle rectangle){
         for (F figure : figures){
-            if (!figure.found(startPoint, endPoint)) {
+            if (!figure.found(rectangle)) {
                 return false;
             }
         }

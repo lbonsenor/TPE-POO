@@ -15,6 +15,7 @@ public class GCEllipse extends Ellipse implements GCFigure{
         gc.strokeOval(getCenterPoint().getX() - (getsMayorAxis() / 2), 
 			getCenterPoint().getY() - (getsMinorAxis() / 2), 
 			getsMayorAxis(), getsMinorAxis());
+            
 		gc.fillOval(getCenterPoint().getX() - (getsMayorAxis() / 2), 
 			getCenterPoint().getY() - (getsMinorAxis() / 2), 
 			getsMayorAxis(), getsMinorAxis());

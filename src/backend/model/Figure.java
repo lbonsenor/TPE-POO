@@ -4,7 +4,7 @@ public interface Figure {
     public abstract void changePos(double diffX, double diffY);
 
     public abstract boolean found(Point eventPoint);
-    public abstract boolean found(Point startPoint, Point endPoint);
+    public abstract boolean found(Rectangle rectangle);
 
     public abstract void rotate();
     public abstract void scale(double multiplier);

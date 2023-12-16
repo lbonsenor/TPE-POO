@@ -1,5 +1,7 @@
 package backend.model;
 
+import java.util.Objects;
+
 public class Circle extends Ellipse {
     private double radius;
 
@@ -26,6 +28,18 @@ public class Circle extends Ellipse {
 
     protected double getRadius() {
         return radius;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || (o instanceof Circle circle
+                && this.radius == circle.radius
+                && super.equals(circle));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), radius);
     }
 
 }

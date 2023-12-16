@@ -1,8 +1,10 @@
 package backend.model;
 
+import java.util.Objects;
+
 public class Rectangle implements Figure {
 
-    private final Point topLeft, bottomRight;
+    protected final Point topLeft, bottomRight;
 
     public Rectangle(Point topLeft, Point bottomRight) {
         this.topLeft = topLeft;
@@ -24,10 +26,8 @@ public class Rectangle implements Figure {
 
     @Override
     public void changePos(double diffX, double diffY){
-        getTopLeft().x += diffX;
-		getBottomRight().x += diffX;
-		getTopLeft().y += diffY;
-		getBottomRight().y += diffY;
+        this.getTopLeft().changePos(diffX, diffY);
+        this.getBottomRight().changePos(diffX, diffY);
     }
 
     @Override
@@ -39,11 +39,11 @@ public class Rectangle implements Figure {
     }
 
     @Override
-    public boolean found(Point startPoint, Point endPoint){
-        return startPoint.getX() < topLeft.getX()
-               && startPoint.getY() < topLeft.getY()
-               && endPoint.getX() > bottomRight.getX()
-               && endPoint.getY() > bottomRight.getY();
+    public boolean found(Rectangle other){
+        return topLeft.getX() >= other.topLeft.getX() 
+               && bottomRight.getX() <= other.bottomRight.getX()
+               && topLeft.getY() >= other.topLeft.getY() 
+               && bottomRight.getY() <= other.bottomRight.getY();
     }
 
     @Override
@@ -51,12 +51,8 @@ public class Rectangle implements Figure {
         double centerPoint[] = getCenterPoints();
         double offset[] = {(bottomRight.getY()-topLeft.getY())/2, (bottomRight.getX()-topLeft.getX())/2};
 
-        topLeft.x = centerPoint[0]-offset[0];
-        topLeft.y = centerPoint[1]-offset[1];
-
-
-        bottomRight.x = centerPoint[0]+offset[0];
-        bottomRight.y = centerPoint[1]+offset[1];
+        topLeft.setNewValues(centerPoint[0]-offset[0], centerPoint[1]-offset[1]);
+        bottomRight.setNewValues(centerPoint[0]+offset[0], centerPoint[1]+offset[1]);
     }
 
     @Override
@@ -64,11 +60,8 @@ public class Rectangle implements Figure {
         double centerPoint[] = getCenterPoints();
         double offset[] = {(bottomRight.getX()-topLeft.getX())*Math.sqrt(multiplier)/2,(bottomRight.getY()-topLeft.getY())*Math.sqrt(multiplier)/2};
 
-        topLeft.x = centerPoint[0]-offset[0];
-        topLeft.y = centerPoint[1]-offset[1];
-
-        bottomRight.x = centerPoint[0]+offset[0];
-        bottomRight.y = centerPoint[1]+offset[1];
+        topLeft.setNewValues(centerPoint[0]-offset[0], centerPoint[1]-offset[1]);
+        bottomRight.setNewValues(centerPoint[0]+offset[0], centerPoint[1]+offset[1]);
     }
 
     @Override
@@ -85,4 +78,17 @@ public class Rectangle implements Figure {
         double toReturn[] = {(topLeft.getX()+bottomRight.getX())/2, (topLeft.getY()+bottomRight.getY())/2};
         return toReturn;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || (o instanceof Rectangle rectangle
+                && this.getBottomRight().equals(rectangle.getBottomRight())
+                && this.getTopLeft().equals(rectangle.getTopLeft()));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBottomRight(), getTopLeft());
+    }
+   
 }

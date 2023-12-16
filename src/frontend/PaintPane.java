@@ -2,6 +2,7 @@ package frontend;
 
 import backend.CanvasState;
 import backend.model.Point;
+import backend.model.Rectangle;
 import frontend.gcmodel.GCFigure;
 import frontend.gcmodel.GCGroupedFigure;
 import javafx.collections.FXCollections;
@@ -72,7 +73,6 @@ public class PaintPane extends BorderPane {
 	TextArea tagArea = new TextArea();
 	Button tagButton = new Button("Guardar");
 
-
 	// Dibujar una figura
 	Point startPoint;
 
@@ -99,10 +99,14 @@ public class PaintPane extends BorderPane {
 		RadioButton showOnly = new RadioButton("Sólo");
 		TextField showOnlyField = new TextField();
 
+	// Barra de Selector de Efectos
+		EffectsPane effectsPane = new EffectsPane();
+
 	public PaintPane(CanvasState<GCFigure> canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
 
+		setTop(effectsPane);
 		currentLayer.setValue("Layer 1");
 
 		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, squareButton, ellipseButton, groupButton, ungroupButton, rotateButton, flipHButton, flipVButton, scalePButton, scaleMButton, deleteButton};
@@ -188,8 +192,9 @@ public class PaintPane extends BorderPane {
 			//Un rectangulo imaginario. Solo se acepta la seleccion multiple si es una sola capa
 			if (selectionButton.isSelected() && checkOneLayer()){
 				boolean found = false;
+				Rectangle imaginaryRect = new Rectangle(Point.getTopLeft(startPoint, endPoint), Point.getBottomRight(startPoint, endPoint));
 				for (GCFigure figure : canvasState.figures(currentLayer.getValue())){
-					if (figure.found(startPoint, endPoint)) {
+					if (figure.found(imaginaryRect)) {
 						found = true;
 						selectedFigures.add(figure);
 					}
@@ -267,14 +272,15 @@ public class PaintPane extends BorderPane {
 			}
 
 		canvas.setOnMouseDragged(event -> {
-			if(selectionButton.isSelected()) {
+			if(selectionButton.isSelected() && !selectedFigures.isEmpty()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				double diffX = (eventPoint.getX() - startPoint.getX()) / 100;
 				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
 				for (GCFigure figure : selectedFigures){
 					figure.changePos(diffX, diffY);
-					redrawCanvas();
 				}
+				redrawCanvas();
+				startPoint.changePos(diffX, diffY);
 			}
 		});
 

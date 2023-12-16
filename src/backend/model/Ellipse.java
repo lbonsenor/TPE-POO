@@ -1,11 +1,13 @@
 package backend.model;
 
+import java.util.Objects;
+
 public class Ellipse implements Figure {
 
     protected final Point centerPoint;
     protected double sMayorAxis, sMinorAxis;
 
-    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis) {
+    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis) {        
         this.centerPoint = centerPoint;
         this.sMayorAxis = sMayorAxis;
         this.sMinorAxis = sMinorAxis;
@@ -13,22 +15,23 @@ public class Ellipse implements Figure {
 
     @Override
     public void changePos(double diffX, double diffY){
-        this.getCenterPoint().x += diffX;
-		this.getCenterPoint().y += diffY;
+        centerPoint.changePos(diffX, diffY);
+    }
+   
+    @Override
+    public boolean found(Point point) {
+        return ((Math.pow(point.getX() - this.centerPoint.getX(), 2) / Math.pow(this.sMayorAxis, 2)) +
+				(Math.pow(point.getY() - this.centerPoint.getY(), 2) / Math.pow(this.sMinorAxis, 2))) <= 0.30;
     }
 
     @Override
-    public boolean found(Point eventPoint){
-        return ((Math.pow(eventPoint.getX() - this.centerPoint.getX(), 2) / Math.pow(this.sMayorAxis, 2)) +
-				(Math.pow(eventPoint.getY() - this.centerPoint.getY(), 2) / Math.pow(this.sMinorAxis, 2))) <= 0.30;
-    }
-
-    @Override
-    public boolean found(Point startPoint, Point endPoint){
-        return startPoint.getX() < centerPoint.getX()-sMayorAxis/2
-               && startPoint.getY() < centerPoint.getY()-sMinorAxis/2
-               && endPoint.getX() > centerPoint.getX()+sMayorAxis/2
-               && endPoint.getY() > centerPoint.getY()+sMinorAxis/2;
+    public boolean found(Rectangle rectangle) {
+        Point tl = rectangle.getTopLeft();
+        Point br = rectangle.getBottomRight();
+        return tl.getX() < centerPoint.getX()-sMayorAxis/2
+               && tl.getY() < centerPoint.getY()-sMinorAxis/2
+               && br.getX() > centerPoint.getX()+sMayorAxis/2
+               && br.getY() > centerPoint.getY()+sMinorAxis/2;
     }
 
     @Override
@@ -40,10 +43,6 @@ public class Ellipse implements Figure {
 
     @Override
     public void scale(double multiplier){
-        // A = pi*(sMayorAxis/2)*(sMinorAxis/2)
-        // mult*A = pi*(a(sMayorAxis/2))*(a(sMinorAxis/2))
-        // mult*A = a²*A
-        // sqrt(mult) = a
         this.sMayorAxis *= Math.sqrt(multiplier);
         this.sMinorAxis *= Math.sqrt(multiplier);
     }
@@ -73,6 +72,19 @@ public class Ellipse implements Figure {
 
     protected double getsMinorAxis() {
         return sMinorAxis;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || (o instanceof Ellipse ellipse
+                && this.getCenterPoint().equals(ellipse.getCenterPoint())
+                && this.getsMayorAxis() == ellipse.getsMayorAxis()
+                && this.getsMinorAxis() == ellipse.getsMinorAxis());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash( getCenterPoint(), getsMayorAxis(), getsMinorAxis() );
     }
 
 }

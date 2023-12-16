@@ -11,7 +11,7 @@ public enum FigureButtonEnum {
     RECTANGLE("Rectangulo"){
         @Override
         public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint){
-            return new GCRectangle(getTopLeft(startPoint, endPoint), getBottomRight(startPoint,endPoint));
+            return new GCRectangle(Point.getTopLeft(startPoint, endPoint), Point.getBottomRight(startPoint,endPoint));
         }
     },
     CIRCLE("Círculo"){
@@ -24,9 +24,9 @@ public enum FigureButtonEnum {
     ELLIPSE("Elipse"){
         @Override
         public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint){
-            Point centerPoint = new Point(Math.abs(endPoint.x + startPoint.x) / 2, (Math.abs((endPoint.y + startPoint.y)) / 2));
-            double sMayorAxis = Math.abs(endPoint.x - startPoint.x);
-            double sMinorAxis = Math.abs(endPoint.y - startPoint.y);
+            Point centerPoint = new Point(Math.abs(endPoint.getX() + startPoint.getX()) / 2, (Math.abs((endPoint.getY() + startPoint.getY())) / 2));
+            double sMayorAxis = Math.abs(endPoint.getX() - startPoint.getX());
+            double sMinorAxis = Math.abs(endPoint.getY() - startPoint.getY());
             return new GCEllipse(centerPoint, sMayorAxis, sMinorAxis);
         }
     },
@@ -34,7 +34,7 @@ public enum FigureButtonEnum {
         @Override
         public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint){
             double size = Math.abs(endPoint.getX() - startPoint.getX());
-			return new GCSquare(getTopLeft(startPoint, endPoint), size);
+			return new GCSquare(Point.getTopLeft(startPoint, endPoint), size);
         }
     };
 
@@ -45,14 +45,6 @@ public enum FigureButtonEnum {
     }
 
     public abstract GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint);
-
-    private static Point getTopLeft(Point p1, Point p2){
-        return new Point(p1.getX()<p2.getX() ? p1.getX():p2.getX(), p1.getY()<p2.getY() ? p1.getY():p2.getY());
-    }
-
-    private static Point getBottomRight(Point p1, Point p2){
-        return new Point(p1.getX()>p2.getX() ? p1.getX():p2.getX(), p1.getY()>p2.getY() ? p1.getY():p2.getY());
-    }
     
     @Override
     public String toString(){
