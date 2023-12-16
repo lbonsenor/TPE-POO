@@ -402,11 +402,11 @@ public class PaintPane extends BorderPane {
 		});
 
 		currentLayer.setOnAction(event ->{
-			if (selectedFigures.size() == 1) {
-				GCFigure figure = selectedFigures.iterator().next();
+			for (GCFigure figure : selectedFigures){
 				canvasState.changeLayers(figure, currentLayer.getValue());
-				redrawCanvas();
 			}
+			redrawCanvas();
+			
 		});
 
 		setLeft(buttonsBox);
