@@ -89,4 +89,23 @@ public class CanvasState<F extends Figure> {
         }
     }
 
+    private void changeLayers(F figure, String oldLayer, String newLayer){
+        Collection<String> tags = getTags(figure);
+        deleteFigure(figure, oldLayer);
+        addFigure(figure, newLayer, tags);
+    }
+
+    public void changeLayers(F figure, String newLayer){
+        changeLayers(figure, getLayer(figure), newLayer);
+    }
+
+    public String getLayer(F figure){
+        for (String layer : layers.keySet()){
+            if (layers.get(layer).contains(figure)) {
+                return layer;
+            }
+        }
+        return new String();
+    }
+
 }

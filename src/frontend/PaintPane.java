@@ -398,6 +398,13 @@ public class PaintPane extends BorderPane {
 			redrawCanvas();
 		});
 
+		currentLayer.setOnAction(event ->{
+			if (selectedFigures.size() == 1) {
+				GCFigure figure = selectedFigures.iterator().next();
+				canvasState.changeLayers(figure, currentLayer.getValue());
+			}
+		});
+
 		setLeft(buttonsBox);
 		setRight(canvas);
 	}
@@ -458,6 +465,7 @@ public class PaintPane extends BorderPane {
 		String status;
 		switch (selectedFigures.size()) {
 			case 0 -> {
+				currentLayer.setDisable(false);
 				enableButtons(false);
 				status = "No se seleccionó ninguna figura";
 			}
@@ -469,6 +477,9 @@ public class PaintPane extends BorderPane {
 				for (String tag : canvasState.getTags(figure)){
 					tags.append(tag).append("\n");
 				}
+
+				currentLayer.setDisable(false);
+				currentLayer.setValue(canvasState.getLayer(figure));
 
 				tagArea.setText(tags.toString());
 
@@ -482,6 +493,8 @@ public class PaintPane extends BorderPane {
 			default -> {
 				GCGroupedFigure group = new GCGroupedFigure(selectedFigures);
 				status = String.format("Se seleccionaron %d figuras", selectedFigures.size());
+
+				currentLayer.setDisable(true);
 
 				setSelectedIndeterminate(shadowCheckBox, group.getEffect(Effects.SHADOW));
 				setSelectedIndeterminate(bevelCheckBox, group.getEffect(Effects.BEVEL));
