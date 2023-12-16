@@ -4,11 +4,11 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import backend.model.Figure;
-import frontend.paintFigures.PaintFigure;
+import frontend.gcmodel.GCFigure;
 
-public class GroupFigure<F extends Figure> extends HashSet<Figure>{
+public class GroupFigure<F extends Figure> extends HashSet<GCFigure>{
 
-    public GroupFigure(Collection<? extends PaintFigure> figures){
+    public GroupFigure(Collection<? extends GCFigure> figures){
         super(figures);
     }
 }

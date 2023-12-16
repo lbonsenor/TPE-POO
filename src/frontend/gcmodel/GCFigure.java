@@ -1,4 +1,4 @@
-package frontend.paintFigures;
+package frontend.gcmodel;
 
 import java.util.Objects;
 
@@ -13,14 +13,14 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Stop;
 
-public abstract class PaintFigure implements Figure{
+public abstract class GCFigure implements Figure{
 
     protected Paint fillColor, borderColor;
     protected Figure model;
     protected boolean shadow, bisel, grad;
     protected GroupFigure groupFigure;
 
-    public PaintFigure(Figure model, Color fillColor, Color borderColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected) {
+    public GCFigure(Figure model, Color fillColor, Color borderColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected) {
         this.model = model;
         setFillColor(fillColor);
         setBorderColor(borderColor);
@@ -42,7 +42,7 @@ public abstract class PaintFigure implements Figure{
 
     //metodo experimental
     public void showFiguresInGroup(){
-        for (PaintFigure paintFigure : groupFigure) {
+        for (GCFigure paintFigure : groupFigure) {
             System.out.println(paintFigure);
         }
     }
@@ -138,7 +138,7 @@ public abstract class PaintFigure implements Figure{
 
     @Override
     public boolean equals(Object o) {
-        return this == o || (o instanceof PaintFigure figure
+        return this == o || (o instanceof GCFigure figure
                 && this.model.equals(figure));
     }
 
