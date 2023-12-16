@@ -38,6 +38,10 @@ public class CanvasState<F extends Figure> {
         }
     }
 
+    public void addFigure(F figure, String layer) {
+        addFigure(figure, layer, new HashSet<>());
+    }
+
     public void deleteFigure(F figure, String layer) {
         layers.getOrDefault(layer, new HashSet<>()).remove(figure);
         tags.remove(figure);

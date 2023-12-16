@@ -1,40 +1,45 @@
 package frontend;
 
+import backend.model.Circle;
+import backend.model.Ellipse;
 import backend.model.Point;
+import backend.model.Rectangle;
+import backend.model.Square;
 import frontend.gcmodel.GCCircle;
 import frontend.gcmodel.GCEllipse;
 import frontend.gcmodel.GCFigure;
 import frontend.gcmodel.GCRectangle;
 import frontend.gcmodel.GCSquare;
+import javafx.scene.paint.Color;
 
 public enum FigureButtonEnum {
     RECTANGLE("Rectangulo"){
         @Override
-        public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint){
-            return new GCRectangle(Point.getTopLeft(startPoint, endPoint), Point.getBottomRight(startPoint,endPoint));
+        public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected){
+            return new GCRectangle(new Rectangle(Point.getTopLeft(startPoint, endPoint), Point.getBottomRight(startPoint,endPoint)), fillColor, gradSelected, shadowSelected, biselSelected);
         }
     },
     CIRCLE("Círculo"){
         @Override
-        public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint){
+        public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected){
             double circleRadius = Math.sqrt(Math.pow(endPoint.getX()-startPoint.getX(),2)+Math.pow(endPoint.getY()-startPoint.getY(), 2));
-			return new GCCircle(startPoint, circleRadius);
+			return new GCCircle(new Circle(startPoint, circleRadius), fillColor, gradSelected, shadowSelected, biselSelected);
         }
     },
     ELLIPSE("Elipse"){
         @Override
-        public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint){
+        public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected){
             Point centerPoint = new Point(Math.abs(endPoint.getX() + startPoint.getX()) / 2, (Math.abs((endPoint.getY() + startPoint.getY())) / 2));
             double sMayorAxis = Math.abs(endPoint.getX() - startPoint.getX());
             double sMinorAxis = Math.abs(endPoint.getY() - startPoint.getY());
-            return new GCEllipse(centerPoint, sMayorAxis, sMinorAxis);
+            return new GCEllipse(new Ellipse(centerPoint, sMayorAxis, sMinorAxis), fillColor, gradSelected, shadowSelected, biselSelected);
         }
     },
     SQUARE("Cuadrado"){
         @Override
-        public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint){
+        public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected){
             double size = Math.abs(endPoint.getX() - startPoint.getX());
-			return new GCSquare(Point.getTopLeft(startPoint, endPoint), size);
+			return new GCSquare(new Square(Point.getTopLeft(startPoint, endPoint), size), fillColor, gradSelected, shadowSelected, biselSelected);
         }
     };
 
@@ -44,7 +49,7 @@ public enum FigureButtonEnum {
         this.name = name;
     }
 
-    public abstract GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint);
+    public abstract GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected);
     
     @Override
     public String toString(){

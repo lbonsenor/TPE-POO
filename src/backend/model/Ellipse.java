@@ -62,24 +62,24 @@ public class Ellipse implements Figure {
         return String.format("Elipse [Centro: %s, DMayor: %.2f, DMenor: %.2f]", centerPoint, sMayorAxis, sMinorAxis);
     }
 
-    protected Point getCenterPoint() {
+    public Point getCenterPoint() {
         return centerPoint;
     }
 
-    protected double getsMayorAxis() {
+    public double getsMayorAxis() {
         return sMayorAxis;
     }
 
-    protected double getsMinorAxis() {
+    public double getsMinorAxis() {
         return sMinorAxis;
     }
 
     @Override
     public boolean equals(Object o) {
         return this == o || (o instanceof Ellipse ellipse
-                && this.getCenterPoint().equals(ellipse.getCenterPoint())
-                && this.getsMayorAxis() == ellipse.getsMayorAxis()
-                && this.getsMinorAxis() == ellipse.getsMinorAxis());
+                && getCenterPoint().equals(ellipse.getCenterPoint())
+                && getsMayorAxis() == ellipse.getsMayorAxis()
+                && getsMinorAxis() == ellipse.getsMinorAxis());
     }
 
     @Override

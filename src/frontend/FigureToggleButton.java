@@ -3,6 +3,7 @@ package frontend;
 import backend.model.Point;
 import frontend.gcmodel.GCFigure;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.paint.Color;
 
 public class FigureToggleButton extends ToggleButton{
     private FigureButtonEnum figureType;
@@ -12,7 +13,7 @@ public class FigureToggleButton extends ToggleButton{
         this.figureType = figureType;
     }
 
-    public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint){
-        return figureType.getFigureBasedOnPoints(startPoint, endPoint);
+    public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, Color borderColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected){
+        return figureType.getFigureBasedOnPoints(startPoint, endPoint, fillColor, shadowSelected, gradSelected, biselSelected);
     }
 }

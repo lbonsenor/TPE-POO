@@ -26,14 +26,14 @@ public class Circle extends Ellipse {
         this.radius *= Math.sqrt(multiplier);
     }
 
-    protected double getRadius() {
+    public double getRadius() {
         return radius;
     }
 
     @Override
     public boolean equals(Object o) {
         return this == o || (o instanceof Circle circle
-                && this.radius == circle.radius
+                && radius == circle.radius
                 && super.equals(circle));
     }
 

@@ -82,8 +82,8 @@ public class Rectangle implements Figure {
     @Override
     public boolean equals(Object o) {
         return this == o || (o instanceof Rectangle rectangle
-                && this.getBottomRight().equals(rectangle.getBottomRight())
-                && this.getTopLeft().equals(rectangle.getTopLeft()));
+                && getBottomRight().equals(rectangle.getBottomRight())
+                && getTopLeft().equals(rectangle.getTopLeft()));
     }
 
     @Override

@@ -14,7 +14,7 @@ public class AppLauncher extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		CanvasState<GCFigure> canvasState = new CanvasState<GCFigure>(); // BackEnd
+		CanvasState<GCFigure> canvasState = new CanvasState<>(); // BackEnd
 		MainFrame frame = new MainFrame(canvasState);
 		Scene scene = new Scene(frame);
 		primaryStage.setResizable(false);

@@ -31,18 +31,18 @@ public class Point{
     }
 
     public void changePos(double diffX, double diffY){
-        this.x += diffX;
-        this.y += diffY;
+        x += diffX;
+        y += diffY;
     }
 
     public void setNewValues(double newX, double newY){
-        this.x = newX;
-        this.y = newY;
+        x = newX;
+        y = newY;
     }
 
     public boolean equals( Object other ){
         return this == other || ( other instanceof Point point
-            && this.x == point.x && this.y == point.y
+            && x == point.getX() && y == point.getY()
         );
     }
 

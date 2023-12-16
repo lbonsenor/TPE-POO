@@ -5,14 +5,16 @@ import java.util.Set;
 
 import backend.model.Point;
 import backend.model.Rectangle;
+import frontend.TriStateBoolean;
 import javafx.scene.canvas.GraphicsContext;
 
-public class GCGroupedFigure implements GCFigure{
+public class GCGroupedFigure extends GCFigure{
 
     private final Set<GCFigure> figures = new HashSet<>();
 
-    public GCGroupedFigure(Set<GCFigure> figures){
-        this.figures.addAll(figures);
+    public GCGroupedFigure(Set<GCFigure> group){
+        super(null, null, false, false, false);
+        this.figures.addAll(group);
     }
 
     @Override
@@ -79,10 +81,52 @@ public class GCGroupedFigure implements GCFigure{
 
 
     @Override
-    public void createFigure(GraphicsContext gc) {
+    public void draw(GraphicsContext gc) {
         for (GCFigure figure : getFiguresCopy()){
-			figure.createFigure(gc);
+			figure.draw(gc);
 		}
     }
+
+    @Override
+    protected void shadowDraw(GraphicsContext gc) {
+        for (GCFigure figure : getFiguresCopy()){
+            figure.shadowDraw(gc);
+        }
+    }
+
+    @Override
+    protected void biselDraw(GraphicsContext gc) {
+        for (GCFigure figure : getFiguresCopy()){
+            figure.biselDraw(gc);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return figures.hashCode();
+    }
+
+    @Override
+    public void setEffect(Effects effect, boolean value){
+        effectMap.put(effect, TriStateBoolean.fromBoolean(value));
+        for (GCFigure figure : figures){
+            figure.setEffect(effect, value);
+        }
+    }
+
+    @Override
+    public TriStateBoolean getEffect(Effects effect){
+        TriStateBoolean first = figures.iterator().next().getEffect(effect);
+
+        for (GCFigure figure : figures){
+            if (!figure.getEffect(effect).equals(first)) {
+                return TriStateBoolean.UNDEFINED;
+            }
+        }
+
+        return first;
+    }
+
+    
 
 }
