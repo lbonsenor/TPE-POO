@@ -149,6 +149,9 @@ public class PaintPane extends BorderPane {
 		buttonsBox.setPrefWidth(100);
 		gc.setLineWidth(1);
 
+		groupButton.setDisable(true);
+		ungroupButton.setDisable(true);
+
 		// ----------- HBOX DE LAYERS ----------- //
         HBox layerBox = new HBox(10);
 
@@ -162,7 +165,6 @@ public class PaintPane extends BorderPane {
 		for (CheckBox checkBox : layersCheckBoxes){
 			checkBox.setSelected(true);
 		}
-		checkOneLayer();
 
 		// ----------- HBOX DE TAGS ----------- //
 		HBox tagBox = new HBox(10);
@@ -204,13 +206,14 @@ public class PaintPane extends BorderPane {
 						selectedFigures.clear();
 					}
 				}
-				}else if (checkOneLayer() && selectedFigures.isEmpty()){
+				}else if (selectedFigures.isEmpty()){
 					Rectangle imaginaryRect = new Rectangle(Point.getTopLeft(startPoint, endPoint), Point.getBottomRight(startPoint, endPoint));
 					for(GCFigure figure: getFigures()){
 						if (figure.found(imaginaryRect)) {
 							selectedFigures.add(figure);
 						}
-					}	
+					}
+					
 				}
 				
 				onSelectionChanged();
@@ -421,13 +424,18 @@ public class PaintPane extends BorderPane {
 	}
 
 	private boolean checkOneLayer(){
-		if (getLayersShown().size() != 1) {
-			groupButton.setDisable(true);
-			ungroupButton.setDisable(true);
-			return false;
+		String firstLayer = canvasState.getLayer(selectedFigures.iterator().next());
+		for (GCFigure figure : selectedFigures){
+			if (!firstLayer.equals(canvasState.getLayer(figure))) {
+				groupButton.setDisable(true);
+				ungroupButton.setDisable(true);
+				currentLayer.setDisable(true);
+				return false;
+			}
 		}
 		groupButton.setDisable(false);
 		ungroupButton.setDisable(false);
+		currentLayer.setDisable(false);
 		return true;
 	}
 
@@ -503,6 +511,7 @@ public class PaintPane extends BorderPane {
 
 				tagsEnabled(false);
 				modifiersEnabled(true);
+				checkOneLayer();
 			}
 		}
 		statusPane.updateStatus(status);
