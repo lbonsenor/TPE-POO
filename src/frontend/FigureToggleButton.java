@@ -13,7 +13,7 @@ public class FigureToggleButton extends ToggleButton{
         this.figureType = figureType;
     }
 
-    public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, Color borderColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected){
+    public GCFigure getFigureBasedOnPoints(Point startPoint, Point endPoint, Color fillColor, boolean shadowSelected, boolean gradSelected, boolean biselSelected){
         return figureType.getFigureBasedOnPoints(startPoint, endPoint, fillColor, shadowSelected, gradSelected, biselSelected);
     }
 }

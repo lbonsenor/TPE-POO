@@ -6,7 +6,6 @@ import backend.model.Rectangle;
 import frontend.gcmodel.Effects;
 import frontend.gcmodel.GCFigure;
 import frontend.gcmodel.GCGroupedFigure;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -30,10 +29,8 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class PaintPane extends BorderPane {
@@ -49,10 +46,6 @@ public class PaintPane extends BorderPane {
 	private static final Color SELECTED_FIGURE_BORDER_COLOR = Color.RED;
 	private static final Color DEFAULT_FIGURE_FILL_COLOR = Color.YELLOW;
 	private static final Color DEFAULT_FIGURE_BORDER_COLOR = Color.BLACK;
-
-	// Propiedades de figuras seleccionadas (inicializads para figuras nuevas)
-	private Color borderColor = DEFAULT_FIGURE_BORDER_COLOR;
-	private Color fillColor = DEFAULT_FIGURE_FILL_COLOR;
 
 	// Botones Barra Izquierda
 	ToggleButton selectionButton = new ToggleButton("Seleccionar");
@@ -70,7 +63,7 @@ public class PaintPane extends BorderPane {
 	ToggleButton deleteButton = new ToggleButton("Borrar");
 
 	// Selector de color de relleno
-	ColorPicker fillColorPicker = new ColorPicker(fillColor);
+	ColorPicker fillColorPicker = new ColorPicker(DEFAULT_FIGURE_FILL_COLOR);
 
 	// Boton de Capa Izquierdo
 	Label layerLabel = new Label("Capa");
@@ -91,9 +84,6 @@ public class PaintPane extends BorderPane {
 
 	// Panes
 	StatusPane statusPane;
-
-	// Colores de relleno de cada figura
-	Map<GCFigure, Color> figureColorMap = new HashMap<>();
 
 	// Mostrar Capas
 	    Label layerShownLabel = new Label("Mostrar Capas:");
@@ -118,8 +108,6 @@ public class PaintPane extends BorderPane {
 	public PaintPane(CanvasState<GCFigure> canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
-
-		fillColorPicker.valueProperty().addListener(this::onFillColorChanged);
 
 		setTop(effectsPane);
 		currentLayer.setValue("Layer 1");
@@ -247,8 +235,8 @@ public class PaintPane extends BorderPane {
 			else{
 				for (FigureToggleButton button : figuresButtons){
 					if (button.isSelected()) {
-						GCFigure newFigure = button.getFigureBasedOnPoints(startPoint, endPoint, fillColor, borderColor, shadowCheckBox.isSelected(), gradCheckBox.isSelected(), bevelCheckBox.isSelected());
-						figureColorMap.put(newFigure, fillColorPicker.getValue());
+						selectedFigures.clear();
+						GCFigure newFigure = button.getFigureBasedOnPoints(startPoint, endPoint, fillColorPicker.getValue(), shadowCheckBox.isSelected(), gradCheckBox.isSelected(), bevelCheckBox.isSelected());
 						canvasState.addFigure(newFigure, currentLayer.getValue(), new ArrayList<>());
 						startPoint = null;
 						redrawCanvas();
@@ -486,13 +474,10 @@ public class PaintPane extends BorderPane {
 		switch (selectedFigures.size()) {
 			case 0:
 				enableButtons(false);
-				fillColorPicker.setValue(fillColor);
 				break;
 		
 			case 1:
 				GCFigure figure = selectedFigures.iterator().next();
-
-				fillColorPicker.setValue(figure.getFillColor());
 				
 				StringBuilder tags = new StringBuilder();
 				for (String tag : canvasState.getTags(figure)){
@@ -511,8 +496,6 @@ public class PaintPane extends BorderPane {
 
 			default:
 				GCGroupedFigure group = new GCGroupedFigure(selectedFigures);
-
-				fillColorPicker.setValue(group.getFillColor());
 
 				setSelectedIndeterminate(shadowCheckBox, group.getEffect(Effects.SHADOW));
 				setSelectedIndeterminate(bevelCheckBox, group.getEffect(Effects.BEVEL));
@@ -539,20 +522,6 @@ public class PaintPane extends BorderPane {
 			case UNDEFINED:
 				checkBox.setIndeterminate(true);
 				break;
-		}
-	}
-	
-
-	private void onFillColorChanged(ObservableValue<? extends Color> observableValue, Color color, Color newValue) {
-		if (newValue == null)
-			return;
-
-		if (selectedFigures.isEmpty()) {
-			fillColor = newValue;
-		} else {
-			for (GCFigure figure : selectedFigures)
-				figure.setFillColor(newValue);
-			redrawCanvas();
 		}
 	}
 
