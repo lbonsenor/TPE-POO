@@ -475,6 +475,8 @@ public class PaintPane extends BorderPane {
 		switch (selectedFigures.size()) {
 			case 0 -> {
 				currentLayer.setDisable(false);
+				groupButton.setDisable(true);
+				ungroupButton.setDisable(true);
 				enableButtons(false);
 				status = "No se seleccionó ninguna figura";
 			}
@@ -487,6 +489,8 @@ public class PaintPane extends BorderPane {
 					tags.append(tag).append("\n");
 				}
 
+				groupButton.setDisable(true);
+				ungroupButton.setDisable(true);
 				currentLayer.setDisable(false);
 				currentLayer.setValue(canvasState.getLayer(figure));
 
